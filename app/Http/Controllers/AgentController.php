@@ -2,86 +2,130 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Resources\PropertyCollection;
 use App\Models\Agent;
+use App\Models\Property;
+use Cloudinary\Api\Upload\UploadApi;
 use Illuminate\Support\Str;
-use Cloudinary\Api\Upload;
 use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\UpdateAgentRequest;
 use App\Http\Requests\UploadAgentVerificationRequest;
+use App\Http\Resources\AgentCollection;
+use App\Http\Resources\AgentResource;
+
+/**
+ * @group Agent Management
+ *
+ * APIs for managing Everything concerning agents
+ * 
+ * right now i have boken them into subgroups, i.e for admins, for agents etc
+ * it contains the following endpoints:
+ * - Get all agents and their properties
+ * - Get one agent
+ * - Create Agent
+ * - Update Agent
+ * - Delete Agent
+ * - Start Agent Verification
+ * - Verify Agent
+ * - Upload Agent Verification Document
+ * - Get Agent Properties
+ * - Get Unverified Agents
+ * - Get Verified Agents
+ * - Get Rejected Agents
+
+ * 
+ */
+
 
 class AgentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *  @subgroup Admin Agent Management
+     * @subgroupDescription These endpoints are available to admins only to manage agents 
+     * get all agents 
+     * 
+     * this route returns all agents, their properties, and the corresponding media for those properties
      */
     public function index()
     {
-        //
+        return new AgentCollection((Agent::with(['properties.media'])->paginate(15)));
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  */
-    // public function create()
-    // {
-    //     //
-    // }
-
+  
     /**
-     * Store a newly created resource in storage.
+     * Create a new agent
+     * 
+     * when creating agents, dont pass status, it is sent to pending as default, and is updated once agent has completed verification
      */
     public function store(StoreAgentRequest $request)
     {
-        //
+        return new AgentResource(Agent::create($request->all()));
     }
 
     /**
-     * Display the specified resource.
+     * Get one agent
      */
     public function show(Agent $agent)
     {
-        //
+        return new AgentResource($agent);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Agent $agent)
-    {
-        //
-    }
+    
 
     /**
-     * Update the specified resource in storage.
+     * Update agent details
      */
     public function update(UpdateAgentRequest $request, Agent $agent)
     {
-        //
+        $this->authorize("update", $agent);
+
+        $agent->update($request->all());
+        return new AgentResource($agent);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete agent
      */
     public function destroy(Agent $agent)
     {
-        //
+        $agent->delete();
     }
 
-    //start agent verification process
+    /**
+     * Start the agent verification process
+     * 
+     * this route basically generates an 11 digit alpha numeric code and is sent as a prt of the request
+     * it is stored in the db, and can be displayed on the frontend along with further verification isntructions
+     * i.e a picture of head and torso holding a paper with your full name and your verification code written on a sheet of paper
+     */
     public function startVerification(Agent $agent)
     {
+        $this->authorize('startVerification', $agent);
+
+
         $verificationCode = Str::random(11);
         $agent->verification_code = $verificationCode;
         $agent->save();
     }
 
-    //upload verification documents
-    public function uploadVerificationDocuments(UploadAgentVerificationRequest $request, Agent $agent)
+
+     /**
+     * Upload Verification image
+     * 
+     * this takes a file and upload to cloudinary
+     * hope it works
+     */
+    public function uploadVerificationDocument(UploadAgentVerificationRequest $request, Agent $agent)
     {
-        // add authorization: only logged in agent can upload their documents
+        $this->authorize('update', $agent);
+
+        
         $file = $request->file('file');
 
-        $result = storeOnCloudinary($file, 'agent_verifications');
+        $result = (new UploadApi())->upload($file->getRealPath(), [
+            'folder' => "agent_verifications/{$agent->id}"
+        ]);
 
         $agent->media()->create([
              'public_id' => $result['public_id'],
@@ -94,5 +138,83 @@ class AgentController extends Controller
 
         return response()->json(['message' => 'Verification document uploaded successfully.'], 200);
 
+    }
+
+    /**
+     * @subgroup Admin Agent Management
+     * @subgroupDescription These endpoints are available to admins only to manage agents 
+     * 
+     * this is an endpoint to get agents properties
+     * it's a bit redundant and I might remove it, since the get all agents endpoint already returns the properties
+     * i'm lazy to do that now
+     */
+    public function getAgentProperties(Agent $agent){
+        return new PropertyCollection($agent->properties);
+    }
+
+    //ADMIN CONTROLLER FUNCTIONS FOR AGENTS
+
+     /**
+     * @subgroup Admin Agent Management
+     * 
+     * this is an endpoint to get all unverified agents
+     * 
+     */
+    public function getUnverifiedAgents(){
+           
+        return new AgentCollection(Agent::where('status', 'pending')->get());
+    }
+
+     /**
+     * @subgroup Admin Agent Management
+     * 
+     * this is an endpoint to get all verified agents
+     * 
+     */
+    public function getVerifiedAgents(){
+        return new AgentCollection(Agent::where('status', 'approved')->get());
+           
+    }
+
+    /**
+     * @subgroup Admin Agent Management
+     * 
+     * this is an endpoint to get all rejected agents
+     * 
+     */
+    public function getRejectedAgents(){
+        return new AgentCollection(Agent::where('status', 'rejected')->get());   
+    }
+
+    /**
+     * @subgroup Admin Agent Management
+     * Get all agents with properties
+     * 
+     * this is an endpoint to get all verified agents with properties and their properties
+     * might seem redundant, but the purpose is to only get agents with properties
+     * 
+     */
+    public function agentsWithProperties(){
+        $agents = Agent::has('properties')::with('properties')->get();
+        return $agents;
+    }
+
+
+    /**
+     * @subgroup Admin Agent Management
+     * Verify Agent
+     * 
+     * this is an endpoint for the admin to verify agent
+     * it takes in the agent id
+     * 
+     */
+    public function verifyAgent(Agent $agent){
+        $agent = Agent::find($agent->id);
+        if(!$agent){
+            return response()->json(['message'=>'Agent not found'],404);
+        }
+        $agent->status = 'approved';
+        $agent->save();
+        return response()->json(['message'=>'Agent verified successfully'],200);
     }
 }

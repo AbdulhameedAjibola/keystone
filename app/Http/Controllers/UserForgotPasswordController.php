@@ -12,13 +12,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+
+/**
+ * @group User registration management
+ *
+ * APIs for managing Authentication details and status for users
+ * it contains the following endpoints:
+ * - Register User
+ * - Login User
+ * - Logout User
+ * - Email Verification for User
+ * - Password Reset for User
+ * 
+ */
+
+
 class UserForgotPasswordController extends Controller
 {
     protected int $otpDurationMinutes = 10;
     protected string $guard = 'web';
 
     /**
-     * Send OTP to user's email
+     * Endpoint to send User password reset OTP
+     *
+     * This endpoint is to send otp to reset user password
+     * @unauthenticated
      */
     public function sendResetLinkEmail(Request $request)
     {
@@ -50,8 +68,11 @@ class UserForgotPasswordController extends Controller
         ]);
     }
 
-    /**
-     * Reset user's password
+     /**
+     * Endpoint to send reset password
+     *
+     * This endpoint is to verify otp and then reset password
+     * @unauthenticated
      */
     public function resetPassword(Request $request)
     {
@@ -75,7 +96,7 @@ class UserForgotPasswordController extends Controller
             ], 401);
         }
 
-        if ($otpRecord->expires_at->isPast()) {
+        if ($otpRecord->expires_at?->isPast()) {
             $otpRecord->delete();
 
             return response()->json([

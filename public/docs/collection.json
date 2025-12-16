@@ -1,0 +1,2447 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel API Documentation",
+        "_postman_id": "77b75a2e-7846-4527-88bc-d100ae9f0efc",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Admin Auth Endpoints",
+            "description": "\nAPIs for managing Authentication for admins\nit contains the following endpoints:\n- Register Admin\n- Login Admin\n- Logout Admin",
+            "item": [
+                {
+                    "name": "Endpoint to Register Admin",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you create an admin.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to Login Admin",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you login an admin.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to Logout Admin",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you logout for an admin.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Agent Management",
+            "description": "\nAPIs for managing Everything concerning agents\n\nright now i have boken them into subgroups, i.e for admins, for agents etc\nit contains the following endpoints:\n- Get all agents and their properties\n- Get one agent\n- Create Agent\n- Update Agent\n- Delete Agent\n- Start Agent Verification\n- Verify Agent\n- Upload Agent Verification Document\n- Get Agent Properties\n- Get Unverified Agents\n- Get Verified Agents\n- Get Rejected Agents",
+            "item": [
+                {
+                    "name": "Start the agent verification process",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agents\/start-verification\/:agent_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agents\/start-verification\/:agent_id",
+                            "variable": [
+                                {
+                                    "id": "agent_id",
+                                    "key": "agent_id",
+                                    "value": "1",
+                                    "description": "The ID of the agent."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "this route basically generates an 11 digit alpha numeric code and is sent as a prt of the request\nit is stored in the db, and can be displayed on the frontend along with further verification isntructions\ni.e a picture of head and torso holding a paper with your full name and your verification code written on a sheet of paper",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Upload Verification image",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agents\/upload-verification\/:agent_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agents\/upload-verification\/:agent_id",
+                            "variable": [
+                                {
+                                    "id": "agent_id",
+                                    "key": "agent_id",
+                                    "value": "1",
+                                    "description": "The ID of the agent."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "this takes a file and upload to cloudinary\nhope it works",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Admin Agent Management",
+                    "description": "These endpoints are available to admins only to manage agents \n\nthis is an endpoint to get agents properties\nit's a bit redundant and I might remove it, since the get all agents endpoint already returns the properties\ni'm lazy to do that now",
+                    "item": [
+                        {
+                            "name": "GET api\/properties\/my-properties",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/my-properties",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/my-properties"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 404,
+                                    "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Property] my-properties\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "GET api\/agents\/{agent_id}\/my-properties",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents\/:agent_id\/my-properties",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents\/:agent_id\/my-properties",
+                                    "variable": [
+                                        {
+                                            "id": "agent_id",
+                                            "key": "agent_id",
+                                            "value": "1",
+                                            "description": "The ID of the agent."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 403,
+                                    "body": "{\n    \"message\": \"You are Unauthorized to access this resource.\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "GET api\/agents",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 403,
+                                    "body": "{\n    \"message\": \"Admin access only.\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Get one agent",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agents\/:agent_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agents\/:agent_id",
+                            "variable": [
+                                {
+                                    "id": "agent_id",
+                                    "key": "agent_id",
+                                    "value": "1",
+                                    "description": "The ID of the agent."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 403,
+                            "body": "{\n    \"message\": \"You are Unauthorized to access this resource.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin Agent Management\n\nthis is an endpoint to get all unverified agents",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "GET api\/agents\/unverified",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents\/unverified",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents\/unverified"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 404,
+                                    "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Agent] unverified\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin Agent Management\n\nthis is an endpoint to get all verified agents",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "GET api\/agents\/verified",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents\/verified",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents\/verified"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 404,
+                                    "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Agent] verified\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin Agent Management\n\nthis is an endpoint to get all rejected agents",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "GET api\/agents\/rejected",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents\/rejected",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents\/rejected"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 404,
+                                    "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Agent] rejected\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin Agent Management\nVerify Agent\n\nthis is an endpoint for the admin to verify agent\nit takes in the agent id",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "POST api\/agents\/verify-agent\/{agent_id}",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents\/verify-agent\/:agent_id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents\/verify-agent\/:agent_id",
+                                    "variable": [
+                                        {
+                                            "id": "agent_id",
+                                            "key": "agent_id",
+                                            "value": "1",
+                                            "description": "The ID of the agent."
+                                        }
+                                    ]
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin Agent Management\nGet all agents with properties\n\nthis is an endpoint to get all verified agents with properties and their properties\nmight seem redundant, but the purpose is to only get agents with properties",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "GET api\/agents\/agent-with-properties",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/agents\/agent-with-properties",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/agents\/agent-with-properties"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 404,
+                                    "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Agent] agent-with-properties\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Agent registration management",
+            "description": "\nAPIs for managing Authentication for agents\nit contains the following endpoints:\n- Register Agent\n- Login Agent\n- Logout Agent\n- Email Verification for Agent\n- Password Reset for Agent",
+            "item": [
+                {
+                    "name": "Endpoint to Register Agent",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you create an agent.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to login Agent",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you login for an agent.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Password Reset OTP to Agent Email",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/forgot-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/forgot-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\"}"
+                        },
+                        "description": "This endpoint lets you create an agent.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Reset Agent Password",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/reset-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/reset-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\",\"token\":\"569775\",\"password\":\"]|{+-0pBNvYg\"}"
+                        },
+                        "description": "This endpoint verifies the token ,and then takes in the new password.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Email Verification OTP to Agent Email",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/email\/send",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/email\/send"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\"}"
+                        },
+                        "description": "This endpoint send Email Verification OTP.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Password Reset OTP to Agent Email",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/email\/verify",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/email\/verify"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\",\"token\":\"569775\"}"
+                        },
+                        "description": "This endpoint lets you verify the agent's email using the OTP sent.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to logout Agent",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agent\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agent\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you logout an agent."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Careers management (JOBS)",
+            "description": "\nAPIs for uploading and managing careers\nit contains the following endpoints:\n- Create Job\n- Get one Job\n- Get all jobs\n- Delete Job\n- Update Job\n- Search Jobs\n- Toggle job on or off\n- Get deleted jobs\n- Restore job\n- Destroy job(Permanent Delete)",
+            "item": [
+                {
+                    "name": "Display all the careers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get all the careers",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[{\"userId\":1,\"title\":\"Valve Repairer OR Regulator Repairer\",\"location\":\"Rolfsonside\",\"type\":\"full-time\",\"description\":\"Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.\",\"requirements\":\"Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.\",\"salary\":\"457445 NGN\",\"applicationDeadline\":\"1997-11-26\"},{\"userId\":1,\"title\":\"Food Servers\",\"location\":\"O'Keefeview\",\"type\":\"part-time\",\"description\":\"Vitae eligendi aut quo ea. Quod et enim aspernatur. Architecto ipsam consequatur et. Ut tenetur ullam expedita.\",\"requirements\":\"Debitis quia quo tempora labore in molestiae et. Enim accusamus perspiciatis qui voluptates sapiente ut et. Et et qui quo tenetur.\",\"salary\":\"280829 NGN\",\"applicationDeadline\":null},{\"userId\":1,\"title\":\"Surveying Technician\",\"location\":\"Raeport\",\"type\":\"part-time\",\"description\":\"Quas laboriosam ut quis error. Ratione impedit labore omnis. Aut dolor sit tenetur nemo.\",\"requirements\":\"Quibusdam explicabo ullam iusto optio non numquam ut. Voluptate voluptatem molestias dignissimos. Pariatur vero ab officia alias debitis explicabo doloremque sunt.\",\"salary\":\"110468 NGN\",\"applicationDeadline\":\"1977-11-11\"},{\"userId\":1,\"title\":\"Postsecondary Education Administrators\",\"location\":\"East Laura\",\"type\":\"internship\",\"description\":\"Fuga ea blanditiis quo. Rerum aperiam doloribus impedit ad ea. Consequuntur voluptatum sed voluptas error et. Et neque voluptatem non sit adipisci commodi voluptatum.\",\"requirements\":\"Hic et minus pariatur in quam perspiciatis illum quia. Voluptate voluptas ut distinctio hic veritatis.\",\"salary\":\"281494 NGN\",\"applicationDeadline\":\"1976-06-16\"},{\"userId\":1,\"title\":\"Anthropologist OR Archeologist\",\"location\":\"New Ferne\",\"type\":\"full-time\",\"description\":\"Sint ullam nemo numquam fugit dolorum ut. Qui quaerat officiis porro sapiente recusandae quibusdam quos.\",\"requirements\":\"Fugiat pariatur commodi architecto nobis beatae. Aut hic est repellat a iure enim. Laudantium aut voluptas ab consequuntur voluptas necessitatibus culpa. Sed libero aut rem.\",\"salary\":\"364841 NGN\",\"applicationDeadline\":null},{\"userId\":2,\"title\":\"Marketing Manager\",\"location\":\"New Summermouth\",\"type\":\"full-time\",\"description\":\"Et quaerat earum quia officiis aperiam ratione. Velit nesciunt nisi impedit libero dolor ut aspernatur. Dolor rem repellat enim.\",\"requirements\":\"Aut illo error provident quas non. Ullam alias modi eos nostrum. Sapiente aliquam sit adipisci cum quia qui.\",\"salary\":\"208561 NGN\",\"applicationDeadline\":\"2013-11-21\"},{\"userId\":2,\"title\":\"Radio Operator\",\"location\":\"East Rickie\",\"type\":\"internship\",\"description\":\"Mollitia similique quis quis est voluptatem. Esse accusantium exercitationem praesentium asperiores. Et facere reiciendis facere repellendus totam asperiores architecto.\",\"requirements\":\"Voluptatem voluptate et laudantium aut doloribus temporibus et. Soluta delectus nobis esse rerum iusto harum. Molestias voluptatem eveniet ab aut ut minima distinctio. Praesentium maxime nemo ratione voluptates libero accusantium. Facilis dolorum quod est maiores hic impedit error.\",\"salary\":\"445507 NGN\",\"applicationDeadline\":\"2011-03-06\"},{\"userId\":2,\"title\":\"Heavy Equipment Mechanic\",\"location\":\"Mohrview\",\"type\":\"contract\",\"description\":\"Dolores labore tempore nihil quia. Consequatur dolore consequatur tempora harum qui. Molestias nihil et expedita velit repellendus nesciunt excepturi. Quibusdam culpa commodi sapiente amet voluptate dolores.\",\"requirements\":\"Laborum eos corporis et non ad possimus. Dolores omnis suscipit sit rerum quis. Unde accusantium consequuntur voluptate.\",\"salary\":\"312062 NGN\",\"applicationDeadline\":\"1982-04-01\"},{\"userId\":2,\"title\":\"Legislator\",\"location\":\"Clarabelletown\",\"type\":\"contract\",\"description\":\"Reprehenderit iure id eaque laboriosam autem. Repudiandae et expedita ullam. Dolorum ut velit quo voluptas maxime et.\",\"requirements\":\"Aut consequatur aut quae itaque accusamus perferendis voluptatem. Et nesciunt qui soluta. Non tempore voluptatem id quae dolores autem dolores delectus.\",\"salary\":\"365879 NGN\",\"applicationDeadline\":\"1993-09-16\"},{\"userId\":2,\"title\":\"Concierge\",\"location\":\"Fayville\",\"type\":\"internship\",\"description\":\"Consequatur architecto earum blanditiis rerum quibusdam veritatis. Dolorem illum et sed ad esse. Exercitationem vel non ut non doloremque est voluptas.\",\"requirements\":\"Necessitatibus omnis in officiis aut corrupti neque. Dolor nihil repellendus vel et ab. Possimus hic recusandae non placeat voluptas est alias.\",\"salary\":\"495976 NGN\",\"applicationDeadline\":null},{\"userId\":3,\"title\":\"Vice President Of Marketing\",\"location\":\"Ilenetown\",\"type\":\"contract\",\"description\":\"Ullam a explicabo necessitatibus repellendus. Repellendus sit laborum deserunt voluptatum sit. Animi ducimus rem ratione sed velit quam quae.\",\"requirements\":\"Et sint voluptas vel sunt ex. Voluptas animi quo omnis odio. Eaque suscipit repudiandae quos laborum pariatur illum ab eveniet.\",\"salary\":\"168256 NGN\",\"applicationDeadline\":null},{\"userId\":3,\"title\":\"Civil Engineering Technician\",\"location\":\"West Theresia\",\"type\":\"internship\",\"description\":\"Veniam aut aut pariatur qui. Quo voluptatum perferendis in ut.\",\"requirements\":\"Quisquam fuga in cumque non dignissimos. Esse fugit est tempore et suscipit saepe accusamus et. Eum eius dolores quas architecto error nihil. A ullam illo corrupti sed.\",\"salary\":\"84993 NGN\",\"applicationDeadline\":null},{\"userId\":3,\"title\":\"Atmospheric and Space Scientist\",\"location\":\"Nehashire\",\"type\":\"full-time\",\"description\":\"Ducimus in occaecati quia ut. Rem sequi eaque perspiciatis illo iste et quidem. Perspiciatis ut ipsam fugit ducimus aut architecto. Aut asperiores sint delectus sit.\",\"requirements\":\"Maxime error in libero iste qui ea. Sit quod ea rerum eligendi. Non sed velit et rem illum quia omnis.\",\"salary\":\"218325 NGN\",\"applicationDeadline\":null},{\"userId\":3,\"title\":\"Precision Printing Worker\",\"location\":\"Georgehaven\",\"type\":\"full-time\",\"description\":\"Placeat ad eaque et numquam illum. Possimus et maiores nihil rerum. Rerum impedit qui voluptas sapiente et maiores necessitatibus. Cum ut quasi consequatur ea molestiae nihil ipsam quos. Et vel nulla eveniet et ut.\",\"requirements\":\"Perspiciatis facere et numquam saepe dolorum illo aliquid molestiae. Et dignissimos et quos architecto accusantium. Vel laboriosam pariatur nostrum occaecati omnis.\",\"salary\":\"305068 NGN\",\"applicationDeadline\":null},{\"userId\":3,\"title\":\"Warehouse\",\"location\":\"Port Cydney\",\"type\":\"part-time\",\"description\":\"Molestiae harum molestiae delectus vel id aperiam. Dolorem sequi architecto deleniti necessitatibus. Autem corporis omnis sed error magnam et enim. Nisi quos sunt ut ut modi incidunt dolore quam.\",\"requirements\":\"Iusto molestias odio voluptas odio reiciendis perferendis perferendis. Ad iste quo laborum natus assumenda. Perspiciatis suscipit eos et.\",\"salary\":\"433318 NGN\",\"applicationDeadline\":null}],\"links\":{\"first\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers?page=1\",\"last\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers?page=2\",\"prev\":null,\"next\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers?page=2\"},\"meta\":{\"current_page\":1,\"from\":1,\"last_page\":2,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"page\":null,\"active\":false},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers?page=1\",\"label\":\"1\",\"page\":1,\"active\":true},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers?page=2\",\"label\":\"2\",\"page\":2,\"active\":false},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers?page=2\",\"label\":\"Next &raquo;\",\"page\":2,\"active\":false}],\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers\",\"per_page\":15,\"to\":15,\"total\":25}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Search for a job",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/search",
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": "architecto",
+                                    "description": "The search term, the search is done on the title of the job by default,",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "column",
+                                    "value": "architecto",
+                                    "description": "The column to search on. Optional. default: title\nif you have other columns that you want to search on, you can add them as query parameters\nallowed columns are: title, location, type\nif using the type query key, the allowed values are: 'full-time','part-time','contract', 'internship'",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/careers\/search?search=architecto&column=architecto"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[],\"links\":{\"first\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers\\\/search?page=1\",\"last\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers\\\/search?page=1\",\"prev\":null,\"next\":null},\"meta\":{\"current_page\":1,\"from\":null,\"last_page\":1,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"page\":null,\"active\":false},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers\\\/search?page=1\",\"label\":\"1\",\"page\":1,\"active\":true},{\"url\":null,\"label\":\"Next &raquo;\",\"page\":null,\"active\":false}],\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/careers\\\/search\",\"per_page\":5,\"to\":null,\"total\":0}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get one job",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:career_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:career_id",
+                            "variable": [
+                                {
+                                    "id": "career_id",
+                                    "key": "career_id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":{\"userId\":1,\"title\":\"Valve Repairer OR Regulator Repairer\",\"location\":\"Rolfsonside\",\"type\":\"full-time\",\"description\":\"Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.\",\"requirements\":\"Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.\",\"salary\":\"457445 NGN\",\"applicationDeadline\":\"1997-11-26\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "create a new job",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":16,\"title\":\"n\",\"location\":\"g\",\"type\":\" internship\",\"description\":\"Eius et animi quos velit et.\",\"requirements\":\"architecto\",\"salary\":\"n\",\"is_active\":true,\"application_deadline\":\"2025-12-16T19:15:00\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update a job",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:career_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:career_id",
+                            "variable": [
+                                {
+                                    "id": "career_id",
+                                    "key": "career_id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":16,\"title\":\"n\",\"location\":\"g\",\"type\":\"full-time\",\"description\":\"Eius et animi quos velit et.\",\"requirements\":\"architecto\",\"salary\":\"n\",\"is_active\":true,\"application_deadline\":\"2025-12-16T19:15:00\"}"
+                        },
+                        "description": "this endpoint supports both put and patch requests",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update a job",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:career_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:career_id",
+                            "variable": [
+                                {
+                                    "id": "career_id",
+                                    "key": "career_id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":16,\"title\":\"n\",\"location\":\"g\",\"type\":\"contract\",\"description\":\"Eius et animi quos velit et.\",\"requirements\":\"architecto\",\"salary\":\"n\",\"is_active\":false,\"application_deadline\":\"2025-12-16T19:15:00\"}"
+                        },
+                        "description": "this endpoint supports both put and patch requests",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Soft delete a career",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:career_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:career_id",
+                            "variable": [
+                                {
+                                    "id": "career_id",
+                                    "key": "career_id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all deleted careers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:career_id\/destroy",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:career_id\/destroy",
+                            "variable": [
+                                {
+                                    "id": "career_id",
+                                    "key": "career_id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "this endpoint is to permanently delete a career",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "restore a soft deleted career",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:id\/restore",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:id\/restore",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "this endpoint takes the id of the career intended to be restored\nyou can get the id from the data restored from the get-deleted endpoint",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all deleted careers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/get-deleted",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/get-deleted"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "this endpoint returns all the careers that have been soft deleted",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Career] get-deleted\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Toggle a career on or off",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/careers\/:career_id\/toggle",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/careers\/:career_id\/toggle",
+                            "variable": [
+                                {
+                                    "id": "career_id",
+                                    "key": "career_id",
+                                    "value": "1",
+                                    "description": "The ID of the career."
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "This route will return the authenticated user information.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "The login end point only returns a token, so after logging in,\nmake a call to this endpoint to get the user details\/object\nthen you can store both the token and user details in local storage or however you wish to.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Property management",
+            "description": "\nEndpoints for managing Properties",
+            "item": [
+                {
+                    "name": "Publicly Available Endpoints\nDisplay all properties",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "GET api\/properties",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties",
+                                    "query": [
+                                        {
+                                            "key": "sortBy",
+                                            "value": "architecto",
+                                            "description": "The column to sort by. Optional. default: created_at",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "sortDirection",
+                                            "value": "architecto",
+                                            "description": "The direction to sort. default: asc, options: asc, desc\n\nthe following query parameters can be used to filter the results. you can either combine, i guess, or just use one\nit takes key value pairs, the key is the column name and the value is the operator to filter by\naccepted operators are eq, gt, gte, lt, lte",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "price",
+                                            "value": "4326.41688",
+                                            "description": "The price to filter by. Optional.",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "city",
+                                            "value": "architecto",
+                                            "description": "The city to filter by. Optional.",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "propertyType",
+                                            "value": "architecto",
+                                            "description": "The property type to filter by. Optional. takes either: 'apartment', 'house', 'shortlet', 'penthouse', 'land', 'commercial'",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "status",
+                                            "value": "architecto",
+                                            "description": "The status to filter by. Optional. takes either: 'available', 'sold', 'unavailable'",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "listingType",
+                                            "value": "architecto",
+                                            "description": "The listing type to filter by. Optional. takes either: 'sale', 'rent'",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "bedrooms",
+                                            "value": "4326.41688",
+                                            "description": "The number of bedrooms to filter by. Optional.",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "raw": "{{baseUrl}}\/api\/properties?sortBy=architecto&sortDirection=architecto&price=4326.41688&city=architecto&propertyType=architecto&status=architecto&listingType=architecto&bedrooms=4326.41688"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 500,
+                                    "body": "{\n    \"message\": \"Server Error\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Publicly Available Endpoints",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "Search for a property",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/search",
+                                    "query": [
+                                        {
+                                            "key": "search",
+                                            "value": "architecto",
+                                            "description": "The search term, the search is done on the title of the property,",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "column",
+                                            "value": "architecto",
+                                            "description": "The column to search on. Optional. default: title\nif you have other columns that you want to search on, you can add them as query parameters\nallowed columns are: title, name, location, description",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "raw": "{{baseUrl}}\/api\/properties\/search?search=architecto&column=architecto"
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 200,
+                                    "body": "{\"data\":[{\"agentId\":53,\"title\":\"Nulla maiores unde veritatis architecto autem.\",\"description\":\"Unde repudiandae magnam qui at facere. Labore laboriosam sequi sint fuga odit repudiandae illum.\",\"price\":\"27557186.52\",\"propertyType\":\"shortlet\",\"listingType\":\"rent\",\"bedrooms\":4,\"bathrooms\":3,\"size\":2627,\"address\":\"56889 Marvin Passage\",\"area\":\"reprehenderit\",\"city\":\"Dandreside\",\"state\":\"Connecticut\",\"status\":\"sold\"}],\"links\":{\"first\":\"http:\\\/\\\/localhost:8000\\\/api\\\/properties\\\/search?page=1\",\"last\":\"http:\\\/\\\/localhost:8000\\\/api\\\/properties\\\/search?page=1\",\"prev\":null,\"next\":null},\"meta\":{\"current_page\":1,\"from\":1,\"last_page\":1,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"page\":null,\"active\":false},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/properties\\\/search?page=1\",\"label\":\"1\",\"page\":1,\"active\":true},{\"url\":null,\"label\":\"Next &raquo;\",\"page\":null,\"active\":false}],\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/properties\\\/search\",\"per_page\":5,\"to\":1,\"total\":1}}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Publicly Available Endpoints\nGet one property\n\nThis is to get one property, this endpoint automatically loads the media for the property\njust run the request with the property id",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "GET api\/properties\/{property_id}",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/:property_id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/:property_id",
+                                    "variable": [
+                                        {
+                                            "id": "property_id",
+                                            "key": "property_id",
+                                            "value": "1",
+                                            "description": "The ID of the property."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 200,
+                                    "body": "{\"data\":{\"agentId\":1,\"title\":\"Maxime sint veritatis blanditiis excepturi.\",\"description\":\"Eum velit sapiente sit eaque nam. Expedita vel molestias qui voluptatem. Sint fuga dolorem voluptates dolorum nam.\",\"price\":\"41133472.56\",\"propertyType\":\"land\",\"listingType\":\"rent\",\"bedrooms\":4,\"bathrooms\":2,\"size\":1202,\"address\":\"76611 Martin Trafficway\",\"area\":\"nam\",\"city\":\"New Malika\",\"state\":\"South Carolina\",\"status\":\"sold\",\"media\":[]}}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "agent only endpoints\nEndpoint to create a property\n\nThis endpoint lets an agent create a property\nthis endpoint handles only property creation\nthere is a separate endpoint to upload media for properties\nhowever, be rest assured, so far the authenticated agent is the owner of the property, \nthe media will be linked to the property",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "POST api\/properties",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties"
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"agent_id\":16,\"title\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price\":4326.41688,\"property_type\":\"house\",\"listing_type\":\"rent\",\"status\":\"sold\",\"bedrooms\":16,\"bathrooms\":16,\"size\":4326.41688,\"address\":\"m\",\"area\":\"i\",\"city\":\"y\",\"state\":\"v\"}"
+                                },
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Agent property management\nUpload media for a property\n\nThis endpoint takes the property id as a parameter\nThen it takes a file input to be uploaded to cloudinary",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "POST api\/properties\/{property_id}\/upload-media",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/:property_id\/upload-media",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/:property_id\/upload-media",
+                                    "variable": [
+                                        {
+                                            "id": "property_id",
+                                            "key": "property_id",
+                                            "value": "1",
+                                            "description": "The ID of the property."
+                                        }
+                                    ]
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "multipart\/form-data"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "file",
+                                            "src": [],
+                                            "type": "file"
+                                        }
+                                    ]
+                                },
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin and Agent property management\nUpdate a property\n\nThis will work with either a put or patch request",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "PUT api\/properties\/{property_id}",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/:property_id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/:property_id",
+                                    "variable": [
+                                        {
+                                            "id": "property_id",
+                                            "key": "property_id",
+                                            "value": "1",
+                                            "description": "The ID of the property."
+                                        }
+                                    ]
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"agent_id\":16,\"title\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price\":4326.41688,\"property_type\":\"apartment\",\"listing_type\":\"rent\",\"status\":\"unavailable\",\"bedrooms\":16,\"bathrooms\":16,\"size\":4326.41688,\"address\":\"m\",\"area\":\"i\",\"city\":\"y\",\"state\":\"v\"}"
+                                },
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "PATCH api\/properties\/{property_id}",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/:property_id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/:property_id",
+                                    "variable": [
+                                        {
+                                            "id": "property_id",
+                                            "key": "property_id",
+                                            "value": "1",
+                                            "description": "The ID of the property."
+                                        }
+                                    ]
+                                },
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"agent_id\":16,\"title\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price\":4326.41688,\"property_type\":\"shortlet\",\"listing_type\":\"rent\",\"status\":\"available\",\"bedrooms\":16,\"bathrooms\":16,\"size\":4326.41688,\"address\":\"m\",\"city\":\"i\",\"state\":\"y\"}"
+                                },
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin and Agent property management\ndelete a property\n\nDelete the specified property\ntakes property Id",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "DELETE api\/properties\/{property_id}",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/:property_id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/:property_id",
+                                    "variable": [
+                                        {
+                                            "id": "property_id",
+                                            "key": "property_id",
+                                            "value": "1",
+                                            "description": "The ID of the property."
+                                        }
+                                    ]
+                                },
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin and Agent property management\nget all inquries for a property\n\nGet all the user inquries for that property\ntakes property Id",
+                    "description": "These endpoints are available to all users",
+                    "item": [
+                        {
+                            "name": "GET api\/properties\/{property_id}\/inquiries",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/properties\/:property_id\/inquiries",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/properties\/:property_id\/inquiries",
+                                    "variable": [
+                                        {
+                                            "id": "property_id",
+                                            "key": "property_id",
+                                            "value": "1",
+                                            "description": "The ID of the property."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "",
+                                "auth": {
+                                    "type": "noauth"
+                                }
+                            },
+                            "response": [
+                                {
+                                    "header": [
+                                        {
+                                            "key": "cache-control",
+                                            "value": "no-cache, private"
+                                        },
+                                        {
+                                            "key": "content-type",
+                                            "value": "application\/json"
+                                        },
+                                        {
+                                            "key": "vary",
+                                            "value": "Origin"
+                                        }
+                                    ],
+                                    "code": 403,
+                                    "body": "{\n    \"message\": \"You are Unauthorized to access this resource.\"\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "User Inquiries management",
+            "description": "\nAPIs for managing the user inquiries\nit contains the following endpoints:\n- Create Inquiry\n- Get one Inquiry\n- Get all inquiries for a user\n- Get all inquiries\n- Update Inquiry\n- Delete Inquiry",
+            "item": [
+                {
+                    "name": "create a new inquiry for a property.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries\/:property_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries\/:property_id",
+                            "variable": [
+                                {
+                                    "id": "property_id",
+                                    "key": "property_id",
+                                    "value": "1",
+                                    "description": "The ID of the property."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":16,\"property_id\":16,\"name\":\"n\",\"email\":\"ashly64@example.com\",\"phone_number\":\"v\",\"appointment_date\":\"2025-12-16T19:14:59\",\"description\":\"Eius et animi quos velit et.\"}"
+                        },
+                        "description": "so, the inquiry takes a couple fields, and one of the fields are appointment_date\nappointment date takes date time, but it is optional.\nso, to create inquiries with an appointment, you can add in the appointment date\nif you want, I can add in an endpoint for the agent to get only inquiries with appointment dates to provide a way to view the appointments",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get all inquiries for a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries\/my-inquiries",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries\/my-inquiries"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "well, the user can get all their inquiries",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display all the inquries\nthis is an admin only endpoint btw",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 403,
+                            "body": "{\n    \"message\": \"Admin access only.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "View one inquiry",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries\/:inquiry_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries\/:inquiry_id",
+                            "variable": [
+                                {
+                                    "id": "inquiry_id",
+                                    "key": "inquiry_id",
+                                    "value": "1",
+                                    "description": "The ID of the inquiry."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "still an admin only endpoint",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 403,
+                            "body": "{\n    \"message\": \"Admin access only.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an inquiry",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries\/:inquiry_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries\/:inquiry_id",
+                            "variable": [
+                                {
+                                    "id": "inquiry_id",
+                                    "key": "inquiry_id",
+                                    "value": "1",
+                                    "description": "The ID of the inquiry."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":16,\"property_id\":16,\"name\":\"n\",\"email\":\"ashly64@example.com\",\"phone_number\":\"v\",\"appointment_date\":\"2025-12-16T19:15:00\",\"description\":\"Eius et animi quos velit et.\"}"
+                        },
+                        "description": "only the user is allowed to update the inquiry",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update an inquiry",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries\/:inquiry_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries\/:inquiry_id",
+                            "variable": [
+                                {
+                                    "id": "inquiry_id",
+                                    "key": "inquiry_id",
+                                    "value": "1",
+                                    "description": "The ID of the inquiry."
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":16,\"property_id\":16,\"name\":\"n\",\"email\":\"ashly64@example.com\",\"phone_number\":\"v\",\"appointment_date\":\"2025-12-16T19:15:00\",\"description\":\"Eius et animi quos velit et.\"}"
+                        },
+                        "description": "only the user is allowed to update the inquiry",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete the inquiry",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/inquiries\/:inquiry_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/inquiries\/:inquiry_id",
+                            "variable": [
+                                {
+                                    "id": "inquiry_id",
+                                    "key": "inquiry_id",
+                                    "value": "1",
+                                    "description": "The ID of the inquiry."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "User registration management",
+            "description": "\nAPIs for managing Authentication details and status for users\nit contains the following endpoints:\n- Register User\n- Login User\n- Logout User\n- Email Verification for User\n- Password Reset for User",
+            "item": [
+                {
+                    "name": "Endpoint to Register USER",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you create a user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to Login USER",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you log a user in.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to send User password reset OTP",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/forgot-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/forgot-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\"}"
+                        },
+                        "description": "This endpoint is to send otp to reset user password",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to send reset password",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/reset-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/reset-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\",\"token\":\"569775\",\"password\":\"]|{+-0pBNvYg\"}"
+                        },
+                        "description": "This endpoint is to verify otp and then reset password",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to send User verification OTP",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/email\/send",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/email\/send"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\"}"
+                        },
+                        "description": "This endpoint is to send otp to verify user email",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to send User verification OTP",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/email\/verify",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/email\/verify"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\",\"token\":\"569775\"}"
+                        },
+                        "description": "This endpoint is to verify user email",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Endpoint to logout USER",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint lets you create a user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

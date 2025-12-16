@@ -21,7 +21,7 @@ class Agent extends Model
         'password',
         'role',
         'verification_code',
-        'verification_document_url',
+        
         'status',
         'phone_number',
         'address',

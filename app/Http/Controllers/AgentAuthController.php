@@ -9,8 +9,28 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
+/**
+ * @group Agent registration management
+ *
+ * APIs for managing Authentication for agents
+ * it contains the following endpoints:
+ * - Register Agent
+ * - Login Agent
+ * - Logout Agent
+ * - Email Verification for Agent
+ * - Password Reset for Agent
+ * 
+ */
+
 class AgentAuthController extends Controller
 {
+
+    /**
+     * Endpoint to Register Agent
+     *
+     * This endpoint lets you create an agent.
+     * @unauthenticated
+     */
     public function registerAgent(Request $request){
         try{
 
@@ -57,6 +77,12 @@ class AgentAuthController extends Controller
         }
     }
 
+     /**
+     * Endpoint to login Agent
+     *
+     * This endpoint lets you login for an agent.
+     * @unauthenticated
+     */
      public function loginAgent(Request $request){
         try{
 
@@ -102,27 +128,36 @@ class AgentAuthController extends Controller
     }
 
 
+     /**
+     * Endpoint to logout Agent
+     *
+     * This endpoint lets you logout an agent.
+     * @authenticated
+     */
  public function logoutAgent(Request $request){
-    try{
-        $user = $request->user();
-        
-        // Check if authenticated via token
-        if ($user->currentAccessToken()) {
-            echo'access token', $user->currentAccessToken()->plainTextToken,'';
-           // $user->currentAccessToken()->delete();
+     try {
+        /** @var \Laravel\Sanctum\PersonalAccessToken $token */
+        $token = $request->user()->currentAccessToken();
+
+        // Ensure we actually have a token instance
+        if ($token && method_exists($token, 'delete')) {
+            $token->delete();
         } else {
-            // Fallback: delete all tokens if none is current
-            $user->tokens()->delete();
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not found or already invalidated.'
+            ], 401);
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => 'User logged out successfully'
         ], 200);
-    }catch(\Throwable $th){
+
+    } catch (\Throwable $th) {
         return response()->json([
             'status' => false,
-            'message' => $th->getMessage()
+            'message' => 'Logout failed: ' . $th->getMessage()
         ], 500);
     }
 }

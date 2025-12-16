@@ -12,6 +12,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @group User registration management
+ *
+ * APIs for managing Authentication details and status for users
+ * it contains the following endpoints:
+ * - Register User
+ * - Login User
+ * - Logout User
+ * - Email Verification for User
+ * - Password Reset for User
+ * 
+ */
 
 class UserEmailVerificationController extends Controller
 {
@@ -19,7 +31,10 @@ class UserEmailVerificationController extends Controller
     protected int $expiryMinutes = 15;
 
     /**
-     * Send verification OTP
+     * Endpoint to send User verification OTP
+     *
+     * This endpoint is to send otp to verify user email
+     * @unauthenticated
      */
     public function sendVerificationOTP(Request $request)
     {
@@ -56,7 +71,10 @@ class UserEmailVerificationController extends Controller
     }
 
     /**
-     * Verify email
+     * Endpoint to send User verification OTP
+     *
+     * This endpoint is to verify user email
+     * @unauthenticated
      */
     public function verify(Request $request)
     {
@@ -70,7 +88,7 @@ class UserEmailVerificationController extends Controller
             ->where('token', $request->token)
             ->first();
 
-        if (!$record || $record->expires_at->isPast()) {
+        if (!$record || $record->expires_at?->isPast()) {
             return response()->json([
                 'message' => 'Invalid or expired verification code.',
             ], 401);

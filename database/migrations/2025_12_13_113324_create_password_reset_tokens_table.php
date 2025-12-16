@@ -16,11 +16,17 @@ return new class extends Migration
             $table->string('guard');
             $table->string('email')->unique();
             $table->string('token');
-            $table->dateTime('expires_at')->nullable();
+            $table->timestamp('expires_at');
             $table->timestamps();
 
             $table->index(['email', 'guard']);
         });
+    }
+
+    protected function casts(){
+        return [
+            'expires_at' => 'datetime',
+        ];
     }
 
     /**

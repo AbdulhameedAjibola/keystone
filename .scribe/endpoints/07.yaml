@@ -1,0 +1,754 @@
+name: 'Agent Management'
+description: |-
+
+  APIs for managing Everything concerning agents
+
+  right now i have boken them into subgroups, i.e for admins, for agents etc
+  it contains the following endpoints:
+  - Get all agents and their properties
+  - Get one agent
+  - Create Agent
+  - Update Agent
+  - Delete Agent
+  - Start Agent Verification
+  - Verify Agent
+  - Upload Agent Verification Document
+  - Get Agent Properties
+  - Get Unverified Agents
+  - Get Verified Agents
+  - Get Rejected Agents
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/agents/start-verification/{agent_id}'
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Start the agent verification process'
+      description: |-
+        this route basically generates an 11 digit alpha numeric code and is sent as a prt of the request
+        it is stored in the db, and can be displayed on the frontend along with further verification isntructions
+        i.e a picture of head and torso holding a paper with your full name and your verification code written on a sheet of paper
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      agent_id:
+        custom: []
+        name: agent_id
+        description: 'The ID of the agent.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      agent_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/agents/upload-verification/{agent_id}'
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Upload Verification image'
+      description: |-
+        this takes a file and upload to cloudinary
+        hope it works
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters:
+      agent_id:
+        custom: []
+        name: agent_id
+        description: 'The ID of the agent.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      agent_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      file:
+        custom: []
+        name: file
+        description: 'Must be a file. Must not be greater than 5120 kilobytes.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters: []
+    fileParameters:
+      file: null
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/properties/my-properties
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: 'Admin Agent Management'
+      subgroupDescription: |-
+        These endpoints are available to admins only to manage agents 
+
+        this is an endpoint to get agents properties
+        it's a bit redundant and I might remove it, since the get all agents endpoint already returns the properties
+        i'm lazy to do that now
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Property] my-properties"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/agents/{agent_id}'
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get one agent'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      agent_id:
+        custom: []
+        name: agent_id
+        description: 'The ID of the agent.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      agent_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 403
+        content: |-
+          {
+              "message": "You are Unauthorized to access this resource."
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/agents/{agent_id}/my-properties'
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: 'Admin Agent Management'
+      subgroupDescription: |-
+        These endpoints are available to admins only to manage agents 
+
+        this is an endpoint to get agents properties
+        it's a bit redundant and I might remove it, since the get all agents endpoint already returns the properties
+        i'm lazy to do that now
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      agent_id:
+        custom: []
+        name: agent_id
+        description: 'The ID of the agent.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      agent_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 403
+        content: |-
+          {
+              "message": "You are Unauthorized to access this resource."
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/agents
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: 'Admin Agent Management'
+      subgroupDescription: |-
+        These endpoints are available to admins only to manage agents 
+        get all agents 
+
+        this route returns all agents, their properties, and the corresponding media for those properties
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 403
+        content: |-
+          {
+              "message": "Admin access only."
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/agents/unverified
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: |-
+        Admin Agent Management
+
+        this is an endpoint to get all unverified agents
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Agent] unverified"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/agents/verified
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: |-
+        Admin Agent Management
+
+        this is an endpoint to get all verified agents
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Agent] verified"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/agents/rejected
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: |-
+        Admin Agent Management
+
+        this is an endpoint to get all rejected agents
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Agent] rejected"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/agents/verify-agent/{agent_id}'
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: |-
+        Admin Agent Management
+        Verify Agent
+
+        this is an endpoint for the admin to verify agent
+        it takes in the agent id
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      agent_id:
+        custom: []
+        name: agent_id
+        description: 'The ID of the agent.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      agent_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/agents/agent-with-properties
+    metadata:
+      custom: []
+      groupName: 'Agent Management'
+      groupDescription: |-
+
+        APIs for managing Everything concerning agents
+
+        right now i have boken them into subgroups, i.e for admins, for agents etc
+        it contains the following endpoints:
+        - Get all agents and their properties
+        - Get one agent
+        - Create Agent
+        - Update Agent
+        - Delete Agent
+        - Start Agent Verification
+        - Verify Agent
+        - Upload Agent Verification Document
+        - Get Agent Properties
+        - Get Unverified Agents
+        - Get Verified Agents
+        - Get Rejected Agents
+      subgroup: |-
+        Admin Agent Management
+        Get all agents with properties
+
+        this is an endpoint to get all verified agents with properties and their properties
+        might seem redundant, but the purpose is to only get agents with properties
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Agent] agent-with-properties"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

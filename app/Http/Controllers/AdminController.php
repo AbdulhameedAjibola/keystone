@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Agent;
+
 
 
 class AdminController extends Controller
@@ -48,25 +48,5 @@ class AdminController extends Controller
         //
     }
 
-    //get all unverified agents
-    public function getUnverifiedAgents(){
-        Agent::where('status', 'pending')->get();   
-    }
-    //get all verified agents
-    public function getVerifiedAgents(){
-        Agent::where('status', 'approved')->get();   
-    }
-    //get all rejected agents
-    public function getRejectedAgents(){
-        Agent::where('status', 'rejected')->get();   
-    }
-    public function verifyAgent(Agent $agent){
-        $agent = Agent::find($agent->id);
-        if(!$agent){
-            return response()->json(['message'=>'Agent not found'],404);
-        }
-        $agent->status = 'approved';
-        $agent->save();
-        return response()->json(['message'=>'Agent verified successfully'],200);
-    }
+   
 }

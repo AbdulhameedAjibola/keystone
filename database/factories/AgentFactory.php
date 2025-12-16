@@ -22,7 +22,7 @@ class AgentFactory extends Factory
             'password' => bcrypt('password'),
             'role' => 'agent',
             'verification_code' => null,
-            'verification_document_url' => null,
+            
             'status' => $this->faker->randomElement(['pending','approved','rejected']),
             'phone_number' => $this->faker->phoneNumber,
             'address' => $this->faker->streetAddress,

@@ -8,59 +8,22 @@ use Illuminate\Auth\Access\Response;
 
 class AgentPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
+   //agent can only start verification for themselves
+    public function startVerification(Agent $agent, Agent $target){
+        return $agent->id === $target->id;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Agent $agent): bool
-    {
-        return false;
+    //only admin can verify agents
+    public function verify(Agent $agent, User $user){
+        if($user->role === 'admin'){
+            return true;
+        }
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Agent $agent): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Agent $agent): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Agent $agent): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Agent $agent): bool
-    {
-        return false;
+    //admin can do anything
+    public function before (User $user, $ability){
+        if($user->role === 'admin'){
+            return true;
+        }
     }
 }

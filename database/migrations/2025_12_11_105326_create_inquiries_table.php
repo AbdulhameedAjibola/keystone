@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('property_id')->constrained('properties')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('email');
             $table->string('phone_number');
-            $table->date('appointment_date')->nullable();
+            $table->datetime('appointment_date')->nullable();
             $table->string('description');
             $table->timestamps();
         });

@@ -24,6 +24,7 @@ class Property extends Model
         'size',
         'address',
         'city',
+        'area',
         'state',
         'status',
     ];

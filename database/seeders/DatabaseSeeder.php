@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         ->hasInquiries(2)
         ->create();
 
-        Agent::factory()->count(20)->hasProperty(
+        Agent::factory()->count(20)->hasProperties(
             Property::factory()->count(5)->hasMedia(5)
         )->create();
      

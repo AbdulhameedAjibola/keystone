@@ -29,6 +29,7 @@ class PropertyFactory extends Factory
             'bathrooms' => $this->faker->numberBetween(1, 4),
             'size' => $this->faker->numberBetween(200, 3000),
             'address' => $this->faker->streetAddress,
+            'area' => $this->faker->word,
             'city' => $this->faker->city,
             'state' => $this->faker->state,
         ];

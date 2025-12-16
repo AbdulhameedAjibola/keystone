@@ -1,0 +1,368 @@
+name: 'Agent registration management'
+description: |-
+
+  APIs for managing Authentication for agents
+  it contains the following endpoints:
+  - Register Agent
+  - Login Agent
+  - Logout Agent
+  - Email Verification for Agent
+  - Password Reset for Agent
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/register
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to Register Agent'
+      description: 'This endpoint lets you create an agent.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/login
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to login Agent'
+      description: 'This endpoint lets you login for an agent.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/forgot-password
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Send Password Reset OTP to Agent Email'
+      description: 'This endpoint lets you create an agent.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/reset-password
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Reset Agent Password'
+      description: 'This endpoint verifies the token ,and then takes in the new password.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      token:
+        custom: []
+        name: token
+        description: 'Must be 6 digits.'
+        required: true
+        example: '569775'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'Must be at least 8 characters.'
+        required: true
+        example: ']|{+-0pBNvYg'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+      token: '569775'
+      password: ']|{+-0pBNvYg'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/email/send
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Send Email Verification OTP to Agent Email'
+      description: 'This endpoint send Email Verification OTP.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/email/verify
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Send Password Reset OTP to Agent Email'
+      description: "This endpoint lets you verify the agent's email using the OTP sent."
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      token:
+        custom: []
+        name: token
+        description: 'Must be 6 digits.'
+        required: true
+        example: '569775'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+      token: '569775'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/agent/logout
+    metadata:
+      custom: []
+      groupName: 'Agent registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication for agents
+        it contains the following endpoints:
+        - Register Agent
+        - Login Agent
+        - Logout Agent
+        - Email Verification for Agent
+        - Password Reset for Agent
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to logout Agent'
+      description: 'This endpoint lets you logout an agent.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

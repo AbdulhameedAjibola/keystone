@@ -1,0 +1,368 @@
+name: 'User registration management'
+description: |-
+
+  APIs for managing Authentication details and status for users
+  it contains the following endpoints:
+  - Register User
+  - Login User
+  - Logout User
+  - Email Verification for User
+  - Password Reset for User
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/register
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to Register USER'
+      description: 'This endpoint lets you create a user.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/login
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to Login USER'
+      description: 'This endpoint lets you log a user in.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/forgot-password
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to send User password reset OTP'
+      description: 'This endpoint is to send otp to reset user password'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/reset-password
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to send reset password'
+      description: 'This endpoint is to verify otp and then reset password'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      token:
+        custom: []
+        name: token
+        description: 'Must be 6 digits.'
+        required: true
+        example: '569775'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'Must be at least 8 characters.'
+        required: true
+        example: ']|{+-0pBNvYg'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+      token: '569775'
+      password: ']|{+-0pBNvYg'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/email/send
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to send User verification OTP'
+      description: 'This endpoint is to send otp to verify user email'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/email/verify
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to send User verification OTP'
+      description: 'This endpoint is to verify user email'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      token:
+        custom: []
+        name: token
+        description: 'Must be 6 digits.'
+        required: true
+        example: '569775'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: gbailey@example.net
+      token: '569775'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth/logout
+    metadata:
+      custom: []
+      groupName: 'User registration management'
+      groupDescription: |-
+
+        APIs for managing Authentication details and status for users
+        it contains the following endpoints:
+        - Register User
+        - Login User
+        - Logout User
+        - Email Verification for User
+        - Password Reset for User
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Endpoint to logout USER'
+      description: 'This endpoint lets you create a user.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AgentController;
@@ -10,102 +11,240 @@ use App\Http\Controllers\AgentForgotPasswordController;
 use App\Http\Controllers\UserForgotPasswordController;
 use App\Http\Controllers\AgentEmailVerificationController;
 use App\Http\Controllers\UserEmailVerificationController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AgentAuthController;
+use App\Http\Middleware\AdminAuth;
 
+//admin auth endpoints
+Route::post('/admin/register', [AdminAuthController::class, 'registerAdmin']);
+Route::post('/admin/login', [AdminAuthController::class, 'loginAdmin']);
+
+Route::middleware('auth:sanctum')->post('admin/logout', [AdminAuthController::class, 'logoutAdmin']);
+
+/**
+ *
+ * 
+ * This route will return the authenticated user information.
+ *
+ * The login end point only returns a token, so after logging in,
+ * make a call to this endpoint to get the user details/object
+ * then you can store both the token and user details in local storage or however you wish to.
+ * 
+ */
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-//Auth Routes
-Route::post('auth/register', [App\Http\Controllers\AuthController::class, 'registerUser']);
-Route::post('auth/login', [App\Http\Controllers\AuthController::class, 'loginUser']);
-Route::post('auth/logout', [App\Http\Controllers\AuthController::class, 'logoutUser'])->middleware('auth:sanctum');
-
-Route::post('agent-auth/register', [App\Http\Controllers\AgentAuthController::class, 'registerAgent']);
-Route::post('agent-auth/login', [App\Http\Controllers\AgentAuthController::class, 'loginAgent']);
-Route::post('agent-auth/logout', [App\Http\Controllers\AgentAuthController::class, 'logoutAgent'])->middleware('auth:api-agent');
-
-// USERS PASSWORD RESET
-Route::post('/auth/forgot-password', [UserForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('/auth/reset-password', [UserForgotPasswordController::class, 'resetPassword']);
-
-// AGENTS PASSWORD RESET
-Route::post('/agent/forgot-password', [AgentForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('/agent/reset-password', [AgentForgotPasswordController::class, 'resetPassword']);
-
-// USERS EMAIL VERIFICATION
-Route::post('/auth/email/send', [UserEmailVerificationController::class, 'sendVerificationOTP']);
-Route::post('/auth/email/verify', [UserEmailVerificationController::class, 'verify']);
-
-// AGENTS EMAIL VERIFICATION
-Route::post('/agent/email/send', [AgentEmailVerificationController::class, 'sendVerificationOTP']);
-Route::post('/agent/email/verify', [AgentEmailVerificationController::class, 'verify']);
+/**
+ *
+ * 
+ * These are the publicly Available user registration and login routes.
+ *
+ * T
+ * It's a really useful endpoint, and you should play around 
+ * with it for a bit.
+ * 
+ */
 
 
 
 
-// Route::apiResource('inquiries', App\Http\Controllers\InquiryController::class);
-// Route::apiResource('careers', App\Http\Controllers\CareerController::class);
-// Route::apiResource('properties', App\Http\Controllers\PropertyController::class);
-// Route::apiResource('agents', App\Http\Controllers\AgentController::class);
+/*
+|--------------------------------------------------------------------------
+| PUBLIC AUTH ROUTES – USERS
+|--------------------------------------------------------------------------
+*/
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'registerUser']);
+    Route::post('login', [AuthController::class, 'loginUser']);
 
+    Route::post('forgot-password', [UserForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('reset-password', [UserForgotPasswordController::class, 'resetPassword']);
 
-//Agent endpoints will be visible to authenticated agents and admin
-// Agent endpoints
-Route::prefix('agents')->group(function () {
-    //Route::get('/', [AgentController::class, 'index']);
-    Route::post('/', [AgentController::class, 'store']);
-    Route::get('/{agent}', [AgentController::class, 'show']);
-    Route::put('/{agent}', [AgentController::class, 'update']);
-    Route::patch('/{agent}', [AgentController::class, 'update']);
-    Route::delete('/{agent}', [AgentController::class, 'destroy']);
-    Route::post('/start-verification/{agent}', [AgentController::class, 'uploadVerificationDocuments']);
-    //missing routes
-    //get all agent's properties
-    //
-   
+    Route::post('email/send', [UserEmailVerificationController::class, 'sendVerificationOTP']);
+    Route::post('email/verify', [UserEmailVerificationController::class, 'verify']);
 });
 
-// Property endpoints
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC AUTH ROUTES – AGENTS
+|--------------------------------------------------------------------------
+*/
+Route::prefix('agent')->group(function () {
+    Route::post('register', [AgentAuthController::class, 'registerAgent']);
+    Route::post('login', [AgentAuthController::class, 'loginAgent']);
+
+    Route::post('forgot-password', [AgentForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('reset-password', [AgentForgotPasswordController::class, 'resetPassword']);
+
+    Route::post('email/send', [AgentEmailVerificationController::class, 'sendVerificationOTP']);
+    Route::post('email/verify', [AgentEmailVerificationController::class, 'verify']);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC PROPERTY ROUTES
+|--------------------------------------------------------------------------
+*/
 Route::prefix('properties')->group(function () {
     Route::get('/', [PropertyController::class, 'index']);
-    Route::post('/', [PropertyController::class, 'store']);
-    Route::get('/{property}', [PropertyController::class, 'show']);
-    Route::put('/{property}', [PropertyController::class, 'update']);
-    Route::patch('/{property}', [PropertyController::class, 'update']);
-    Route::delete('/{property}', [PropertyController::class, 'destroy']);
-    //missing routes
-    //get all inquiries for a property
-    //get all media for a property
+    Route::get('search', [PropertyController::class, 'searchProperties']); // static first
+    Route::get('{property}', [PropertyController::class, 'show']);
 });
 
-// Careers (jobs) endpoints
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC CAREERS ROUTES
+|--------------------------------------------------------------------------
+*/
 Route::prefix('careers')->group(function () {
     Route::get('/', [CareerController::class, 'index']);
-    Route::post('/', [CareerController::class, 'store']);
-    Route::get('/{career}', [CareerController::class, 'show']);
-    Route::put('/{career}', [CareerController::class, 'update']);
-    Route::patch('/{career}', [CareerController::class, 'update']);
-    Route::delete('/{career}', [CareerController::class, 'destroy']);
+    Route::get('search', [CareerController::class, 'search']); // static first
+    Route::get('{career}', [CareerController::class, 'show']);
 });
 
-// Inquiry endpoints
-Route::prefix('inquiries')->group(function () {
-    Route::get('/', [InquiryController::class, 'index']);
-    Route::post('/', [InquiryController::class, 'store']);
-    Route::get('/{inquiry}', [InquiryController::class, 'show']);
-    Route::put('/{inquiry}', [InquiryController::class, 'update']);
-    Route::patch('/{inquiry}', [InquiryController::class, 'update']);
-    Route::delete('/{inquiry}', [InquiryController::class, 'destroy']);
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATED USER ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('auth/logout', [AuthController::class, 'logoutUser']);
+
+    Route::prefix('inquiries')->group(function () {
+        Route::post('/{property}', [InquiryController::class, 'store']);
+        Route::get('/my-inquiries', [InquiryController::class, 'getUserInquiries']);
+    });
+
 });
 
-//Admin endpoints
-Route::prefix('admin')->group(function () {
-    Route::post('/verify-agent/{agent}', [App\Http\Controllers\AdminController::class, 'verifyAgent']);
 
-     //missing routes
-    //get all agent's properties
-    //get all verified agents
-    //get all unverified agents
-    //
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATED & VERIFIED AGENT ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:api-agent'])->group(function () {
+
+    Route::post('agent/logout', [AgentAuthController::class, 'logoutAgent']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Agent Self Management
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('agents')->group(function () {
+       
+
+        Route::post('start-verification/{agent}', [AgentController::class, 'startVerification']);
+        Route::post('upload-verification/{agent}', [AgentController::class, 'uploadVerificationDocument']);
+    });
+
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| VERIFIED AGENT PROPERTY MANAGEMENT
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:api-agent', 'agent.verified'])->group(function () {
+
+    Route::prefix('properties')->group(function () {
+        Route::post('/', [PropertyController::class, 'store']);
+        Route::get('my-properties', [AgentController::class, 'getAgentProperties']);
+        Route::post('{property}/upload-media', [PropertyController::class, 'uploadMedia']);
+
+        Route::put('{property}', [PropertyController::class, 'update']);
+        Route::patch('{property}', [PropertyController::class, 'update']);
+        Route::delete('{property}', [PropertyController::class, 'destroy']);
+    });
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| SHARED ADMIN & AGENT ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware('admin.agent')->group(function () {
+
+    Route::get('agents/{agent}', [AgentController::class, 'show']);
+    Route::get('agents/{agent}/my-properties', [AgentController::class, 'getAgentProperties']);
+    Route::get('properties/{property}/inquiries', [
+        PropertyController::class,
+        'getPropertyInquiries'
+    ]);
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware('admin')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Agent Administration
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('agents')->group(function () {
+        Route::get('/', [AgentController::class, 'index']);
+        Route::get('unverified', [AgentController::class, 'getUnverifiedAgents']);
+        Route::get('verified', [AgentController::class, 'getVerifiedAgents']);
+        Route::get('rejected', [AgentController::class, 'getRejectedAgents']);
+        Route::post('verify-agent/{agent}', [AgentController::class, 'verifyAgent']);
+        Route::get('agent-with-properties', [AgentController::class, 'agentsWithProperties']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Career Management
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('careers')->group(function () {
+        Route::post('/', [CareerController::class, 'store']);
+        Route::put('{career}', [CareerController::class, 'update']);
+        Route::patch('{career}', [CareerController::class, 'update']);
+
+        Route::delete('{career}', [CareerController::class, 'delete']);
+        Route::delete('{career}/destroy', [CareerController::class, 'destroy']);
+
+        Route::patch('{id}/restore', [CareerController::class, 'restore']);
+        Route::get('get-deleted', [CareerController::class, 'getDeleted']);
+        Route::patch('{career}/toggle', [CareerController::class, 'careerToggle']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Inquiry Moderation
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('inquiries')->group(function () {
+        Route::get('/', [InquiryController::class, 'index']);
+        Route::get('{inquiry}', [InquiryController::class, 'show']);
+        Route::put('{inquiry}', [InquiryController::class, 'update']);
+        Route::patch('{inquiry}', [InquiryController::class, 'update']);
+        Route::delete('{inquiry}', [InquiryController::class, 'destroy']);
+    });
+
+});
+
+
+
+
+
+
+
+
+

@@ -10,13 +10,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+
+/**
+ * @group Agent registration management
+ *
+ * APIs for managing Authentication for agents
+ * it contains the following endpoints:
+ * - Register Agent
+ * - Login Agent
+ * - Logout Agent
+ * - Email Verification for Agent
+ * - Password Reset for Agent
+ * 
+ */
+
 class AgentForgotPasswordController extends Controller
 {
     protected int $otpDurationMinutes = 10;
     protected string $guard = 'agent';
 
     /**
-     * Send OTP to agent's email
+     * Send Password Reset OTP to Agent Email
+     *
+     * This endpoint lets you create an agent.
+     * @unauthenticated
      */
     public function sendResetLinkEmail(Request $request)
     {
@@ -50,7 +67,10 @@ class AgentForgotPasswordController extends Controller
     }
 
     /**
-     * Reset agent password
+     * Reset Agent Password
+     *
+     * This endpoint verifies the token ,and then takes in the new password.
+     * @unauthenticated
      */
     public function resetPassword(Request $request)
     {
@@ -73,7 +93,7 @@ class AgentForgotPasswordController extends Controller
                 ], 401);
             }
 
-            if ($otpRecord->expires_at->isPast()) {
+            if ($otpRecord->expires_at?->isPast()) {
                 $otpRecord->delete();
                 return response()->json([
                     'message' => 'OTP verification failed: Code has expired.',

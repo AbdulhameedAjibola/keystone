@@ -1,0 +1,2556 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: 'Admin Auth Endpoints'
+    description: "\nAPIs for managing Authentication for admins\nit contains the following endpoints:\n- Register Admin\n- Login Admin\n- Logout Admin"
+  -
+    name: 'Agent Management'
+    description: "\nAPIs for managing Everything concerning agents\n\nright now i have boken them into subgroups, i.e for admins, for agents etc\nit contains the following endpoints:\n- Get all agents and their properties\n- Get one agent\n- Create Agent\n- Update Agent\n- Delete Agent\n- Start Agent Verification\n- Verify Agent\n- Upload Agent Verification Document\n- Get Agent Properties\n- Get Unverified Agents\n- Get Verified Agents\n- Get Rejected Agents"
+  -
+    name: 'Agent registration management'
+    description: "\nAPIs for managing Authentication for agents\nit contains the following endpoints:\n- Register Agent\n- Login Agent\n- Logout Agent\n- Email Verification for Agent\n- Password Reset for Agent"
+  -
+    name: 'Careers management (JOBS)'
+    description: "\nAPIs for uploading and managing careers\nit contains the following endpoints:\n- Create Job\n- Get one Job\n- Get all jobs\n- Delete Job\n- Update Job\n- Search Jobs\n- Toggle job on or off\n- Get deleted jobs\n- Restore job\n- Destroy job(Permanent Delete)"
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: 'Property management'
+    description: "\nEndpoints for managing Properties"
+  -
+    name: 'User Inquiries management'
+    description: "\nAPIs for managing the user inquiries\nit contains the following endpoints:\n- Create Inquiry\n- Get one Inquiry\n- Get all inquiries for a user\n- Get all inquiries\n- Update Inquiry\n- Delete Inquiry"
+  -
+    name: 'User registration management'
+    description: "\nAPIs for managing Authentication details and status for users\nit contains the following endpoints:\n- Register User\n- Login User\n- Logout User\n- Email Verification for User\n- Password Reset for User"
+paths:
+  /api/admin/register:
+    post:
+      summary: 'Endpoint to Register Admin'
+      operationId: endpointToRegisterAdmin
+      description: 'This endpoint lets you create an admin.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Auth Endpoints'
+      security: []
+  /api/admin/login:
+    post:
+      summary: 'Endpoint to Login Admin'
+      operationId: endpointToLoginAdmin
+      description: 'This endpoint lets you login an admin.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Auth Endpoints'
+      security: []
+  /api/admin/logout:
+    post:
+      summary: 'Endpoint to Logout Admin'
+      operationId: endpointToLogoutAdmin
+      description: 'This endpoint lets you logout for an admin.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Admin Auth Endpoints'
+      security: []
+  '/api/agents/start-verification/{agent_id}':
+    post:
+      summary: 'Start the agent verification process'
+      operationId: startTheAgentVerificationProcess
+      description: "this route basically generates an 11 digit alpha numeric code and is sent as a prt of the request\nit is stored in the db, and can be displayed on the frontend along with further verification isntructions\ni.e a picture of head and torso holding a paper with your full name and your verification code written on a sheet of paper"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: agent_id
+        description: 'The ID of the agent.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/agents/upload-verification/{agent_id}':
+    post:
+      summary: 'Upload Verification image'
+      operationId: uploadVerificationImage
+      description: "this takes a file and upload to cloudinary\nhope it works"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent Management'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 5120 kilobytes.'
+              required:
+                - file
+      security: []
+    parameters:
+      -
+        in: path
+        name: agent_id
+        description: 'The ID of the agent.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/properties/my-properties:
+    get:
+      summary: ''
+      operationId: getApiPropertiesMyProperties
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Property] my-properties'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Property] my-properties'
+      tags:
+        - 'Agent Management'
+      security: []
+  '/api/agents/{agent_id}':
+    get:
+      summary: 'Get one agent'
+      operationId: getOneAgent
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'You are Unauthorized to access this resource.'
+                properties:
+                  message:
+                    type: string
+                    example: 'You are Unauthorized to access this resource.'
+      tags:
+        - 'Agent Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: agent_id
+        description: 'The ID of the agent.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/agents/{agent_id}/my-properties':
+    get:
+      summary: ''
+      operationId: getApiAgentsAgent_idMyProperties
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'You are Unauthorized to access this resource.'
+                properties:
+                  message:
+                    type: string
+                    example: 'You are Unauthorized to access this resource.'
+      tags:
+        - 'Agent Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: agent_id
+        description: 'The ID of the agent.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/agents:
+    get:
+      summary: ''
+      operationId: getApiAgents
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Admin access only.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Admin access only.'
+      tags:
+        - 'Agent Management'
+      security: []
+  /api/agents/unverified:
+    get:
+      summary: ''
+      operationId: getApiAgentsUnverified
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Agent] unverified'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Agent] unverified'
+      tags:
+        - 'Agent Management'
+      security: []
+  /api/agents/verified:
+    get:
+      summary: ''
+      operationId: getApiAgentsVerified
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Agent] verified'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Agent] verified'
+      tags:
+        - 'Agent Management'
+      security: []
+  /api/agents/rejected:
+    get:
+      summary: ''
+      operationId: getApiAgentsRejected
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Agent] rejected'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Agent] rejected'
+      tags:
+        - 'Agent Management'
+      security: []
+  '/api/agents/verify-agent/{agent_id}':
+    post:
+      summary: ''
+      operationId: postApiAgentsVerifyAgentAgent_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: agent_id
+        description: 'The ID of the agent.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/agents/agent-with-properties:
+    get:
+      summary: ''
+      operationId: getApiAgentsAgentWithProperties
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Agent] agent-with-properties'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Agent] agent-with-properties'
+      tags:
+        - 'Agent Management'
+      security: []
+  /api/agent/register:
+    post:
+      summary: 'Endpoint to Register Agent'
+      operationId: endpointToRegisterAgent
+      description: 'This endpoint lets you create an agent.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+      security: []
+  /api/agent/login:
+    post:
+      summary: 'Endpoint to login Agent'
+      operationId: endpointToLoginAgent
+      description: 'This endpoint lets you login for an agent.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+      security: []
+  /api/agent/forgot-password:
+    post:
+      summary: 'Send Password Reset OTP to Agent Email'
+      operationId: sendPasswordResetOTPToAgentEmail
+      description: 'This endpoint lets you create an agent.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+                  example: gbailey@example.net
+              required:
+                - email
+      security: []
+  /api/agent/reset-password:
+    post:
+      summary: 'Reset Agent Password'
+      operationId: resetAgentPassword
+      description: 'This endpoint verifies the token ,and then takes in the new password.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+                  example: gbailey@example.net
+                token:
+                  type: string
+                  description: 'Must be 6 digits.'
+                  example: '569775'
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: ']|{+-0pBNvYg'
+              required:
+                - email
+                - token
+                - password
+      security: []
+  /api/agent/email/send:
+    post:
+      summary: 'Send Email Verification OTP to Agent Email'
+      operationId: sendEmailVerificationOTPToAgentEmail
+      description: 'This endpoint send Email Verification OTP.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+                  example: gbailey@example.net
+              required:
+                - email
+      security: []
+  /api/agent/email/verify:
+    post:
+      summary: 'Send Password Reset OTP to Agent Email'
+      operationId: sendPasswordResetOTPToAgentEmail
+      description: "This endpoint lets you verify the agent's email using the OTP sent."
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the agents table.'
+                  example: gbailey@example.net
+                token:
+                  type: string
+                  description: 'Must be 6 digits.'
+                  example: '569775'
+              required:
+                - email
+                - token
+      security: []
+  /api/agent/logout:
+    post:
+      summary: 'Endpoint to logout Agent'
+      operationId: endpointToLogoutAgent
+      description: 'This endpoint lets you logout an agent.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Agent registration management'
+  /api/careers:
+    get:
+      summary: 'Display all the careers'
+      operationId: displayAllTheCareers
+      description: 'Get all the careers'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      userId: 1
+                      title: 'Valve Repairer OR Regulator Repairer'
+                      location: Rolfsonside
+                      type: full-time
+                      description: 'Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.'
+                      requirements: 'Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.'
+                      salary: '457445 NGN'
+                      applicationDeadline: '1997-11-26'
+                    -
+                      userId: 1
+                      title: 'Food Servers'
+                      location: "O'Keefeview"
+                      type: part-time
+                      description: 'Vitae eligendi aut quo ea. Quod et enim aspernatur. Architecto ipsam consequatur et. Ut tenetur ullam expedita.'
+                      requirements: 'Debitis quia quo tempora labore in molestiae et. Enim accusamus perspiciatis qui voluptates sapiente ut et. Et et qui quo tenetur.'
+                      salary: '280829 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 1
+                      title: 'Surveying Technician'
+                      location: Raeport
+                      type: part-time
+                      description: 'Quas laboriosam ut quis error. Ratione impedit labore omnis. Aut dolor sit tenetur nemo.'
+                      requirements: 'Quibusdam explicabo ullam iusto optio non numquam ut. Voluptate voluptatem molestias dignissimos. Pariatur vero ab officia alias debitis explicabo doloremque sunt.'
+                      salary: '110468 NGN'
+                      applicationDeadline: '1977-11-11'
+                    -
+                      userId: 1
+                      title: 'Postsecondary Education Administrators'
+                      location: 'East Laura'
+                      type: internship
+                      description: 'Fuga ea blanditiis quo. Rerum aperiam doloribus impedit ad ea. Consequuntur voluptatum sed voluptas error et. Et neque voluptatem non sit adipisci commodi voluptatum.'
+                      requirements: 'Hic et minus pariatur in quam perspiciatis illum quia. Voluptate voluptas ut distinctio hic veritatis.'
+                      salary: '281494 NGN'
+                      applicationDeadline: '1976-06-16'
+                    -
+                      userId: 1
+                      title: 'Anthropologist OR Archeologist'
+                      location: 'New Ferne'
+                      type: full-time
+                      description: 'Sint ullam nemo numquam fugit dolorum ut. Qui quaerat officiis porro sapiente recusandae quibusdam quos.'
+                      requirements: 'Fugiat pariatur commodi architecto nobis beatae. Aut hic est repellat a iure enim. Laudantium aut voluptas ab consequuntur voluptas necessitatibus culpa. Sed libero aut rem.'
+                      salary: '364841 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 2
+                      title: 'Marketing Manager'
+                      location: 'New Summermouth'
+                      type: full-time
+                      description: 'Et quaerat earum quia officiis aperiam ratione. Velit nesciunt nisi impedit libero dolor ut aspernatur. Dolor rem repellat enim.'
+                      requirements: 'Aut illo error provident quas non. Ullam alias modi eos nostrum. Sapiente aliquam sit adipisci cum quia qui.'
+                      salary: '208561 NGN'
+                      applicationDeadline: '2013-11-21'
+                    -
+                      userId: 2
+                      title: 'Radio Operator'
+                      location: 'East Rickie'
+                      type: internship
+                      description: 'Mollitia similique quis quis est voluptatem. Esse accusantium exercitationem praesentium asperiores. Et facere reiciendis facere repellendus totam asperiores architecto.'
+                      requirements: 'Voluptatem voluptate et laudantium aut doloribus temporibus et. Soluta delectus nobis esse rerum iusto harum. Molestias voluptatem eveniet ab aut ut minima distinctio. Praesentium maxime nemo ratione voluptates libero accusantium. Facilis dolorum quod est maiores hic impedit error.'
+                      salary: '445507 NGN'
+                      applicationDeadline: '2011-03-06'
+                    -
+                      userId: 2
+                      title: 'Heavy Equipment Mechanic'
+                      location: Mohrview
+                      type: contract
+                      description: 'Dolores labore tempore nihil quia. Consequatur dolore consequatur tempora harum qui. Molestias nihil et expedita velit repellendus nesciunt excepturi. Quibusdam culpa commodi sapiente amet voluptate dolores.'
+                      requirements: 'Laborum eos corporis et non ad possimus. Dolores omnis suscipit sit rerum quis. Unde accusantium consequuntur voluptate.'
+                      salary: '312062 NGN'
+                      applicationDeadline: '1982-04-01'
+                    -
+                      userId: 2
+                      title: Legislator
+                      location: Clarabelletown
+                      type: contract
+                      description: 'Reprehenderit iure id eaque laboriosam autem. Repudiandae et expedita ullam. Dolorum ut velit quo voluptas maxime et.'
+                      requirements: 'Aut consequatur aut quae itaque accusamus perferendis voluptatem. Et nesciunt qui soluta. Non tempore voluptatem id quae dolores autem dolores delectus.'
+                      salary: '365879 NGN'
+                      applicationDeadline: '1993-09-16'
+                    -
+                      userId: 2
+                      title: Concierge
+                      location: Fayville
+                      type: internship
+                      description: 'Consequatur architecto earum blanditiis rerum quibusdam veritatis. Dolorem illum et sed ad esse. Exercitationem vel non ut non doloremque est voluptas.'
+                      requirements: 'Necessitatibus omnis in officiis aut corrupti neque. Dolor nihil repellendus vel et ab. Possimus hic recusandae non placeat voluptas est alias.'
+                      salary: '495976 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 3
+                      title: 'Vice President Of Marketing'
+                      location: Ilenetown
+                      type: contract
+                      description: 'Ullam a explicabo necessitatibus repellendus. Repellendus sit laborum deserunt voluptatum sit. Animi ducimus rem ratione sed velit quam quae.'
+                      requirements: 'Et sint voluptas vel sunt ex. Voluptas animi quo omnis odio. Eaque suscipit repudiandae quos laborum pariatur illum ab eveniet.'
+                      salary: '168256 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 3
+                      title: 'Civil Engineering Technician'
+                      location: 'West Theresia'
+                      type: internship
+                      description: 'Veniam aut aut pariatur qui. Quo voluptatum perferendis in ut.'
+                      requirements: 'Quisquam fuga in cumque non dignissimos. Esse fugit est tempore et suscipit saepe accusamus et. Eum eius dolores quas architecto error nihil. A ullam illo corrupti sed.'
+                      salary: '84993 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 3
+                      title: 'Atmospheric and Space Scientist'
+                      location: Nehashire
+                      type: full-time
+                      description: 'Ducimus in occaecati quia ut. Rem sequi eaque perspiciatis illo iste et quidem. Perspiciatis ut ipsam fugit ducimus aut architecto. Aut asperiores sint delectus sit.'
+                      requirements: 'Maxime error in libero iste qui ea. Sit quod ea rerum eligendi. Non sed velit et rem illum quia omnis.'
+                      salary: '218325 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 3
+                      title: 'Precision Printing Worker'
+                      location: Georgehaven
+                      type: full-time
+                      description: 'Placeat ad eaque et numquam illum. Possimus et maiores nihil rerum. Rerum impedit qui voluptas sapiente et maiores necessitatibus. Cum ut quasi consequatur ea molestiae nihil ipsam quos. Et vel nulla eveniet et ut.'
+                      requirements: 'Perspiciatis facere et numquam saepe dolorum illo aliquid molestiae. Et dignissimos et quos architecto accusantium. Vel laboriosam pariatur nostrum occaecati omnis.'
+                      salary: '305068 NGN'
+                      applicationDeadline: null
+                    -
+                      userId: 3
+                      title: Warehouse
+                      location: 'Port Cydney'
+                      type: part-time
+                      description: 'Molestiae harum molestiae delectus vel id aperiam. Dolorem sequi architecto deleniti necessitatibus. Autem corporis omnis sed error magnam et enim. Nisi quos sunt ut ut modi incidunt dolore quam.'
+                      requirements: 'Iusto molestias odio voluptas odio reiciendis perferendis perferendis. Ad iste quo laborum natus assumenda. Perspiciatis suscipit eos et.'
+                      salary: '433318 NGN'
+                      applicationDeadline: null
+                  links:
+                    first: 'http://localhost:8000/api/careers?page=1'
+                    last: 'http://localhost:8000/api/careers?page=2'
+                    prev: null
+                    next: 'http://localhost:8000/api/careers?page=2'
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 2
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        page: null
+                        active: false
+                      -
+                        url: 'http://localhost:8000/api/careers?page=1'
+                        label: '1'
+                        page: 1
+                        active: true
+                      -
+                        url: 'http://localhost:8000/api/careers?page=2'
+                        label: '2'
+                        page: 2
+                        active: false
+                      -
+                        url: 'http://localhost:8000/api/careers?page=2'
+                        label: 'Next &raquo;'
+                        page: 2
+                        active: false
+                    path: 'http://localhost:8000/api/careers'
+                    per_page: 15
+                    to: 15
+                    total: 25
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        userId: 1
+                        title: 'Valve Repairer OR Regulator Repairer'
+                        location: Rolfsonside
+                        type: full-time
+                        description: 'Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.'
+                        requirements: 'Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.'
+                        salary: '457445 NGN'
+                        applicationDeadline: '1997-11-26'
+                      -
+                        userId: 1
+                        title: 'Food Servers'
+                        location: "O'Keefeview"
+                        type: part-time
+                        description: 'Vitae eligendi aut quo ea. Quod et enim aspernatur. Architecto ipsam consequatur et. Ut tenetur ullam expedita.'
+                        requirements: 'Debitis quia quo tempora labore in molestiae et. Enim accusamus perspiciatis qui voluptates sapiente ut et. Et et qui quo tenetur.'
+                        salary: '280829 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 1
+                        title: 'Surveying Technician'
+                        location: Raeport
+                        type: part-time
+                        description: 'Quas laboriosam ut quis error. Ratione impedit labore omnis. Aut dolor sit tenetur nemo.'
+                        requirements: 'Quibusdam explicabo ullam iusto optio non numquam ut. Voluptate voluptatem molestias dignissimos. Pariatur vero ab officia alias debitis explicabo doloremque sunt.'
+                        salary: '110468 NGN'
+                        applicationDeadline: '1977-11-11'
+                      -
+                        userId: 1
+                        title: 'Postsecondary Education Administrators'
+                        location: 'East Laura'
+                        type: internship
+                        description: 'Fuga ea blanditiis quo. Rerum aperiam doloribus impedit ad ea. Consequuntur voluptatum sed voluptas error et. Et neque voluptatem non sit adipisci commodi voluptatum.'
+                        requirements: 'Hic et minus pariatur in quam perspiciatis illum quia. Voluptate voluptas ut distinctio hic veritatis.'
+                        salary: '281494 NGN'
+                        applicationDeadline: '1976-06-16'
+                      -
+                        userId: 1
+                        title: 'Anthropologist OR Archeologist'
+                        location: 'New Ferne'
+                        type: full-time
+                        description: 'Sint ullam nemo numquam fugit dolorum ut. Qui quaerat officiis porro sapiente recusandae quibusdam quos.'
+                        requirements: 'Fugiat pariatur commodi architecto nobis beatae. Aut hic est repellat a iure enim. Laudantium aut voluptas ab consequuntur voluptas necessitatibus culpa. Sed libero aut rem.'
+                        salary: '364841 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 2
+                        title: 'Marketing Manager'
+                        location: 'New Summermouth'
+                        type: full-time
+                        description: 'Et quaerat earum quia officiis aperiam ratione. Velit nesciunt nisi impedit libero dolor ut aspernatur. Dolor rem repellat enim.'
+                        requirements: 'Aut illo error provident quas non. Ullam alias modi eos nostrum. Sapiente aliquam sit adipisci cum quia qui.'
+                        salary: '208561 NGN'
+                        applicationDeadline: '2013-11-21'
+                      -
+                        userId: 2
+                        title: 'Radio Operator'
+                        location: 'East Rickie'
+                        type: internship
+                        description: 'Mollitia similique quis quis est voluptatem. Esse accusantium exercitationem praesentium asperiores. Et facere reiciendis facere repellendus totam asperiores architecto.'
+                        requirements: 'Voluptatem voluptate et laudantium aut doloribus temporibus et. Soluta delectus nobis esse rerum iusto harum. Molestias voluptatem eveniet ab aut ut minima distinctio. Praesentium maxime nemo ratione voluptates libero accusantium. Facilis dolorum quod est maiores hic impedit error.'
+                        salary: '445507 NGN'
+                        applicationDeadline: '2011-03-06'
+                      -
+                        userId: 2
+                        title: 'Heavy Equipment Mechanic'
+                        location: Mohrview
+                        type: contract
+                        description: 'Dolores labore tempore nihil quia. Consequatur dolore consequatur tempora harum qui. Molestias nihil et expedita velit repellendus nesciunt excepturi. Quibusdam culpa commodi sapiente amet voluptate dolores.'
+                        requirements: 'Laborum eos corporis et non ad possimus. Dolores omnis suscipit sit rerum quis. Unde accusantium consequuntur voluptate.'
+                        salary: '312062 NGN'
+                        applicationDeadline: '1982-04-01'
+                      -
+                        userId: 2
+                        title: Legislator
+                        location: Clarabelletown
+                        type: contract
+                        description: 'Reprehenderit iure id eaque laboriosam autem. Repudiandae et expedita ullam. Dolorum ut velit quo voluptas maxime et.'
+                        requirements: 'Aut consequatur aut quae itaque accusamus perferendis voluptatem. Et nesciunt qui soluta. Non tempore voluptatem id quae dolores autem dolores delectus.'
+                        salary: '365879 NGN'
+                        applicationDeadline: '1993-09-16'
+                      -
+                        userId: 2
+                        title: Concierge
+                        location: Fayville
+                        type: internship
+                        description: 'Consequatur architecto earum blanditiis rerum quibusdam veritatis. Dolorem illum et sed ad esse. Exercitationem vel non ut non doloremque est voluptas.'
+                        requirements: 'Necessitatibus omnis in officiis aut corrupti neque. Dolor nihil repellendus vel et ab. Possimus hic recusandae non placeat voluptas est alias.'
+                        salary: '495976 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 3
+                        title: 'Vice President Of Marketing'
+                        location: Ilenetown
+                        type: contract
+                        description: 'Ullam a explicabo necessitatibus repellendus. Repellendus sit laborum deserunt voluptatum sit. Animi ducimus rem ratione sed velit quam quae.'
+                        requirements: 'Et sint voluptas vel sunt ex. Voluptas animi quo omnis odio. Eaque suscipit repudiandae quos laborum pariatur illum ab eveniet.'
+                        salary: '168256 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 3
+                        title: 'Civil Engineering Technician'
+                        location: 'West Theresia'
+                        type: internship
+                        description: 'Veniam aut aut pariatur qui. Quo voluptatum perferendis in ut.'
+                        requirements: 'Quisquam fuga in cumque non dignissimos. Esse fugit est tempore et suscipit saepe accusamus et. Eum eius dolores quas architecto error nihil. A ullam illo corrupti sed.'
+                        salary: '84993 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 3
+                        title: 'Atmospheric and Space Scientist'
+                        location: Nehashire
+                        type: full-time
+                        description: 'Ducimus in occaecati quia ut. Rem sequi eaque perspiciatis illo iste et quidem. Perspiciatis ut ipsam fugit ducimus aut architecto. Aut asperiores sint delectus sit.'
+                        requirements: 'Maxime error in libero iste qui ea. Sit quod ea rerum eligendi. Non sed velit et rem illum quia omnis.'
+                        salary: '218325 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 3
+                        title: 'Precision Printing Worker'
+                        location: Georgehaven
+                        type: full-time
+                        description: 'Placeat ad eaque et numquam illum. Possimus et maiores nihil rerum. Rerum impedit qui voluptas sapiente et maiores necessitatibus. Cum ut quasi consequatur ea molestiae nihil ipsam quos. Et vel nulla eveniet et ut.'
+                        requirements: 'Perspiciatis facere et numquam saepe dolorum illo aliquid molestiae. Et dignissimos et quos architecto accusantium. Vel laboriosam pariatur nostrum occaecati omnis.'
+                        salary: '305068 NGN'
+                        applicationDeadline: null
+                      -
+                        userId: 3
+                        title: Warehouse
+                        location: 'Port Cydney'
+                        type: part-time
+                        description: 'Molestiae harum molestiae delectus vel id aperiam. Dolorem sequi architecto deleniti necessitatibus. Autem corporis omnis sed error magnam et enim. Nisi quos sunt ut ut modi incidunt dolore quam.'
+                        requirements: 'Iusto molestias odio voluptas odio reiciendis perferendis perferendis. Ad iste quo laborum natus assumenda. Perspiciatis suscipit eos et.'
+                        salary: '433318 NGN'
+                        applicationDeadline: null
+                    items:
+                      type: object
+                      properties:
+                        userId:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: 'Valve Repairer OR Regulator Repairer'
+                        location:
+                          type: string
+                          example: Rolfsonside
+                        type:
+                          type: string
+                          example: full-time
+                        description:
+                          type: string
+                          example: 'Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.'
+                        requirements:
+                          type: string
+                          example: 'Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.'
+                        salary:
+                          type: string
+                          example: '457445 NGN'
+                        applicationDeadline:
+                          type: string
+                          example: '1997-11-26'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://localhost:8000/api/careers?page=1'
+                      last:
+                        type: string
+                        example: 'http://localhost:8000/api/careers?page=2'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: 'http://localhost:8000/api/careers?page=2'
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 2
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            page: null
+                            active: false
+                          -
+                            url: 'http://localhost:8000/api/careers?page=1'
+                            label: '1'
+                            page: 1
+                            active: true
+                          -
+                            url: 'http://localhost:8000/api/careers?page=2'
+                            label: '2'
+                            page: 2
+                            active: false
+                          -
+                            url: 'http://localhost:8000/api/careers?page=2'
+                            label: 'Next &raquo;'
+                            page: 2
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            page:
+                              type: string
+                              example: null
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://localhost:8000/api/careers'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: integer
+                        example: 15
+                      total:
+                        type: integer
+                        example: 25
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+    post:
+      summary: 'create a new job'
+      operationId: createANewJob
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: 16
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: g
+                type:
+                  type: string
+                  description: ''
+                  example: ' internship'
+                  enum:
+                    - full-time
+                    - part-time
+                    - contract
+                    - ' internship'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                requirements:
+                  type: string
+                  description: ''
+                  example: architecto
+                salary:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: 'n'
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: true
+                application_deadline:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-12-16T19:15:00'
+                  nullable: true
+              required:
+                - user_id
+                - title
+                - location
+                - type
+                - description
+                - requirements
+                - is_active
+      security: []
+  /api/careers/search:
+    get:
+      summary: 'Search for a job'
+      operationId: searchForAJob
+      description: ''
+      parameters:
+        -
+          in: query
+          name: search
+          description: 'The search term, the search is done on the title of the job by default,'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'The search term, the search is done on the title of the job by default,'
+            example: architecto
+        -
+          in: query
+          name: column
+          description: "The column to search on. Optional. default: title\nif you have other columns that you want to search on, you can add them as query parameters\nallowed columns are: title, location, type\nif using the type query key, the allowed values are: 'full-time','part-time','contract', 'internship'"
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: "The column to search on. Optional. default: title\nif you have other columns that you want to search on, you can add them as query parameters\nallowed columns are: title, location, type\nif using the type query key, the allowed values are: 'full-time','part-time','contract', 'internship'"
+            example: architecto
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data: []
+                  links:
+                    first: 'http://localhost:8000/api/careers/search?page=1'
+                    last: 'http://localhost:8000/api/careers/search?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: null
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        page: null
+                        active: false
+                      -
+                        url: 'http://localhost:8000/api/careers/search?page=1'
+                        label: '1'
+                        page: 1
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        page: null
+                        active: false
+                    path: 'http://localhost:8000/api/careers/search'
+                    per_page: 5
+                    to: null
+                    total: 0
+                properties:
+                  data:
+                    type: array
+                    example: []
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://localhost:8000/api/careers/search?page=1'
+                      last:
+                        type: string
+                        example: 'http://localhost:8000/api/careers/search?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: string
+                        example: null
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            page: null
+                            active: false
+                          -
+                            url: 'http://localhost:8000/api/careers/search?page=1'
+                            label: '1'
+                            page: 1
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            page: null
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            page:
+                              type: string
+                              example: null
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://localhost:8000/api/careers/search'
+                      per_page:
+                        type: integer
+                        example: 5
+                      to:
+                        type: string
+                        example: null
+                      total:
+                        type: integer
+                        example: 0
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+  '/api/careers/{career_id}':
+    get:
+      summary: 'Get one job'
+      operationId: getOneJob
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    userId: 1
+                    title: 'Valve Repairer OR Regulator Repairer'
+                    location: Rolfsonside
+                    type: full-time
+                    description: 'Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.'
+                    requirements: 'Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.'
+                    salary: '457445 NGN'
+                    applicationDeadline: '1997-11-26'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                        example: 1
+                      title:
+                        type: string
+                        example: 'Valve Repairer OR Regulator Repairer'
+                      location:
+                        type: string
+                        example: Rolfsonside
+                      type:
+                        type: string
+                        example: full-time
+                      description:
+                        type: string
+                        example: 'Ratione et illum minus commodi expedita excepturi eligendi. Enim enim et laudantium officiis cumque. Quod autem occaecati voluptas asperiores aperiam necessitatibus suscipit vel. Voluptates rem veniam cum corporis ipsa.'
+                      requirements:
+                        type: string
+                        example: 'Culpa dolor et et eligendi qui molestias qui. Dolore vero quisquam saepe doloremque dolor vel. Sed aperiam illum facilis perferendis minus perferendis voluptatem.'
+                      salary:
+                        type: string
+                        example: '457445 NGN'
+                      applicationDeadline:
+                        type: string
+                        example: '1997-11-26'
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+    put:
+      summary: 'Update a job'
+      operationId: updateAJob
+      description: 'this endpoint supports both put and patch requests'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: 16
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: g
+                type:
+                  type: string
+                  description: ''
+                  example: full-time
+                  enum:
+                    - full-time
+                    - part-time
+                    - contract
+                    - ' internship'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                requirements:
+                  type: string
+                  description: ''
+                  example: architecto
+                salary:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: 'n'
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: true
+                application_deadline:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-12-16T19:15:00'
+                  nullable: true
+              required:
+                - user_id
+                - title
+                - location
+                - type
+                - description
+                - requirements
+                - is_active
+      security: []
+    patch:
+      summary: 'Update a job'
+      operationId: updateAJob
+      description: 'this endpoint supports both put and patch requests'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: 16
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                location:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: g
+                type:
+                  type: string
+                  description: ''
+                  example: contract
+                  enum:
+                    - full-time
+                    - part-time
+                    - contract
+                    - ' internship'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                requirements:
+                  type: string
+                  description: ''
+                  example: architecto
+                salary:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: 'n'
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+                application_deadline:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-12-16T19:15:00'
+                  nullable: true
+      security: []
+    delete:
+      summary: 'Soft delete a career'
+      operationId: softDeleteACareer
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+    parameters:
+      -
+        in: path
+        name: career_id
+        description: 'The ID of the career.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/careers/{career_id}/destroy':
+    delete:
+      summary: 'get all deleted careers'
+      operationId: getAllDeletedCareers
+      description: 'this endpoint is to permanently delete a career'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+    parameters:
+      -
+        in: path
+        name: career_id
+        description: 'The ID of the career.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/careers/{id}/restore':
+    patch:
+      summary: 'restore a soft deleted career'
+      operationId: restoreASoftDeletedCareer
+      description: "this endpoint takes the id of the career intended to be restored\nyou can get the id from the data restored from the get-deleted endpoint"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the career.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/careers/get-deleted:
+    get:
+      summary: 'get all deleted careers'
+      operationId: getAllDeletedCareers
+      description: 'this endpoint returns all the careers that have been soft deleted'
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Career] get-deleted'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Career] get-deleted'
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+  '/api/careers/{career_id}/toggle':
+    patch:
+      summary: 'Toggle a career on or off'
+      operationId: toggleACareerOnOrOff
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Careers management (JOBS)'
+      security: []
+    parameters:
+      -
+        in: path
+        name: career_id
+        description: 'The ID of the career.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/user:
+    get:
+      summary: 'This route will return the authenticated user information.'
+      operationId: thisRouteWillReturnTheAuthenticatedUserInformation
+      description: "The login end point only returns a token, so after logging in,\nmake a call to this endpoint to get the user details/object\nthen you can store both the token and user details in local storage or however you wish to."
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/properties:
+    get:
+      summary: ''
+      operationId: getApiProperties
+      description: ''
+      parameters:
+        -
+          in: query
+          name: sortBy
+          description: 'The column to sort by. Optional. default: created_at'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'The column to sort by. Optional. default: created_at'
+            example: architecto
+        -
+          in: query
+          name: sortDirection
+          description: "The direction to sort. default: asc, options: asc, desc\n\nthe following query parameters can be used to filter the results. you can either combine, i guess, or just use one\nit takes key value pairs, the key is the column name and the value is the operator to filter by\naccepted operators are eq, gt, gte, lt, lte"
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: "The direction to sort. default: asc, options: asc, desc\n\nthe following query parameters can be used to filter the results. you can either combine, i guess, or just use one\nit takes key value pairs, the key is the column name and the value is the operator to filter by\naccepted operators are eq, gt, gte, lt, lte"
+            example: architecto
+        -
+          in: query
+          name: price
+          description: 'The price to filter by. Optional.'
+          example: 4326.41688
+          required: false
+          schema:
+            type: number
+            description: 'The price to filter by. Optional.'
+            example: 4326.41688
+        -
+          in: query
+          name: city
+          description: 'The city to filter by. Optional.'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'The city to filter by. Optional.'
+            example: architecto
+        -
+          in: query
+          name: propertyType
+          description: "The property type to filter by. Optional. takes either: 'apartment', 'house', 'shortlet', 'penthouse', 'land', 'commercial'"
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: "The property type to filter by. Optional. takes either: 'apartment', 'house', 'shortlet', 'penthouse', 'land', 'commercial'"
+            example: architecto
+        -
+          in: query
+          name: status
+          description: "The status to filter by. Optional. takes either: 'available', 'sold', 'unavailable'"
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: "The status to filter by. Optional. takes either: 'available', 'sold', 'unavailable'"
+            example: architecto
+        -
+          in: query
+          name: listingType
+          description: "The listing type to filter by. Optional. takes either: 'sale', 'rent'"
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: "The listing type to filter by. Optional. takes either: 'sale', 'rent'"
+            example: architecto
+        -
+          in: query
+          name: bedrooms
+          description: 'The number of bedrooms to filter by. Optional.'
+          example: 4326.41688
+          required: false
+          schema:
+            type: number
+            description: 'The number of bedrooms to filter by. Optional.'
+            example: 4326.41688
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - 'Property management'
+      security: []
+    post:
+      summary: ''
+      operationId: postApiProperties
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Property management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the agents table.'
+                  example: 16
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                price:
+                  type: number
+                  description: ''
+                  example: 4326.41688
+                property_type:
+                  type: string
+                  description: ''
+                  example: house
+                  enum:
+                    - house
+                    - apartment
+                    - shortlet
+                    - penthouse
+                    - land
+                    - commercial
+                listing_type:
+                  type: string
+                  description: ''
+                  example: rent
+                  enum:
+                    - sale
+                    - rent
+                status:
+                  type: string
+                  description: ''
+                  example: sold
+                  enum:
+                    - available
+                    - sold
+                    - unavailable
+                  nullable: true
+                bedrooms:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                bathrooms:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                size:
+                  type: number
+                  description: ''
+                  example: 4326.41688
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: m
+                area:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: i
+                city:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: 'y'
+                state:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: v
+              required:
+                - agent_id
+                - title
+                - description
+                - price
+                - property_type
+                - listing_type
+                - address
+                - area
+                - city
+                - state
+      security: []
+  /api/properties/search:
+    get:
+      summary: 'Search for a property'
+      operationId: searchForAProperty
+      description: ''
+      parameters:
+        -
+          in: query
+          name: search
+          description: 'The search term, the search is done on the title of the property,'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'The search term, the search is done on the title of the property,'
+            example: architecto
+        -
+          in: query
+          name: column
+          description: "The column to search on. Optional. default: title\nif you have other columns that you want to search on, you can add them as query parameters\nallowed columns are: title, name, location, description"
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: "The column to search on. Optional. default: title\nif you have other columns that you want to search on, you can add them as query parameters\nallowed columns are: title, name, location, description"
+            example: architecto
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      agentId: 53
+                      title: 'Nulla maiores unde veritatis architecto autem.'
+                      description: 'Unde repudiandae magnam qui at facere. Labore laboriosam sequi sint fuga odit repudiandae illum.'
+                      price: '27557186.52'
+                      propertyType: shortlet
+                      listingType: rent
+                      bedrooms: 4
+                      bathrooms: 3
+                      size: 2627
+                      address: '56889 Marvin Passage'
+                      area: reprehenderit
+                      city: Dandreside
+                      state: Connecticut
+                      status: sold
+                  links:
+                    first: 'http://localhost:8000/api/properties/search?page=1'
+                    last: 'http://localhost:8000/api/properties/search?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        page: null
+                        active: false
+                      -
+                        url: 'http://localhost:8000/api/properties/search?page=1'
+                        label: '1'
+                        page: 1
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        page: null
+                        active: false
+                    path: 'http://localhost:8000/api/properties/search'
+                    per_page: 5
+                    to: 1
+                    total: 1
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        agentId: 53
+                        title: 'Nulla maiores unde veritatis architecto autem.'
+                        description: 'Unde repudiandae magnam qui at facere. Labore laboriosam sequi sint fuga odit repudiandae illum.'
+                        price: '27557186.52'
+                        propertyType: shortlet
+                        listingType: rent
+                        bedrooms: 4
+                        bathrooms: 3
+                        size: 2627
+                        address: '56889 Marvin Passage'
+                        area: reprehenderit
+                        city: Dandreside
+                        state: Connecticut
+                        status: sold
+                    items:
+                      type: object
+                      properties:
+                        agentId:
+                          type: integer
+                          example: 53
+                        title:
+                          type: string
+                          example: 'Nulla maiores unde veritatis architecto autem.'
+                        description:
+                          type: string
+                          example: 'Unde repudiandae magnam qui at facere. Labore laboriosam sequi sint fuga odit repudiandae illum.'
+                        price:
+                          type: string
+                          example: '27557186.52'
+                        propertyType:
+                          type: string
+                          example: shortlet
+                        listingType:
+                          type: string
+                          example: rent
+                        bedrooms:
+                          type: integer
+                          example: 4
+                        bathrooms:
+                          type: integer
+                          example: 3
+                        size:
+                          type: integer
+                          example: 2627
+                        address:
+                          type: string
+                          example: '56889 Marvin Passage'
+                        area:
+                          type: string
+                          example: reprehenderit
+                        city:
+                          type: string
+                          example: Dandreside
+                        state:
+                          type: string
+                          example: Connecticut
+                        status:
+                          type: string
+                          example: sold
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://localhost:8000/api/properties/search?page=1'
+                      last:
+                        type: string
+                        example: 'http://localhost:8000/api/properties/search?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            page: null
+                            active: false
+                          -
+                            url: 'http://localhost:8000/api/properties/search?page=1'
+                            label: '1'
+                            page: 1
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            page: null
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            page:
+                              type: string
+                              example: null
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://localhost:8000/api/properties/search'
+                      per_page:
+                        type: integer
+                        example: 5
+                      to:
+                        type: integer
+                        example: 1
+                      total:
+                        type: integer
+                        example: 1
+      tags:
+        - 'Property management'
+      security: []
+  '/api/properties/{property_id}':
+    get:
+      summary: ''
+      operationId: getApiPropertiesProperty_id
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    agentId: 1
+                    title: 'Maxime sint veritatis blanditiis excepturi.'
+                    description: 'Eum velit sapiente sit eaque nam. Expedita vel molestias qui voluptatem. Sint fuga dolorem voluptates dolorum nam.'
+                    price: '41133472.56'
+                    propertyType: land
+                    listingType: rent
+                    bedrooms: 4
+                    bathrooms: 2
+                    size: 1202
+                    address: '76611 Martin Trafficway'
+                    area: nam
+                    city: 'New Malika'
+                    state: 'South Carolina'
+                    status: sold
+                    media: []
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      agentId:
+                        type: integer
+                        example: 1
+                      title:
+                        type: string
+                        example: 'Maxime sint veritatis blanditiis excepturi.'
+                      description:
+                        type: string
+                        example: 'Eum velit sapiente sit eaque nam. Expedita vel molestias qui voluptatem. Sint fuga dolorem voluptates dolorum nam.'
+                      price:
+                        type: string
+                        example: '41133472.56'
+                      propertyType:
+                        type: string
+                        example: land
+                      listingType:
+                        type: string
+                        example: rent
+                      bedrooms:
+                        type: integer
+                        example: 4
+                      bathrooms:
+                        type: integer
+                        example: 2
+                      size:
+                        type: integer
+                        example: 1202
+                      address:
+                        type: string
+                        example: '76611 Martin Trafficway'
+                      area:
+                        type: string
+                        example: nam
+                      city:
+                        type: string
+                        example: 'New Malika'
+                      state:
+                        type: string
+                        example: 'South Carolina'
+                      status:
+                        type: string
+                        example: sold
+                      media:
+                        type: array
+                        example: []
+      tags:
+        - 'Property management'
+      security: []
+    put:
+      summary: ''
+      operationId: putApiPropertiesProperty_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Property management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the agents table.'
+                  example: 16
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                price:
+                  type: number
+                  description: ''
+                  example: 4326.41688
+                property_type:
+                  type: string
+                  description: ''
+                  example: apartment
+                  enum:
+                    - house
+                    - apartment
+                    - shortlet
+                    - penthouse
+                    - land
+                    - commercial
+                listing_type:
+                  type: string
+                  description: ''
+                  example: rent
+                  enum:
+                    - sale
+                    - rent
+                status:
+                  type: string
+                  description: ''
+                  example: unavailable
+                  enum:
+                    - available
+                    - sold
+                    - unavailable
+                  nullable: true
+                bedrooms:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                bathrooms:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                size:
+                  type: number
+                  description: ''
+                  example: 4326.41688
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: m
+                area:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: i
+                city:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: 'y'
+                state:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: v
+              required:
+                - agent_id
+                - title
+                - description
+                - price
+                - property_type
+                - listing_type
+                - address
+                - area
+                - city
+                - state
+      security: []
+    patch:
+      summary: ''
+      operationId: patchApiPropertiesProperty_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Property management'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the agents table.'
+                  example: 16
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                price:
+                  type: number
+                  description: ''
+                  example: 4326.41688
+                property_type:
+                  type: string
+                  description: ''
+                  example: shortlet
+                  enum:
+                    - house
+                    - apartment
+                    - shortlet
+                    - penthouse
+                    - land
+                    - commercial
+                listing_type:
+                  type: string
+                  description: ''
+                  example: rent
+                  enum:
+                    - sale
+                    - rent
+                status:
+                  type: string
+                  description: ''
+                  example: available
+                  enum:
+                    - available
+                    - sold
+                    - unavailable
+                  nullable: true
+                bedrooms:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                bathrooms:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                size:
+                  type: number
+                  description: ''
+                  example: 4326.41688
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: m
+                city:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: i
+                state:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: 'y'
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiPropertiesProperty_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Property management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: property_id
+        description: 'The ID of the property.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/properties/{property_id}/upload-media':
+    post:
+      summary: ''
+      operationId: postApiPropertiesProperty_idUploadMedia
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Property management'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file.'
+              required:
+                - file
+      security: []
+    parameters:
+      -
+        in: path
+        name: property_id
+        description: 'The ID of the property.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/properties/{property_id}/inquiries':
+    get:
+      summary: ''
+      operationId: getApiPropertiesProperty_idInquiries
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'You are Unauthorized to access this resource.'
+                properties:
+                  message:
+                    type: string
+                    example: 'You are Unauthorized to access this resource.'
+      tags:
+        - 'Property management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: property_id
+        description: 'The ID of the property.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/inquiries/{property_id}':
+    post:
+      summary: 'create a new inquiry for a property.'
+      operationId: createANewInquiryForAProperty
+      description: "so, the inquiry takes a couple fields, and one of the fields are appointment_date\nappointment date takes date time, but it is optional.\nso, to create inquiries with an appointment, you can add in the appointment date\nif you want, I can add in an endpoint for the agent to get only inquiries with appointment dates to provide a way to view the appointments"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User Inquiries management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: 16
+                  nullable: true
+                property_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the properties table.'
+                  example: 16
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: ashly64@example.com
+                phone_number:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: v
+                  nullable: true
+                appointment_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-12-16T19:14:59'
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+              required:
+                - property_id
+                - name
+                - email
+                - description
+      security: []
+    parameters:
+      -
+        in: path
+        name: property_id
+        description: 'The ID of the property.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/inquiries/my-inquiries:
+    get:
+      summary: 'Get all inquiries for a user'
+      operationId: getAllInquiriesForAUser
+      description: 'well, the user can get all their inquiries'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'User Inquiries management'
+      security: []
+  /api/inquiries:
+    get:
+      summary: "Display all the inquries\nthis is an admin only endpoint btw"
+      operationId: displayAllTheInquriesThisIsAnAdminOnlyEndpointBtw
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Admin access only.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Admin access only.'
+      tags:
+        - 'User Inquiries management'
+      security: []
+  '/api/inquiries/{inquiry_id}':
+    get:
+      summary: 'View one inquiry'
+      operationId: viewOneInquiry
+      description: 'still an admin only endpoint'
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Admin access only.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Admin access only.'
+      tags:
+        - 'User Inquiries management'
+      security: []
+    put:
+      summary: 'Update an inquiry'
+      operationId: updateAnInquiry
+      description: 'only the user is allowed to update the inquiry'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User Inquiries management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: 16
+                  nullable: true
+                property_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the properties table.'
+                  example: 16
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: ashly64@example.com
+                phone_number:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: v
+                  nullable: true
+                appointment_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-12-16T19:15:00'
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+              required:
+                - property_id
+                - name
+                - email
+                - description
+      security: []
+    patch:
+      summary: 'Update an inquiry'
+      operationId: updateAnInquiry
+      description: 'only the user is allowed to update the inquiry'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User Inquiries management'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: 16
+                  nullable: true
+                property_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the properties table.'
+                  example: 16
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: ashly64@example.com
+                phone_number:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: v
+                  nullable: true
+                appointment_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-12-16T19:15:00'
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+      security: []
+    delete:
+      summary: 'Delete the inquiry'
+      operationId: deleteTheInquiry
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User Inquiries management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: inquiry_id
+        description: 'The ID of the inquiry.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/auth/register:
+    post:
+      summary: 'Endpoint to Register USER'
+      operationId: endpointToRegisterUSER
+      description: 'This endpoint lets you create a user.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      security: []
+  /api/auth/login:
+    post:
+      summary: 'Endpoint to Login USER'
+      operationId: endpointToLoginUSER
+      description: 'This endpoint lets you log a user in.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      security: []
+  /api/auth/forgot-password:
+    post:
+      summary: 'Endpoint to send User password reset OTP'
+      operationId: endpointToSendUserPasswordResetOTP
+      description: 'This endpoint is to send otp to reset user password'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+                  example: gbailey@example.net
+              required:
+                - email
+      security: []
+  /api/auth/reset-password:
+    post:
+      summary: 'Endpoint to send reset password'
+      operationId: endpointToSendResetPassword
+      description: 'This endpoint is to verify otp and then reset password'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+                  example: gbailey@example.net
+                token:
+                  type: string
+                  description: 'Must be 6 digits.'
+                  example: '569775'
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: ']|{+-0pBNvYg'
+              required:
+                - email
+                - token
+                - password
+      security: []
+  /api/auth/email/send:
+    post:
+      summary: 'Endpoint to send User verification OTP'
+      operationId: endpointToSendUserVerificationOTP
+      description: 'This endpoint is to send otp to verify user email'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+                  example: gbailey@example.net
+              required:
+                - email
+      security: []
+  /api/auth/email/verify:
+    post:
+      summary: 'Endpoint to send User verification OTP'
+      operationId: endpointToSendUserVerificationOTP
+      description: 'This endpoint is to verify user email'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
+                  example: gbailey@example.net
+                token:
+                  type: string
+                  description: 'Must be 6 digits.'
+                  example: '569775'
+              required:
+                - email
+                - token
+      security: []
+  /api/auth/logout:
+    post:
+      summary: 'Endpoint to logout USER'
+      operationId: endpointToLogoutUSER
+      description: 'This endpoint lets you create a user.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'User registration management'
+      security: []

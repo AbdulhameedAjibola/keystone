@@ -24,12 +24,12 @@ return new class extends Migration
             $table->integer('bathrooms')->nullable();
             $table->integer('size')->nullable(); 
             $table->string('address');
+            $table->string('area')->nullable();
             $table->string('city');
             $table->string('state')->nullable();
-            
-           
-            
             $table->timestamps();
+
+            $table->index(['price', 'city', 'status']);
         });
     }
 

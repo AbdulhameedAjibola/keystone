@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->datetime('email_verified_at')->nullable();
             $table->string('role')->default('agent');
             $table->string('verification_code')->nullable();
             $table->enum('status', ['pending','approved','rejected'])->default('pending');
