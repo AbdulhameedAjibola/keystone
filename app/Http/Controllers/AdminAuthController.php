@@ -25,6 +25,13 @@ class AdminAuthController extends Controller
      * Endpoint to Register Admin
      *
      * This endpoint lets you create an admin.
+     *
+     * Endpoint to Register Agent
+     * @bodyParam name string required The name of the user. 
+     * @bodyParam email: the admin email
+     * @bodyParam password: the admin password
+     * @bodyParam role: the admin role. only accept admin
+     * @bodyParam phoneNumber: the admin phone number
      * 
      * @unauthenticated
      */
@@ -35,7 +42,7 @@ class AdminAuthController extends Controller
             $request->validate([
                 "name"=> "required",
                  'email'=> 'required',
-                'password'=> 'required',
+                'password'=> 'required|min:10',
                 'role'=> 'required|in:admin',
                 'phoneNumber' => 'required'
             ]);
@@ -67,6 +74,8 @@ class AdminAuthController extends Controller
      *
      * This endpoint lets you login an admin.
      * 
+     * @bodyParam email: the admin email
+     * @bodyParam password: the admin password
      * @unauthenticated
      */
 
@@ -108,7 +117,7 @@ class AdminAuthController extends Controller
      * Endpoint to Logout Admin
      *
      * This endpoint lets you logout for an admin.
-     * 
+     * it is a post request, but it has no body, just ensure the request is authenticated using the token from the login reguest
      * 
      */
      public function logoutAdmin(Request $request){

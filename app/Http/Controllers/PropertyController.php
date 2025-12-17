@@ -25,6 +25,8 @@ use App\Models\Agent;
  * 
  * @subgroup Agent and admin only Endpoints
  * @subgroupDescription These endpoints are available to admins and agents only
+ * 
+ * @authenticated
  */
 
 

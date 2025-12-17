@@ -27,8 +27,13 @@ class AgentAuthController extends Controller
 
     /**
      * Endpoint to Register Agent
-     *
-     * This endpoint lets you create an agent.
+     *@bodyParam name string required The name of the user. Example: 9
+    * @bodyParam email string The email of the user. 
+    * @bodyParam password string The password of the user. minimum 10 characters
+    * @bodyParam phoneNumber string The phone number of the user. Example: 1234567890
+     * @bodyParam address string The address of the user. Example: 123 Main St
+     * @bodyParam city string The city of the user. Example: New York
+     * @bodyParam state string The state of the user. Example: New York
      * @unauthenticated
      */
     public function registerAgent(Request $request){
@@ -36,7 +41,7 @@ class AgentAuthController extends Controller
 
             $validateUser = Validator::make($request->all(),[
                 'name' => 'required',
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email|unique:agents,email',
                 'password' => 'required|min:10',
                 'phoneNumber' => 'required',
                 'address' => 'required',
@@ -80,6 +85,9 @@ class AgentAuthController extends Controller
      /**
      * Endpoint to login Agent
      *
+     * 
+     *  @bodyParam email string The email of the user.
+    * @bodyParam password string The password of the user. minimum 10 characters
      * This endpoint lets you login for an agent.
      * @unauthenticated
      */
@@ -132,6 +140,7 @@ class AgentAuthController extends Controller
      * Endpoint to logout Agent
      *
      * This endpoint lets you logout an agent.
+     * it is a post request, but it has no body, just ensure the request is authenticated using the token from the login reguest
      * @authenticated
      */
  public function logoutAgent(Request $request){

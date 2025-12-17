@@ -27,10 +27,18 @@ class AuthController extends Controller
 {
 
 
+   
     /**
-     * Endpoint to Register USER
+     * Endpoint to Register User
      *
-     * This endpoint lets you create a user.
+     * This endpoint lets you create an admin.
+     *
+     * Endpoint to Register User
+     * @bodyParam name string required The name of the user. 
+     * @bodyParam email: the user email
+     * @bodyParam password: the user password
+     * @bodyParam role: this is optional for users, default is user
+     * @bodyParam phoneNumber: the admin phone number
      * 
      * @unauthenticated
      */
@@ -81,6 +89,10 @@ class AuthController extends Controller
      * Endpoint to Login USER
      *
      * This endpoint lets you log a user in.
+     * 
+     *  @bodyParam email: the user email
+     * @bodyParam password: the user password
+     * 
      * @unauthenticated
      */
      public function loginUser(Request $request){
@@ -157,7 +169,8 @@ class AuthController extends Controller
 /**
      * Endpoint to logout USER
      *
-     * This endpoint lets you create a user.
+     * This endpoint lets you log a user out
+     * it is a post request, but it has no body, just ensure the request is authenticated using the token from the login reguest
      * 
      */
 
