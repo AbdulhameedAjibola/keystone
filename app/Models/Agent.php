@@ -21,12 +21,17 @@ class Agent extends Model
         'password',
         'role',
         'verification_code',
-        
-        'status',
+
         'phone_number',
         'address',
         'city',
         'state',
+    ];
+
+    protected $hidden = [
+        'password',
+        'verification_code',
+        'role'
     ];
         public function properties(){
             return $this->hasMany(Property::class);

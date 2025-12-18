@@ -14,6 +14,7 @@ use App\Http\Controllers\UserEmailVerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AgentAuthController;
 use App\Http\Middleware\AdminAuth;
+use App\Http\Resources\UserResource;
 
 //admin auth endpoints
 Route::post('/admin/register', [AdminAuthController::class, 'registerAdmin']);
@@ -26,15 +27,31 @@ Route::middleware('auth:sanctum')->post('admin/logout', [AdminAuthController::cl
  * 
  * This route will return the authenticated user information.
  *
- * The login end point only returns a token, so after logging in,
+ * This will work for both users and admins
  * make a call to this endpoint to get the user details/object
  * then you can store both the token and user details in local storage or however you wish to.
  * 
  */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/user-profile', function (Request $request) {
+    return new UserResource($request->user());
 })->middleware('auth:sanctum');
+
+/**
+ *
+ * 
+ * This route will return the authenticated agent information.
+ *
+ * This will work for only agents
+ * make a call to this endpoint to get the agent details/object
+ * then you can store both the token and agent details in local storage or however you wish to.
+ * 
+ */
+
+Route::get('/agent-profile', function (Request $request) {
+    return $request->user();
+})->middleware('auth:api-agent');
+
 
 /**
  *

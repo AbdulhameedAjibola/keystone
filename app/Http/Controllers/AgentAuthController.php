@@ -71,7 +71,12 @@ class AgentAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Agent Registered Successfully',
-                'token' => $agent->createToken('API TOKEN')->plainTextToken
+                'token' => $agent->createToken(
+                    'API TOKEN',
+                    ['*'],
+                    now()->addDays(7)
+                    )->plainTextToken,
+                'agent' => $agent
             ]);
 
         }catch(\Throwable $th){
@@ -122,7 +127,12 @@ class AgentAuthController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => "Agent logged in successfully",
-                    'token' => $token
+                    $agent->createToken(
+                    'API TOKEN',
+                    ['*'],
+                    now()->addDays(7)
+                    )->plainTextToken,
+                    'agent' => $agent
                 ], 200);
             
 

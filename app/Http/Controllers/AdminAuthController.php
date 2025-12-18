@@ -41,7 +41,7 @@ class AdminAuthController extends Controller
 
             $request->validate([
                 "name"=> "required",
-                 'email'=> 'required',
+                'email'=> 'required',
                 'password'=> 'required|min:10',
                 'role'=> 'required|in:admin',
                 'phoneNumber' => 'required'
@@ -58,7 +58,12 @@ class AdminAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Admin Registered Successfully',
-                'token' => $admin->createToken('API TOKEN')->plainTextToken
+                'token' => $admin->createToken(
+                'API TOKEN',
+                ['*'],
+                now()->addDay()
+                )->plainTextToken,
+                'admin' => $admin
             ]);
         }
         catch(\Throwable $th){
@@ -83,7 +88,7 @@ class AdminAuthController extends Controller
         try{
 
             $request->validate([
-                'email'=> 'required|exists:users, email',
+                'email'=> 'required|email|exists:users,email',
                 'password'=> 'required',
                 'role'=> 'required|in:admin'
             ]);
@@ -97,7 +102,11 @@ class AdminAuthController extends Controller
                 ], 401);
             }
 
-            $token = $admin->createToken('API TOKEN')->plainTextToken;
+            $token = $admin->createToken(
+                'API TOKEN',
+                ['*'],
+                now()->addDay()
+                )->plainTextToken;
 
             return response()->json([
                 'status' => true,
