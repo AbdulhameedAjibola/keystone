@@ -123,15 +123,16 @@ class AgentAuthController extends Controller
                 ], 401);
                 
             }
-            $token = $agent->createToken('API TOKEN')->plainTextToken;
-                return response()->json([
-                    'status' => true,
-                    'message' => "Agent logged in successfully",
-                    $agent->createToken(
+            $token = $agent->createToken(
                     'API TOKEN',
                     ['*'],
                     now()->addDays(7)
-                    )->plainTextToken,
+                    )->plainTextToken;
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Agent logged in successfully",
+                    'token' => $token,
                     'agent' => $agent
                 ], 200);
             

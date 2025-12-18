@@ -31,16 +31,54 @@ tags:
   -
     name: 'User registration management'
     description: "\nAPIs for managing Authentication details and status for users\nit contains the following endpoints:\n- Register User\n- Login User\n- Logout User\n- Email Verification for User\n- Password Reset for User"
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'You can retrieve your token by authenticating via the login endpoint. Include it as a Bearer token in the Authorization header.'
+security:
+  -
+    default: []
 paths:
   /api/admin/register:
     post:
       summary: 'Endpoint to Register Admin'
       operationId: endpointToRegisterAdmin
-      description: 'This endpoint lets you create an admin.'
+      description: "This endpoint lets you create an admin.\n\nEndpoint to Register Agent"
       parameters: []
       responses: {  }
       tags:
         - 'Admin Auth Endpoints'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: architecto
+                'email:':
+                  type: the
+                  description: 'admin email'
+                  example: architecto
+                'password:':
+                  type: the
+                  description: 'admin password'
+                  example: architecto
+                'role:':
+                  type: the
+                  description: 'admin role. only accept admin'
+                  example: architecto
+                'phoneNumber:':
+                  type: the
+                  description: 'admin phone number'
+                  example: architecto
+              required:
+                - name
       security: []
   /api/admin/login:
     post:
@@ -51,17 +89,31 @@ paths:
       responses: {  }
       tags:
         - 'Admin Auth Endpoints'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                'email:':
+                  type: the
+                  description: 'admin email'
+                  example: architecto
+                'password:':
+                  type: the
+                  description: 'admin password'
+                  example: architecto
       security: []
   /api/admin/logout:
     post:
       summary: 'Endpoint to Logout Admin'
       operationId: endpointToLogoutAdmin
-      description: 'This endpoint lets you logout for an admin.'
+      description: "This endpoint lets you logout for an admin.\nit is a post request, but it has no body, just ensure the request is authenticated using the token from the login reguest"
       parameters: []
       responses: {  }
       tags:
         - 'Admin Auth Endpoints'
-      security: []
   '/api/agents/start-verification/{agent_id}':
     post:
       summary: 'Start the agent verification process'
@@ -71,7 +123,6 @@ paths:
       responses: {  }
       tags:
         - 'Agent Management'
-      security: []
     parameters:
       -
         in: path
@@ -103,7 +154,6 @@ paths:
                   description: 'Must be a file. Must not be greater than 5120 kilobytes.'
               required:
                 - file
-      security: []
     parameters:
       -
         in: path
@@ -134,7 +184,6 @@ paths:
                     example: 'No query results for model [App\Models\Property] my-properties'
       tags:
         - 'Agent Management'
-      security: []
   '/api/agents/{agent_id}':
     get:
       summary: 'Get one agent'
@@ -156,7 +205,6 @@ paths:
                     example: 'You are Unauthorized to access this resource.'
       tags:
         - 'Agent Management'
-      security: []
     parameters:
       -
         in: path
@@ -187,7 +235,6 @@ paths:
                     example: 'You are Unauthorized to access this resource.'
       tags:
         - 'Agent Management'
-      security: []
     parameters:
       -
         in: path
@@ -218,7 +265,6 @@ paths:
                     example: 'Admin access only.'
       tags:
         - 'Agent Management'
-      security: []
   /api/agents/unverified:
     get:
       summary: ''
@@ -240,7 +286,6 @@ paths:
                     example: 'No query results for model [App\Models\Agent] unverified'
       tags:
         - 'Agent Management'
-      security: []
   /api/agents/verified:
     get:
       summary: ''
@@ -262,7 +307,6 @@ paths:
                     example: 'No query results for model [App\Models\Agent] verified'
       tags:
         - 'Agent Management'
-      security: []
   /api/agents/rejected:
     get:
       summary: ''
@@ -284,7 +328,6 @@ paths:
                     example: 'No query results for model [App\Models\Agent] rejected'
       tags:
         - 'Agent Management'
-      security: []
   '/api/agents/verify-agent/{agent_id}':
     post:
       summary: ''
@@ -294,7 +337,6 @@ paths:
       responses: {  }
       tags:
         - 'Agent Management'
-      security: []
     parameters:
       -
         in: path
@@ -325,26 +367,73 @@ paths:
                     example: 'No query results for model [App\Models\Agent] agent-with-properties'
       tags:
         - 'Agent Management'
-      security: []
   /api/agent/register:
     post:
       summary: 'Endpoint to Register Agent'
       operationId: endpointToRegisterAgent
-      description: 'This endpoint lets you create an agent.'
+      description: ''
       parameters: []
       responses: {  }
       tags:
         - 'Agent registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: '9'
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: gbailey@example.net
+                password:
+                  type: string
+                  description: 'The password of the user. minimum 10 characters'
+                  example: '|]|{+-'
+                phoneNumber:
+                  type: string
+                  description: 'The phone number of the user.'
+                  example: '1234567890'
+                address:
+                  type: string
+                  description: 'The address of the user.'
+                  example: '123 Main St'
+                city:
+                  type: string
+                  description: 'The city of the user.'
+                  example: 'New York'
+                state:
+                  type: string
+                  description: 'The state of the user.'
+                  example: 'New York'
+              required:
+                - name
       security: []
   /api/agent/login:
     post:
       summary: 'Endpoint to login Agent'
       operationId: endpointToLoginAgent
-      description: 'This endpoint lets you login for an agent.'
+      description: '@bodyParam email string The email of the user.'
       parameters: []
       responses: {  }
       tags:
         - 'Agent registration management'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: "The password of the user. minimum 10 characters\nThis endpoint lets you login for an agent."
+                  example: '|]|{+-'
       security: []
   /api/agent/forgot-password:
     post:
@@ -452,12 +541,11 @@ paths:
               required:
                 - email
                 - token
-      security: []
   /api/agent/logout:
     post:
       summary: 'Endpoint to logout Agent'
       operationId: endpointToLogoutAgent
-      description: 'This endpoint lets you logout an agent.'
+      description: "This endpoint lets you logout an agent.\nit is a post request, but it has no body, just ensure the request is authenticated using the token from the login reguest"
       parameters: []
       responses: {  }
       tags:
@@ -891,7 +979,6 @@ paths:
                         example: 25
       tags:
         - 'Careers management (JOBS)'
-      security: []
     post:
       summary: 'create a new job'
       operationId: createANewJob
@@ -948,7 +1035,7 @@ paths:
                 application_deadline:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2025-12-16T19:15:00'
+                  example: '2025-12-17T07:46:32'
                   nullable: true
               required:
                 - user_id
@@ -958,7 +1045,6 @@ paths:
                 - description
                 - requirements
                 - is_active
-      security: []
   /api/careers/search:
     get:
       summary: 'Search for a job'
@@ -1155,7 +1241,6 @@ paths:
                         example: '1997-11-26'
       tags:
         - 'Careers management (JOBS)'
-      security: []
     put:
       summary: 'Update a job'
       operationId: updateAJob
@@ -1186,7 +1271,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: full-time
+                  example: ' internship'
                   enum:
                     - full-time
                     - part-time
@@ -1212,7 +1297,7 @@ paths:
                 application_deadline:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2025-12-16T19:15:00'
+                  example: '2025-12-17T07:46:32'
                   nullable: true
               required:
                 - user_id
@@ -1222,7 +1307,6 @@ paths:
                 - description
                 - requirements
                 - is_active
-      security: []
     patch:
       summary: 'Update a job'
       operationId: updateAJob
@@ -1253,7 +1337,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: contract
+                  example: ' internship'
                   enum:
                     - full-time
                     - part-time
@@ -1275,13 +1359,12 @@ paths:
                 is_active:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 application_deadline:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2025-12-16T19:15:00'
+                  example: '2025-12-17T07:46:32'
                   nullable: true
-      security: []
     delete:
       summary: 'Soft delete a career'
       operationId: softDeleteACareer
@@ -1290,7 +1373,6 @@ paths:
       responses: {  }
       tags:
         - 'Careers management (JOBS)'
-      security: []
     parameters:
       -
         in: path
@@ -1309,7 +1391,6 @@ paths:
       responses: {  }
       tags:
         - 'Careers management (JOBS)'
-      security: []
     parameters:
       -
         in: path
@@ -1328,7 +1409,6 @@ paths:
       responses: {  }
       tags:
         - 'Careers management (JOBS)'
-      security: []
     parameters:
       -
         in: path
@@ -1359,7 +1439,6 @@ paths:
                     example: 'No query results for model [App\Models\Career] get-deleted'
       tags:
         - 'Careers management (JOBS)'
-      security: []
   '/api/careers/{career_id}/toggle':
     patch:
       summary: 'Toggle a career on or off'
@@ -1369,7 +1448,6 @@ paths:
       responses: {  }
       tags:
         - 'Careers management (JOBS)'
-      security: []
     parameters:
       -
         in: path
@@ -1400,7 +1478,6 @@ paths:
                     example: Unauthenticated.
       tags:
         - Endpoints
-      security: []
   /api/properties:
     get:
       summary: ''
@@ -1537,7 +1614,7 @@ paths:
                 property_type:
                   type: string
                   description: ''
-                  example: house
+                  example: penthouse
                   enum:
                     - house
                     - apartment
@@ -1603,7 +1680,6 @@ paths:
                 - area
                 - city
                 - state
-      security: []
   /api/properties/search:
     get:
       summary: 'Search for a property'
@@ -1938,7 +2014,7 @@ paths:
                 property_type:
                   type: string
                   description: ''
-                  example: apartment
+                  example: shortlet
                   enum:
                     - house
                     - apartment
@@ -1956,7 +2032,7 @@ paths:
                 status:
                   type: string
                   description: ''
-                  example: unavailable
+                  example: available
                   enum:
                     - available
                     - sold
@@ -2004,7 +2080,6 @@ paths:
                 - area
                 - city
                 - state
-      security: []
     patch:
       summary: ''
       operationId: patchApiPropertiesProperty_id
@@ -2039,7 +2114,7 @@ paths:
                 property_type:
                   type: string
                   description: ''
-                  example: shortlet
+                  example: commercial
                   enum:
                     - house
                     - apartment
@@ -2050,7 +2125,7 @@ paths:
                 listing_type:
                   type: string
                   description: ''
-                  example: rent
+                  example: sale
                   enum:
                     - sale
                     - rent
@@ -2090,7 +2165,6 @@ paths:
                   type: string
                   description: 'Must not be greater than 100 characters.'
                   example: 'y'
-      security: []
     delete:
       summary: ''
       operationId: deleteApiPropertiesProperty_id
@@ -2099,7 +2173,6 @@ paths:
       responses: {  }
       tags:
         - 'Property management'
-      security: []
     parameters:
       -
         in: path
@@ -2131,7 +2204,6 @@ paths:
                   description: 'Must be a file.'
               required:
                 - file
-      security: []
     parameters:
       -
         in: path
@@ -2162,7 +2234,6 @@ paths:
                     example: 'You are Unauthorized to access this resource.'
       tags:
         - 'Property management'
-      security: []
     parameters:
       -
         in: path
@@ -2213,7 +2284,7 @@ paths:
                 appointment_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2025-12-16T19:14:59'
+                  example: '2025-12-17T07:46:32'
                   nullable: true
                 description:
                   type: string
@@ -2224,7 +2295,6 @@ paths:
                 - name
                 - email
                 - description
-      security: []
     parameters:
       -
         in: path
@@ -2255,7 +2325,6 @@ paths:
                     example: Unauthenticated.
       tags:
         - 'User Inquiries management'
-      security: []
   /api/inquiries:
     get:
       summary: "Display all the inquries\nthis is an admin only endpoint btw"
@@ -2277,7 +2346,6 @@ paths:
                     example: 'Admin access only.'
       tags:
         - 'User Inquiries management'
-      security: []
   '/api/inquiries/{inquiry_id}':
     get:
       summary: 'View one inquiry'
@@ -2299,7 +2367,6 @@ paths:
                     example: 'Admin access only.'
       tags:
         - 'User Inquiries management'
-      security: []
     put:
       summary: 'Update an inquiry'
       operationId: updateAnInquiry
@@ -2340,7 +2407,7 @@ paths:
                 appointment_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2025-12-16T19:15:00'
+                  example: '2025-12-17T07:46:33'
                   nullable: true
                 description:
                   type: string
@@ -2351,7 +2418,6 @@ paths:
                 - name
                 - email
                 - description
-      security: []
     patch:
       summary: 'Update an inquiry'
       operationId: updateAnInquiry
@@ -2392,13 +2458,12 @@ paths:
                 appointment_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2025-12-16T19:15:00'
+                  example: '2025-12-17T07:46:33'
                   nullable: true
                 description:
                   type: string
                   description: ''
                   example: 'Eius et animi quos velit et.'
-      security: []
     delete:
       summary: 'Delete the inquiry'
       operationId: deleteTheInquiry
@@ -2407,7 +2472,6 @@ paths:
       responses: {  }
       tags:
         - 'User Inquiries management'
-      security: []
     parameters:
       -
         in: path
@@ -2419,13 +2483,42 @@ paths:
           type: integer
   /api/auth/register:
     post:
-      summary: 'Endpoint to Register USER'
-      operationId: endpointToRegisterUSER
-      description: 'This endpoint lets you create a user.'
+      summary: 'Endpoint to Register User'
+      operationId: endpointToRegisterUser
+      description: "This endpoint lets you create an admin.\n\nEndpoint to Register User"
       parameters: []
       responses: {  }
       tags:
         - 'User registration management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: architecto
+                'email:':
+                  type: the
+                  description: 'user email'
+                  example: architecto
+                'password:':
+                  type: the
+                  description: 'user password'
+                  example: architecto
+                'role:':
+                  type: this
+                  description: 'is optional for users, default is user'
+                  example: architecto
+                'phoneNumber:':
+                  type: the
+                  description: 'admin phone number'
+                  example: architecto
+              required:
+                - name
       security: []
   /api/auth/login:
     post:
@@ -2436,6 +2529,21 @@ paths:
       responses: {  }
       tags:
         - 'User registration management'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                'email:':
+                  type: the
+                  description: 'user email'
+                  example: architecto
+                'password:':
+                  type: the
+                  description: 'user password'
+                  example: architecto
       security: []
   /api/auth/forgot-password:
     post:
@@ -2548,9 +2656,8 @@ paths:
     post:
       summary: 'Endpoint to logout USER'
       operationId: endpointToLogoutUSER
-      description: 'This endpoint lets you create a user.'
+      description: "This endpoint lets you log a user out\nit is a post request, but it has no body, just ensure the request is authenticated using the token from the login reguest"
       parameters: []
       responses: {  }
       tags:
         - 'User registration management'
-      security: []
