@@ -215,7 +215,7 @@ Route::middleware('admin')->group(function () {
     | Agent Administration
     |--------------------------------------------------------------------------
     */
-    Route::prefix('agents')->group(function () {
+    Route::prefix('admin/agents')->group(function () {
         Route::get('/', [AgentController::class, 'index']);
         Route::get('unverified', [AgentController::class, 'getUnverifiedAgents']);
         Route::get('verified', [AgentController::class, 'getVerifiedAgents']);
