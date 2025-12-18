@@ -196,7 +196,7 @@ class AgentController extends Controller
      */
     public function agentsWithProperties(){
         $agents = Agent::has('properties')::with('properties')->get();
-        return $agents;
+        return new AgentCollection($agents);
     }
 
 
