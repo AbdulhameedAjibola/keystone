@@ -15,6 +15,7 @@ class InquiryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'=> $this->id,
             'userId' => $this->user_id,
             'propertyId' => $this->property_id,
             'name' => $this->name,

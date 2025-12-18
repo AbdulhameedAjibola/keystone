@@ -29,7 +29,7 @@ class PropertyResource extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'status' => $this->status,
-            
+            'id' => $this->id,
             'media' => MediaResource::collection($this->whenLoaded('media'))
         ];
     }

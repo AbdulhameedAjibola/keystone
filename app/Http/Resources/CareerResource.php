@@ -16,6 +16,7 @@ class CareerResource extends JsonResource
     {
         return [
             'userId' => $this->user_id,
+            'id' => $this->id,
             'title' => $this->title,
             'location' => $this->location,
             'type' => $this->type,
