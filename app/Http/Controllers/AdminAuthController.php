@@ -114,6 +114,7 @@ class AdminAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'token' => $token,
+                'admin' => $admin
             ]);
         }
         catch(\Throwable $th){
