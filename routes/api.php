@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Resources\AgentResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AgentController;
@@ -49,7 +50,7 @@ Route::get('/user-profile', function (Request $request) {
  */
 
 Route::get('/agent-profile', function (Request $request) {
-    return $request->user();
+    return new AgentResource($request->user());
 })->middleware('auth:api-agent');
 
 
