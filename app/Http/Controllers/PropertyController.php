@@ -92,7 +92,7 @@ class PropertyController extends Controller
     
     public function store(StorePropertyRequest $request)
     {
-        $agent = auth('api-agent')->user();
+        $agent = request()->user();
 
         $property = $agent->properties()->create($request->all());
         return new PropertyResource($property);

@@ -7,9 +7,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class Agent extends Model
+class Agent extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\AgentFactory> */
     use HasFactory, HasApiTokens;

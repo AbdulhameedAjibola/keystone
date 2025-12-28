@@ -72,7 +72,7 @@ class AgentAuthController extends Controller
                 'status' => true,
                 'message' => 'Agent Registered Successfully',
                 'token' => $agent->createToken(
-                    'API TOKEN',
+                    'AGENT API TOKEN',
                     ['*'],
                     now()->addDays(7)
                     )->plainTextToken,
@@ -124,7 +124,7 @@ class AgentAuthController extends Controller
                 
             }
             $token = $agent->createToken(
-                    'API TOKEN',
+                    'AGENT API TOKEN',
                     ['*'],
                     now()->addDays(7)
                     )->plainTextToken;

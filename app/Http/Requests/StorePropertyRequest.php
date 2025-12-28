@@ -11,7 +11,7 @@ class StorePropertyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class StorePropertyRequest extends FormRequest
     {
        
         return [
-            'agent_id' => 'required|integer|exists:agents,id',
+           
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
@@ -42,7 +42,7 @@ class StorePropertyRequest extends FormRequest
 
     protected function prepareForValidation(){
         $this->merge([
-            'agent_id' => $this->agentId,
+            
             'property_type' => $this->propertyType,
             'listing_type' => $this->listingType,
 
