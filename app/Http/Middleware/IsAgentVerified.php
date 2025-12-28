@@ -13,18 +13,15 @@ class IsAgentVerified
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
-    {
-        $agent = auth('api-agent')->user();
+            public function handle(Request $request, Closure $next)
+        {
+            // Get the user from the request (resolved by previous 'auth:sanctum' middleware)
+            $agent = $request->user(); 
 
-        if(!$agent){
-             return response()->json(['message' => 'This action is unauthorized.'], 403);
+            if (!$agent || $agent->status !== 'approved') {
+                return response()->json(['message' => 'Verified Agents only.'], 403);
+            }
+
+            return $next($request);
         }
-
-        if($agent->status !== 'approved'){
-            abort(403, 'Verified Agents only.');
-        }
-
-        return $next($request);
-    }
 }
