@@ -27,12 +27,11 @@ class PropertyPolicy
 
     //admin can do anything
     public function before ($user, $ability){
-        if($user->instanceof(User::class) && $user->role === 'admin'){
-            return true;
+     if ($user instanceof User && $user->role === 'admin') {
+        return true;
+    }
 
-        }
-        
-         return null;
+    return null;
     }
     
 }
