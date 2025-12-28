@@ -26,10 +26,13 @@ class PropertyPolicy
     }
 
     //admin can do anything
-    public function before (User $user, $ability){
-        if($user->role === 'admin'){
+    public function before ($user, $ability){
+        if($user->instanceof(User::class) && $user->role === 'admin'){
             return true;
+
         }
+        
+         return null;
     }
     
 }
