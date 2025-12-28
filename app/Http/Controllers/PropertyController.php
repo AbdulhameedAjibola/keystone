@@ -195,6 +195,8 @@ class PropertyController extends Controller
 
         $file = $request->file('file');
 
+       // dd(env('CLOUDINARY_SECRET'), config('cloudinary.api_secret'));
+
         $result = (new UploadApi())->upload($file->getRealPath(), [
             'folder' => "properties/{$property->id}"
         ]);

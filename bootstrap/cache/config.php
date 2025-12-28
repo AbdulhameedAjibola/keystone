@@ -338,6 +338,10 @@
     'upload_preset' => 'keystone_asset',
     'upload_route' => NULL,
     'upload_action' => NULL,
+    'cloud_name' => 'dgabjbnnx',
+    'api_key' => '999329266645263',
+    'api_secret' => 'ArujkgkmRSFYixcZR_6IBiK55D0',
+    'cloudinary_url' => 'cloudinary://999329266645263:ArujkgkmRSFYixcZR_6IBiK55D0@dgabjbnnx',
   ),
   'cors' => 
   array (
@@ -535,9 +539,9 @@
       'cloudinary' => 
       array (
         'driver' => 'cloudinary',
-        'key' => NULL,
-        'secret' => NULL,
-        'cloud' => NULL,
+        'key' => '999329266645263',
+        'secret' => 'ArujkgkmRSFYixcZR_6IBiK55D0',
+        'cloud' => 'dgabjbnnx',
         'url' => 'cloudinary://999329266645263:ArujkgkmRSFYixcZR_6IBiK55D0@dgabjbnnx',
         'secure' => true,
         'prefix' => NULL,

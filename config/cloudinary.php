@@ -9,6 +9,11 @@
 
 return [
 
+    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+    'api_key'    => env('CLOUDINARY_KEY'),
+    'api_secret' => env('CLOUDINARY_SECRET'),
+    'cloudinary_url' => env('CLOUDINARY_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Cloudinary Configuration
@@ -47,4 +52,6 @@ return [
      * Controller action to get cloud_image_url from Blade Upload Widget
      */
     'upload_action' => env('CLOUDINARY_UPLOAD_ACTION'),
+
+    
 ];
