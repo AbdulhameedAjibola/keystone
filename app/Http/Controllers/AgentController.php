@@ -148,7 +148,8 @@ class AgentController extends Controller
      * it's a bit redundant and I might remove it, since the get all agents endpoint already returns the properties
      * i'm lazy to do that now
      */
-    public function getAgentProperties(Agent $agent){
+    public function getAgentProperties(){
+        $agent = auth('api-agent')->user();
         return new PropertyCollection($agent->properties);
     }
 

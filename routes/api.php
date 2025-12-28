@@ -177,7 +177,7 @@ Route::middleware(['auth:api-agent', 'agent.verified'])->group(function () {
 
     Route::prefix('properties')->group(function () {
         Route::post('/', [PropertyController::class, 'store']);
-        Route::get('my-properties', [AgentController::class, 'getAgentProperties']);
+        Route::get('/my-properties', [AgentController::class, 'getAgentProperties']);
         Route::post('{property}/upload-media', [PropertyController::class, 'uploadMedia']);
 
         Route::put('{property}', [PropertyController::class, 'update']);
