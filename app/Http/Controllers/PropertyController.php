@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\InquiryCollection;
 use App\Http\Resources\MediaCollection;
+use App\Http\Resources\MediaResource;
 use App\Models\Property;
 use App\Services\PropertyQuery;
 use Illuminate\Http\Request;
 use Cloudinary\Api\Upload\UploadApi;
 use Cloudinary\Configuration\Configuration;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Http\Resources\PropertyResource;
 use App\Http\Resources\PropertyCollection;
 use App\Http\Requests\StorePropertyRequest;
@@ -195,36 +197,52 @@ class PropertyController extends Controller
 
         $this->authorize('update', $property);
 
-        Configuration::instance([
-            'cloud' => [
-                'cloud_name' => config('cloudinary.cloud_name'),
-                'api_key'    => config('cloudinary.api_key'),
-                'api_secret' => config('cloudinary.api_secret'),
-            ],
-            'url' => [
-                'secure' => true
-            ]
-        ]);
+        // Configuration::instance([
+        //     'cloud' => [
+        //         'cloud_name' => config('cloudinary.cloud_name'),
+        //         'api_key'    => config('cloudinary.api_key'),
+        //         'api_secret' => config('cloudinary.api_secret'),
+        //     ],
+        //     'url' => [
+        //         'secure' => true
+        //     ]
+        // ]);
 
-        $file = $request->file('file');
+        $files = $request->file('files');
+        $uploadedMedia = [];
 
-       // dd(env('CLOUDINARY_SECRET'), config('cloudinary.api_secret'));
+        $fileArray = is_array($files) ? $files : [$files];
 
-        $result = (new UploadApi())->upload($file->getRealPath(), [
-            'context' => ['verify' => config('app.env') === 'local' ? false : true],
-            'folder' => "properties/{$property->id}"
-        ]);
+        foreach ($fileArray as $file) {
+             // $result = (new UploadApi())->upload($file->getRealPath(), [
+            //     'context' => ['verify' => config('app.env') === 'local' ? false : true],
+            //     'folder' => "properties/{$property->id}"
+            // ]);
 
-        $property->media()->create([
+
+            $result = Cloudinary::upload($file->getRealPath(), [
+                'folder' => "properties/{$property->id}"
+            ]);
+
+             $media = $property->media()->create([
              'public_id' => $result['public_id'],
              'url' => $result['secure_url'],
              'type' => $request->input('type'),
              'format' => $result['format'],
              'size' => $result['bytes'],
              'collection' => 'property_media',
-        ]);
+            ]);
 
-        return response()->json(['message' => 'Media uploaded successfully'], 201);
+            $uploadedMedia[] = $media;
+
+        }
+
+       // dd(env('CLOUDINARY_SECRET'), config('cloudinary.api_secret'));
+    
+       return response()->json([
+        'message' => count($uploadedMedia) . 'file(s) uploaded successfully',
+        'data' => new MediaResource($uploadedMedia)
+        ], 201);
     }
 
     /**

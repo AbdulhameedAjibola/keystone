@@ -24,7 +24,8 @@ class UploadPropertyMediaRequest extends FormRequest
     public function rules(): array
     {
        return [
-        'file' => [
+        'files' => 'required|array',
+        'files.*' => [
             'required',
             'file',
             'mimes:jpg,jpeg,png,webp,avif,mp4,hevc',
@@ -41,6 +42,7 @@ class UploadPropertyMediaRequest extends FormRequest
                 ['max:51200']
             ),
         ],
+        
     ];
 
     }
