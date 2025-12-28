@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Services\PropertyQuery;
 use Illuminate\Http\Request;
 use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 use App\Http\Resources\PropertyResource;
 use App\Http\Resources\PropertyCollection;
 use App\Http\Requests\StorePropertyRequest;
@@ -191,13 +192,26 @@ class PropertyController extends Controller
      */
     public function uploadMedia(UploadPropertyMediaRequest $request, Property $property)
     {
+
         $this->authorize('update', $property);
+
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => config('cloudinary.cloud_name'),
+                'api_key'    => config('cloudinary.api_key'),
+                'api_secret' => config('cloudinary.api_secret'),
+            ],
+            'url' => [
+                'secure' => true
+            ]
+        ]);
 
         $file = $request->file('file');
 
        // dd(env('CLOUDINARY_SECRET'), config('cloudinary.api_secret'));
 
         $result = (new UploadApi())->upload($file->getRealPath(), [
+            'context' => ['verify' => config('app.env') === 'local' ? false : true],
             'folder' => "properties/{$property->id}"
         ]);
 
