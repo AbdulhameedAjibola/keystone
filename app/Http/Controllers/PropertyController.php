@@ -197,16 +197,16 @@ class PropertyController extends Controller
 
         $this->authorize('update', $property);
 
-        // Configuration::instance([
-        //     'cloud' => [
-        //         'cloud_name' => config('cloudinary.cloud_name'),
-        //         'api_key'    => config('cloudinary.api_key'),
-        //         'api_secret' => config('cloudinary.api_secret'),
-        //     ],
-        //     'url' => [
-        //         'secure' => true
-        //     ]
-        // ]);
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => config('cloudinary.cloud_name'),
+                'api_key'    => config('cloudinary.api_key'),
+                'api_secret' => config('cloudinary.api_secret'),
+            ],
+            'url' => [
+                'secure' => true
+            ]
+        ]);
 
         $files = $request->file('files');
         $uploadedMedia = [];
@@ -214,15 +214,15 @@ class PropertyController extends Controller
         $fileArray = is_array($files) ? $files : [$files];
 
         foreach ($fileArray as $file) {
-             // $result = (new UploadApi())->upload($file->getRealPath(), [
-            //     'context' => ['verify' => config('app.env') === 'local' ? false : true],
-            //     'folder' => "properties/{$property->id}"
-            // ]);
-
-
-            $result = Cloudinary::upload($file->getRealPath(), [
+             $result = (new UploadApi())->upload($file->getRealPath(), [
+                'context' => ['verify' => config('app.env') === 'local' ? false : true],
                 'folder' => "properties/{$property->id}"
             ]);
+
+
+            // $result = Cloudinary::upload($file->getRealPath(), [
+            //     'folder' => "properties/{$property->id}"
+            // ]);
 
              $media = $property->media()->create([
              'public_id' => $result['public_id'],
