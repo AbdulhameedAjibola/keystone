@@ -111,6 +111,7 @@ Route::prefix('properties')->group(function () {
     Route::get('/', [PropertyController::class, 'index']);
     Route::get('search', [PropertyController::class, 'searchProperties']); // static first
     Route::get('{property}', [PropertyController::class, 'show']);
+    Route::get('{property}/virtual-tour', [PropertyController::class, 'getPropertyVideos']);
 });
 
 

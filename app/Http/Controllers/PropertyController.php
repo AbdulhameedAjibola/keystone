@@ -272,6 +272,11 @@ public function index(Request $request)
        
     }
 
+    public function getPropertyVideos(Property $property){
+        
+        return new MediaCollection($property->media()->where('type', 'video')->get());
+    }
+
     /**
      *  @subgroup Admin and Agent property management
      * get all inquries for a property
