@@ -55,28 +55,37 @@ class PropertyController extends Controller
      * 
      * @unauthenticated
      */
-    public function index(Request $request)
-    {
+   public function index(Request $request)
+{
+    $filter = new PropertyQuery();
+    $queryItems = $filter->transform($request);
 
-        $filter = new PropertyQuery();
-        $queryItems =  $filter->transform($request);
+    $query = Property::with('media');
 
-        $query = Property::query();
-
-         if(count($queryItems) > 0){
-            $query->where($queryItems);
-           
-        }
-
-        if($request->has('sortBy')){
-            $sortColumn = $request->get('sortBy', 'created_at');
-            $sortDirection = $request->get('sortDirection', 'asc');
-
-            $query->orderBy($sortColumn, $sortDirection);
-        }
-
-        return new PropertyCollection(Property::with('media')->where($queryItems)->paginate(15));
+    if (count($queryItems) > 0) {
+        $query->where($queryItems);
     }
+
+    $allowedSorts = ['created_at', 'price', 'bedrooms', 'bathrooms', 'title'];
+
+    $sortColumn = $request->get('sortBy', 'created_at');
+    $sortDirection = $request->get('sortDirection', 'asc');
+
+    if (!in_array($sortColumn, $allowedSorts)) {
+        $sortColumn = 'created_at';
+    }
+
+    $sortDirection = $sortDirection === 'desc' ? 'desc' : 'asc';
+
+    $query->orderBy($sortColumn, $sortDirection);
+
+    if (!$request->has('sortBy')) {
+    $query->orderBy('created_at', 'desc');
+    }
+
+
+    return new PropertyCollection($query->paginate(15));
+}
 
     /**
      * @subgroup agent only endpoints
