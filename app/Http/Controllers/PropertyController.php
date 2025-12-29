@@ -17,6 +17,8 @@ use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use App\Http\Requests\UploadPropertyMediaRequest;
 use App\Models\Agent;
+use Exception;
+use Illuminate\Container\Attributes\Log;
 
 /**
  * @group Property management
@@ -203,8 +205,10 @@ public function index(Request $request)
      */
     public function uploadMedia(UploadPropertyMediaRequest $request, Property $property)
     {
+        try{
 
-        $this->authorize('update', $property);
+
+             $this->authorize('update', $property);
 
         Configuration::instance([
             'cloud' => [
@@ -229,6 +233,7 @@ public function index(Request $request)
                 'folder' => "properties/{$property->id}"
             ]);
 
+           // $type = $file->getMimeType();
 
             // $result = Cloudinary::upload($file->getRealPath(), [
             //     'folder' => "properties/{$property->id}"
@@ -237,8 +242,8 @@ public function index(Request $request)
              $media = $property->media()->create([
              'public_id' => $result['public_id'],
              'url' => $result['secure_url'],
-             'type' => $request->input('type'),
-             'format' => $result['format'],
+             'type' => $result['resource_type'], 
+             'format' => $result['format'] ?? pathinfo($result['secure_url'], PATHINFO_EXTENSION),
              'size' => $result['bytes'],
              'collection' => 'property_media',
             ]);
@@ -253,6 +258,18 @@ public function index(Request $request)
         'message' => count($uploadedMedia) . ' file(s) uploaded successfully',
         'data' => $uploadedMedia
         ], 201);
+
+
+        } catch(Exception $e) {
+          
+           return response()->json([
+            'error' => $e->getMessage(),
+            'message' => 'File upload failed'
+        ], 400);
+           
+        }
+
+       
     }
 
     /**
