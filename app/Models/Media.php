@@ -18,6 +18,7 @@ class Media extends Model
         'type',
         'format',
         'size',
+        'collection'
     ];
 
     public function mediable(){

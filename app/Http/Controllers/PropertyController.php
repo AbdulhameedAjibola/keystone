@@ -240,7 +240,7 @@ class PropertyController extends Controller
        // dd(env('CLOUDINARY_SECRET'), config('cloudinary.api_secret'));
     
        return response()->json([
-        'message' => count($uploadedMedia) . 'file(s) uploaded successfully',
+        'message' => count($uploadedMedia) . ' file(s) uploaded successfully',
         'data' => $uploadedMedia
         ], 201);
     }
