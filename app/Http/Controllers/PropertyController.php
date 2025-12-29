@@ -63,7 +63,11 @@ public function index(Request $request)
     $queryItems = $filter->transform($request);
 
     // Start query with Eager Loading
-    $query = Property::with('media');
+    $query = Property::with([
+         'media' => function($q){
+            $q->where('type', 'image');
+        }
+        ])->get();
 
     // Apply Filters
     if (count($queryItems) > 0) {
