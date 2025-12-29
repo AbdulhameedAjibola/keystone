@@ -55,36 +55,36 @@ class PropertyController extends Controller
      * 
      * @unauthenticated
      */
-   public function index(Request $request)
+public function index(Request $request)
 {
     $filter = new PropertyQuery();
     $queryItems = $filter->transform($request);
 
+    // Start query with Eager Loading
     $query = Property::with('media');
 
+    // Apply Filters
     if (count($queryItems) > 0) {
         $query->where($queryItems);
     }
 
+    // Define Sorting Defaults
     $allowedSorts = ['created_at', 'price', 'bedrooms', 'bathrooms', 'title'];
-
-    $sortColumn = $request->get('sortBy', 'created_at');
+    
+    // Get sort parameters or set defaults
+    $sortColumn = $request->get('sortBy');
     $sortDirection = $request->get('sortDirection', 'asc');
 
-    if (!in_array($sortColumn, $allowedSorts)) {
-        $sortColumn = 'created_at';
+    // Logic: If user provided a valid sort, use it. Otherwise, default to newest first.
+    if ($sortColumn && in_array($sortColumn, $allowedSorts)) {
+        $direction = ($sortDirection === 'desc') ? 'desc' : 'asc';
+        $query->orderBy($sortColumn, $direction);
+    } else {
+        // Default global sort: Most recently created
+        $query->latest(); 
     }
 
-    $sortDirection = $sortDirection === 'desc' ? 'desc' : 'asc';
-
-    $query->orderBy($sortColumn, $sortDirection);
-
-    if (!$request->has('sortBy')) {
-    $query->orderBy('created_at', 'desc');
-    }
-
-
-    return new PropertyCollection($query->paginate(15));
+    return new PropertyCollection($query->paginate(15)->withQueryString());
 }
 
     /**
