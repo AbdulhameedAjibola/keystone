@@ -241,7 +241,7 @@ class PropertyController extends Controller
     
        return response()->json([
         'message' => count($uploadedMedia) . 'file(s) uploaded successfully',
-        'data' => new MediaResource($uploadedMedia)
+        'data' => $uploadedMedia
         ], 201);
     }
 
