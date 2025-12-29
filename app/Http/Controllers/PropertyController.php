@@ -216,6 +216,7 @@ class PropertyController extends Controller
         foreach ($fileArray as $file) {
              $result = (new UploadApi())->upload($file->getRealPath(), [
                 'context' => ['verify' => config('app.env') === 'local' ? false : true],
+                'resource_type' => 'auto',
                 'folder' => "properties/{$property->id}"
             ]);
 
