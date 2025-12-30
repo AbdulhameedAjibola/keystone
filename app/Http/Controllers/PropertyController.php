@@ -10,7 +10,6 @@ use App\Services\PropertyQuery;
 use Illuminate\Http\Request;
 use Cloudinary\Api\Upload\UploadApi;
 use Cloudinary\Configuration\Configuration;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Http\Resources\PropertyResource;
 use App\Http\Resources\PropertyCollection;
 use App\Http\Requests\StorePropertyRequest;
@@ -67,7 +66,7 @@ public function index(Request $request)
          'media' => function($q){
             $q->where('type', 'image');
         }
-        ])->get();
+        ]);
 
     // Apply Filters
     if (count($queryItems) > 0) {
@@ -75,7 +74,7 @@ public function index(Request $request)
     }
 
     // Define Sorting Defaults
-    $allowedSorts = ['created_at', 'price', 'bedrooms', 'bathrooms', 'title'];
+    $allowedSorts = ['created_at', 'price'];
     
     // Get sort parameters or set defaults
     $sortColumn = $request->get('sortBy');
@@ -280,6 +279,15 @@ public function index(Request $request)
        
     }
 
+    /**
+     *  @subgroup Agent property management
+     * Get Videos for Virtual Tour
+     * 
+     * This endpoint takes the property id as a parameter
+     * Then it fetches only the videos for that property
+     * 
+     * 
+     */
     public function getPropertyVideos(Property $property){
         
         return new MediaCollection($property->media()->where('type', 'video')->get());
