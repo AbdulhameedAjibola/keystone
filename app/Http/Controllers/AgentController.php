@@ -13,6 +13,8 @@ use App\Http\Requests\UpdateAgentRequest;
 use App\Http\Requests\UploadAgentVerificationRequest;
 use App\Http\Resources\AgentCollection;
 use App\Http\Resources\AgentResource;
+use App\Models\Inquiry;
+use App\Models\User;
 
 /**
  * @group Agent Management
@@ -156,11 +158,29 @@ class AgentController extends Controller
         $properties = $agent->properties()->get();
 
         
-        $propAmount = $properties->count();
+        
 
         return response()->json([
             'properties' => new PropertyCollection($properties),
-            'Property Count' => $propAmount
+            
+        ]);
+    }
+
+    public function agentDashboard(){
+        $agent = auth('api-agent')->user();
+        
+        $properties = count($agent->properties()->get());
+        $propertiesWithInquiries = count($agent->properties()->whereHas('inquiries')->get());
+        $totalInquiries = Inquiry::whereHas('property', 
+        function ($q) use ($agent) {
+            $q->where('agent_id', $agent->id);
+        })->count();
+
+        return response()->json([
+            'properties'=>$properties,
+            'propertiesWithInquiries'=>$propertiesWithInquiries,
+            
+            'totalInquiries'=>$totalInquiries
         ]);
     }
 
@@ -229,4 +249,24 @@ class AgentController extends Controller
         $agent->save();
         return response()->json(['message'=>'Agent verified successfully'],200);
     }
+
+    public function adminSummary(){
+        $pending = Agent::where('status', 'pending')->get()->count();
+        $approved = Agent::where('status', 'approved')->get()->count();
+        $rejected = Agent::where('status', 'rejected')->get()->count();
+        $properties = Property::all()->count();
+        $inquiries = Inquiry::all()->count();
+        $users = User::where('role', 'user')->get()->count();
+        return response()->json([
+            'pending'=>$pending,
+            'approved'=>$approved,
+            'rejected'=>$rejected,
+            'totalProperties'=>$properties,
+            'totalInquiries'=>$inquiries,
+            'totalUsers'=>$users
+        ]);
+
+    }
+
+    
 }

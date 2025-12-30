@@ -22,14 +22,13 @@ class StoreCareerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
+           
             'title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
+        
             'type' => 'required|string|in:full-time,part-time,contract, internship',
             'description' => 'required|string',
-            'requirements' => 'required|string',
-            'salary' => 'nullable|string|max:100',
-            'is_active' => 'required|boolean|default:true',
+            
+           
             'application_deadline' => 'nullable|date',
 
         ];
@@ -37,8 +36,7 @@ class StoreCareerRequest extends FormRequest
 
     protected function prepareForValidation(){
         $this->merge([
-            'user_id' => $this->userId,
-            "is_active" => $this->isActive,
+
             'application_deadline' => $this->applicationDeadline,
         ]);
     }

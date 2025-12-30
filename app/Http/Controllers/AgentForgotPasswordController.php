@@ -27,7 +27,7 @@ use Illuminate\Support\Str;
 class AgentForgotPasswordController extends Controller
 {
     protected int $otpDurationMinutes = 10;
-    protected string $guard = 'agent';
+    protected string $guard = 'api-agent';
 
     /**
      * Send Password Reset OTP to Agent Email

@@ -8,7 +8,8 @@ use App\Models\Career;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCareerRequest;
 use App\Http\Requests\UpdateCareerRequest;
-
+use App\Jobs\SendJobApplication;
+use Exception;
 
 /**
  * @group Careers management (JOBS)
@@ -46,7 +47,9 @@ class CareerController extends Controller
      */
     public function store(StoreCareerRequest $request)
     {
-        return new CareerResource(Career::create($request->all()));
+        $user = auth('sanctum')->user();
+        $newJob = $user->careers()->create($request->validated());
+        return new CareerResource($newJob);
     }
 
     /**
@@ -65,8 +68,14 @@ class CareerController extends Controller
      */
     public function update(UpdateCareerRequest $request, Career $career)
     {
-        $career->update($request->all());
-        return new CareerResource($career);
+
+        $this->authorize('update', $career);
+
+        $admin = auth('sanctum')->user();
+
+        $updated = $admin->careers()->update($request->validated());
+        
+        return new CareerResource($updated);
     }
 
     /**
@@ -74,6 +83,10 @@ class CareerController extends Controller
      */
     public function delete(Career $career)
     {
+
+        $this->authorize('delete', $career);
+
+
         $career->delete();
         return response()->json(['message' => "Career deleted successfully"]);
     }
@@ -94,7 +107,7 @@ class CareerController extends Controller
      */
     public function search(Request $request){
 
-         $allowedColumns = ['title', '', 'location', 'type'];
+         $allowedColumns = ['title', 'location', 'type'];
 
         $column = $request->input('column', 'title');
 
@@ -114,6 +127,9 @@ class CareerController extends Controller
      */
 
     public function careerToggle(Career $career){
+
+        $this->authorize('update', $career);
+
         $career->is_active = !$career->is_active;
         $career->save();
 
@@ -127,11 +143,20 @@ class CareerController extends Controller
      * you can get the id from the data restored from the get-deleted endpoint
      */
 
-    public function restore($id){
-        $career = Career::withTrashed()->findOrFail($id);
-        $career->restore();
+    public function restore(Career $career){
 
-        return new CareerResource($career);
+        $this->authorize('restore', $career);
+
+        $career = Career::withTrashed()->findOrFail($career->id);
+        $career->restore();
+        $career->refresh();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Career restored successfully',
+            'career' =>  new CareerResource($career)
+
+        ]);
     }
     
      /**
@@ -146,13 +171,48 @@ class CareerController extends Controller
    
 
     /**
-     * get all deleted careers
+     * Permanently delete a career
      * 
      * this endpoint is to permanently delete a career
      */
     public function destroy(Career $career){
+
+        $this->authorize('forceDelete', $career);
+
         Career::find($career->id)->forceDelete();
         return response()->json(['message' => "Career deleted successfully"]);
     }
     
+
+    public function sendJobApplication(Request $request){
+        try{
+
+              $request->validate([
+                'name' => 'required',
+                'email' => 'required|email',
+                'phoneNumber' => 'required',
+                'jobTitle' => 'required',
+                'applicantMessage' => 'required',
+                'resume' => 'required|file|mimes:pdf|max:5120',
+            ]);
+
+            $tempPath = $request->file('resume')->store('temp');
+
+            SendJobApplication::dispatch(
+                $request->name,
+                $request->email,
+                $request->phoneNumber,
+                $request->jobTitle,
+                $request->applicantMessage,
+                $tempPath
+            );
+
+            return response()->json(['message' => 'Job application sent successfully']);
+
+
+        } catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()]);
+        }
+      
+    }
 }

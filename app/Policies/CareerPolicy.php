@@ -37,7 +37,7 @@ class CareerPolicy
      */
     public function update(User $user, Career $career): bool
     {
-        return false;
+        return $user->id === $career->user_id;
     }
 
     /**
@@ -45,22 +45,22 @@ class CareerPolicy
      */
     public function delete(User $user, Career $career): bool
     {
-        return false;
+        return $user->id === $career->user_id;
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can restore the career.
      */
     public function restore(User $user, Career $career): bool
     {
-        return false;
+        return $user->id === $career->user_id;
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete the career
      */
     public function forceDelete(User $user, Career $career): bool
     {
-        return false;
+        return $user->id === $career->user_id;
     }
 }

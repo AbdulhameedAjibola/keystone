@@ -13,7 +13,7 @@ class Career extends Model
 
 
     protected $fillable = [
-    'user_id',
+    
     'title',
     'location',
     'type',

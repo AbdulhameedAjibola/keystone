@@ -25,7 +25,7 @@ class UpdatePropertyRequest extends FormRequest
 
         if($method === 'PUT'){
             return[
-                 'agent_id' => 'required|integer|exists:agents,id',
+                 
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric',
@@ -42,7 +42,7 @@ class UpdatePropertyRequest extends FormRequest
             ];
         }else{
             return[
-                 'agent_id' => 'sometimes|required|integer|exists:agents,id',
+                
                 'title' => 'sometimes|required|string|max:255',
                 'description' => 'sometimes|required|string',
                 'price' => 'sometimes|required|numeric',
@@ -61,7 +61,7 @@ class UpdatePropertyRequest extends FormRequest
 
      protected function prepareForValidation(){
         $this->merge([
-            'agent_id' => $this->agentId,
+            
             'property_type' => $this->propertyType,
             'listing_type' => $this->listingType,
 

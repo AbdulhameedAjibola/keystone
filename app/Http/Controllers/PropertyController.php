@@ -145,8 +145,12 @@ public function index(Request $request)
     {
         $this->authorize("update", $property);
 
-        $property->update($request->all());
-        return new PropertyResource($property);
+        $agent = auth('api-agent')->user();
+
+       $updated =  $agent->property()->update($request->validated());
+
+       
+        return new PropertyResource($updated);
     }
 
     /**
