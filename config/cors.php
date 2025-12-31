@@ -22,7 +22,7 @@ return [
     'allowed_origins' => [
         'http://localhost:3000', 
         'http://localhost:5173',
-        'https://keystone-realestate.vercel.app/'
+        'https://keystone-realestate.vercel.app'
     ],
 
     'allowed_origins_patterns' => [],
