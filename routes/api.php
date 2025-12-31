@@ -17,9 +17,15 @@ use App\Http\Controllers\AgentAuthController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Resources\UserResource;
 
-//admin auth endpoints
+Route::middleware('throttle:guest')->group(function(){
+
+    //admin auth endpoints
 Route::post('/admin/register', [AdminAuthController::class, 'registerAdmin']);
 Route::post('/admin/login', [AdminAuthController::class, 'loginAdmin']);
+
+});
+
+
 
 
 
@@ -36,7 +42,7 @@ Route::post('/admin/login', [AdminAuthController::class, 'loginAdmin']);
 
 Route::get('/user-profile', function (Request $request) {
     return new UserResource($request->user());
-})->middleware('auth:sanctum');
+})->middleware(['auth:sanctum', 'throttle:api']);
 
 /**
  *
@@ -51,7 +57,7 @@ Route::get('/user-profile', function (Request $request) {
 
 Route::get('/agent-profile', function (Request $request) {
     return new AgentResource($request->user());
-})->middleware('auth:api-agent');
+})->middleware(['auth:api-agent', 'throttle:api']);
 
 
 /**
@@ -82,7 +88,7 @@ Route::prefix('auth')->group(function () {
 
     Route::post('email/send', [UserEmailVerificationController::class, 'sendVerificationOTP']);
     Route::post('email/verify', [UserEmailVerificationController::class, 'verify']);
-});
+})->middleware('throttle:guest');
 
 
 /*
@@ -99,7 +105,7 @@ Route::prefix('agent')->group(function () {
 
     Route::post('email/send', [AgentEmailVerificationController::class, 'sendVerificationOTP']);
     Route::post('email/verify', [AgentEmailVerificationController::class, 'verify']);
-});
+})->middleware('throttle:guest');
 
 
 /*
@@ -107,7 +113,8 @@ Route::prefix('agent')->group(function () {
 | PUBLIC PROPERTY ROUTES
 |--------------------------------------------------------------------------
 */
-Route::prefix('properties')->group(function () {
+Route::prefix('properties')->middleware('throttle:public-properties')
+->group(function () {
     Route::get('/', [PropertyController::class, 'index']);
     Route::get('search', [PropertyController::class, 'searchProperties']); // static first
     Route::get('{property}', [PropertyController::class, 'show']);
@@ -120,7 +127,8 @@ Route::prefix('properties')->group(function () {
 | PUBLIC CAREERS ROUTES
 |--------------------------------------------------------------------------
 */
-Route::prefix('careers')->group(function () {
+Route::prefix('careers')->middleware('throttle:guest')
+->group(function () {
     Route::get('/', [CareerController::class, 'index']);
     Route::get('search', [CareerController::class, 'search']); // static first
     Route::get('{career}', [CareerController::class, 'show']);
@@ -133,7 +141,7 @@ Route::prefix('careers')->group(function () {
 | AUTHENTICATED USER ROUTES
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
 
     Route::post('auth/logout', [AuthController::class, 'logoutUser']);
 
@@ -151,7 +159,7 @@ Route::middleware('auth:sanctum')->group(function () {
 | AUTHENTICATED AGENT ROUTES
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth:api-agent'])->group(function () {
+Route::middleware(['auth:api-agent', 'throttle:api'])->group(function () {
 
     Route::post('agent/logout', [AgentAuthController::class, 'logoutAgent']);
 
@@ -177,7 +185,7 @@ Route::middleware(['auth:api-agent'])->group(function () {
 | VERIFIED AGENT PROPERTY MANAGEMENT
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth:api-agent', 'agent.verified'])->group(function () {
+Route::middleware(['auth:api-agent', 'agent.verified', 'throttle:api'])->group(function () {
 
     Route::prefix('properties')->group(function () {
         Route::post('/', [PropertyController::class, 'store']);

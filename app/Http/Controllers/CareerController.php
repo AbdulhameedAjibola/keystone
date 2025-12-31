@@ -184,6 +184,18 @@ class CareerController extends Controller
     }
     
 
+    /**
+     * Send a job application
+     * 
+     * this endpoint is to send a job application
+     * 
+     * @bodyParam name string required The name of the person applying for the job
+     * @bodyParam email string required The email of the person applying for the job
+     * @bodyParam phoneNumber string required The phone number of the person applying for the job
+     * @bodyParam jobTitle string required The title of the job
+     * @bodyParam applicantMessage string required The description/cover letter/ brief summary of the person applying for the job
+     * @bodyParam resume file required The resume of the person applying for the job
+     */
     public function sendJobApplication(Request $request){
         try{
 

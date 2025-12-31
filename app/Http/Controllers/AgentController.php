@@ -143,6 +143,30 @@ class AgentController extends Controller
     }
 
     /**
+     * Agent Dashboard Endpoint
+     * 
+     * this is an endpoint for the agent to get their dashboard data
+     * currently it returns the number of properties, properties with inquiries, and total inquiries
+     */
+    public function agentDashboard(){
+        $agent = auth('api-agent')->user();
+        
+        $properties = count($agent->properties()->get());
+        $propertiesWithInquiries = count($agent->properties()->whereHas('inquiries')->get());
+        $totalInquiries = Inquiry::whereHas('property', 
+        function ($q) use ($agent) {
+            $q->where('agent_id', $agent->id);
+        })->count();
+
+        return response()->json([
+            'properties'=>$properties,
+            'propertiesWithInquiries'=>$propertiesWithInquiries,
+            
+            'totalInquiries'=>$totalInquiries
+        ]);
+    }
+
+    /**
      * @subgroup Admin Agent Management
      * @subgroupDescription These endpoints are available to admins only to manage agents 
      * 
@@ -166,23 +190,6 @@ class AgentController extends Controller
         ]);
     }
 
-    public function agentDashboard(){
-        $agent = auth('api-agent')->user();
-        
-        $properties = count($agent->properties()->get());
-        $propertiesWithInquiries = count($agent->properties()->whereHas('inquiries')->get());
-        $totalInquiries = Inquiry::whereHas('property', 
-        function ($q) use ($agent) {
-            $q->where('agent_id', $agent->id);
-        })->count();
-
-        return response()->json([
-            'properties'=>$properties,
-            'propertiesWithInquiries'=>$propertiesWithInquiries,
-            
-            'totalInquiries'=>$totalInquiries
-        ]);
-    }
 
     //ADMIN CONTROLLER FUNCTIONS FOR AGENTS
 
@@ -193,8 +200,8 @@ class AgentController extends Controller
      * 
      */
     public function getUnverifiedAgents(){
-           
-        return new AgentCollection(Agent::where('status', 'pending')->get());
+        $unverifiedAgents = Agent::where('status', 'pending')->with('media')->paginate(15);
+        return new AgentCollection($unverifiedAgents);
     }
 
      /**
@@ -249,6 +256,15 @@ class AgentController extends Controller
         $agent->save();
         return response()->json(['message'=>'Agent verified successfully'],200);
     }
+
+
+    /**
+     * @subgroup Admin Agent Management
+     * 
+     * this endpoint is basically a dashboard for the admin
+     * it returns the total number of agents, properties, inquiries, and users
+     * 
+     */
 
     public function adminSummary(){
         $pending = Agent::where('status', 'pending')->get()->count();
