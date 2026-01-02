@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCareerRequest;
 use App\Http\Requests\UpdateCareerRequest;
 use App\Jobs\SendJobApplication;
+use App\Models\User;
 use Exception;
 
 /**
@@ -37,7 +38,7 @@ class CareerController extends Controller
      */
     public function index()
     {
-        return new CareerCollection(Career::paginate(15));
+        return new CareerCollection(Career::where('is_active', true)->paginate(15));
     }
 
    
@@ -47,10 +48,12 @@ class CareerController extends Controller
      */
     public function store(StoreCareerRequest $request)
     {
-        $user = auth('sanctum')->user();
-        dd($user);
-        // $newJob = $user->careers()->create($request->validated());
-        // return new CareerResource($newJob);
+        $this->authorize('create', Career::class);
+
+        $admin = auth('admin')->user();
+        // dd($user);
+        $newJob = $admin->careers()->create($request->validated());
+        return new CareerResource($newJob);
     }
 
     /**
