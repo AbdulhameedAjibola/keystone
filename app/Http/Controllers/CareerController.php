@@ -48,8 +48,9 @@ class CareerController extends Controller
     public function store(StoreCareerRequest $request)
     {
         $user = auth('admin')->user();
-        $newJob = $user->careers()->create($request->validated());
-        return new CareerResource($newJob);
+        dd($user);
+        // $newJob = $user->careers()->create($request->validated());
+        // return new CareerResource($newJob);
     }
 
     /**

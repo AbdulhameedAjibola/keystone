@@ -245,18 +245,7 @@ Route::middleware('admin')->group(function () {
     | Career Management
     |--------------------------------------------------------------------------
     */
-    Route::prefix('careers')->group(function () {
-        Route::post('/', [CareerController::class, 'store']);
-        Route::put('{career}', [CareerController::class, 'update']);
-        Route::patch('{career}', [CareerController::class, 'update']);
-
-        Route::delete('{career}', [CareerController::class, 'delete']);
-        Route::delete('{career}/destroy', [CareerController::class, 'destroy']);
-
-        Route::patch('{id}/restore', [CareerController::class, 'restore']);
-        Route::get('get-deleted', [CareerController::class, 'getDeleted']);
-        Route::patch('{career}/toggle', [CareerController::class, 'careerToggle']);
-    });
+   
 
     /*
     |--------------------------------------------------------------------------
@@ -272,6 +261,19 @@ Route::middleware('admin')->group(function () {
     });
 
 });
+
+ Route::prefix('careers')->group(function () {
+        Route::post('/', [CareerController::class, 'store']);
+        Route::put('{career}', [CareerController::class, 'update']);
+        Route::patch('{career}', [CareerController::class, 'update']);
+
+        Route::delete('{career}', [CareerController::class, 'delete']);
+        Route::delete('{career}/destroy', [CareerController::class, 'destroy']);
+
+        Route::patch('{id}/restore', [CareerController::class, 'restore']);
+        Route::get('get-deleted', [CareerController::class, 'getDeleted']);
+        Route::patch('{career}/toggle', [CareerController::class, 'careerToggle']);
+    });
 
 
 
