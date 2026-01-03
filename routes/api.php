@@ -221,7 +221,7 @@ Route::middleware('admin.agent')->group(function () {
 | ADMIN ROUTES
 |--------------------------------------------------------------------------
 */
-Route::middleware('admin')->group(function () {
+Route::middleware(['admin', 'throttle:api', 'auth:admin'])->group(function () {
 
     Route::post('admin/logout', [AdminAuthController::class, 'logoutAdmin']);
     Route::get('admin/dashboard', [AgentController::class, 'adminSummary']);

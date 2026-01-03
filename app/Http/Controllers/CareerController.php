@@ -51,7 +51,7 @@ class CareerController extends Controller
         $this->authorize('create', Career::class);
 
         $admin = auth('admin')->user();
-        // dd($user);
+        // dd($admin);
         $newJob = $admin->careers()->create($request->validated());
         return new CareerResource($newJob);
     }
