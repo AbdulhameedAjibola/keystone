@@ -17,6 +17,11 @@ class InquiryPolicy
         return $inquiry->user_id === $user->id;
     }
 
+    public function create(User $user): bool
+    {
+        return true;
+    }
+
    
 
     /**

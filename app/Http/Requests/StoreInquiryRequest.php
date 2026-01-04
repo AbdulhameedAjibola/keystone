@@ -22,7 +22,7 @@ class StoreInquiryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'nullable|integer|exists:users,id',
+           
             'property_id' => 'required|integer|exists:properties,id',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
@@ -34,7 +34,7 @@ class StoreInquiryRequest extends FormRequest
 
     protected function prepareForValidation(){
         $this->merge([
-            'user_id' => $this->userId,
+           
             'property_id' => $this->propertyId,
             'phone_number' => $this->phoneNumber,
             'appointment_date' => $this->appointmentDate,

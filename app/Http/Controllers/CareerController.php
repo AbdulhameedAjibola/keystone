@@ -208,7 +208,7 @@ class CareerController extends Controller
                 'email' => 'required|email',
                 'phoneNumber' => 'required',
                 'jobTitle' => 'required',
-                'applicantMessage' => 'required',
+                'applicantMessage' => 'nullable',
                 'resume' => 'required|file|mimes:pdf|max:5120',
             ]);
 

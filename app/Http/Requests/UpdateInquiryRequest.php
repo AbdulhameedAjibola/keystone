@@ -25,7 +25,7 @@ class UpdateInquiryRequest extends FormRequest
         $method = $this->method();
         if($method === 'PUT') {
             return [
-                 'user_id' => 'nullable|integer|exists:users,id',
+                 
                 'property_id' => 'required|integer|exists:properties,id',
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
@@ -35,7 +35,7 @@ class UpdateInquiryRequest extends FormRequest
             ];
         } else{
             return [
-                'user_id' => 'sometimes|nullable|integer|exists:users,id',
+               
                 'property_id' => 'sometimes|required|integer|exists:properties,id',
                 'name' => 'sometimes|required|string|max:255',
                 'email' => 'sometimes|required|string|email|max:255',

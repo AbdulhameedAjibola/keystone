@@ -45,16 +45,16 @@ class InquiryController extends Controller
      * if you want, I can add in an endpoint for the agent to get only inquiries with appointment dates to provide a way to view the appointments
      */
     public function store(Property $property, StoreInquiryRequest $request)
-    {
-        $user = auth('sanctum')->user();
-       $data = $request->validated();
-    
-    // Override user_id with authenticated user
-    $data['user_id'] = $user->id; 
-    
-    $inquiry = $property->inquiries()->create($data);
-    
-    return new InquiryResource($inquiry);
+        {
+            $user = auth('sanctum')->user();
+        $data = $request->validated();
+        
+        // Override user_id with authenticated user
+        $data['user_id'] = $user->id; 
+        
+        $inquiry = $property->inquiries()->create($data);
+        
+        return new InquiryResource($inquiry);
     }
      
 

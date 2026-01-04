@@ -132,6 +132,7 @@ Route::prefix('careers')->middleware('throttle:guest')
     Route::get('/', [CareerController::class, 'index']);
     Route::get('search', [CareerController::class, 'search']); // static first
     Route::get('{career}', [CareerController::class, 'show']);
+    Route::post('careers/apply', [CareerController::class, 'sendJobApplication']);
 });
 
 
@@ -145,7 +146,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
 
     Route::post('auth/logout', [AuthController::class, 'logoutUser']);
 
-    Route::post('careers/apply', [CareerController::class, 'sendJobApplication']);
+    
     Route::prefix('inquiries')->group(function () {
         Route::post('/{property}', [InquiryController::class, 'store']);
         Route::get('/my-inquiries', [InquiryController::class, 'getUserInquiries']);
