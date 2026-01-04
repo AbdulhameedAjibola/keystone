@@ -223,7 +223,7 @@ class CareerController extends Controller
                 $tempPath
             );
 
-            return response()->json(['message' => 'Job application sent successfully']);
+            return response()->json(['message' => 'Job application sent successfully'], 401);
 
 
         } catch(Exception $e){
