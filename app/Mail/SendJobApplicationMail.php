@@ -63,10 +63,10 @@ class SendJobApplicationMail extends Mailable
      */
     public function attachments(): array
     {
-        $fullPath = storage_path('app/' . $this->resume);
+      
         return [
-            Attachment::fromPath($fullPath)
-            ->as(basename($this->resume))
+            Attachment::fromPath($this->resume)
+            ->as('Resume-' . str_replace(' ', '-', $this->name) . '.pdf')
             ->withMime('application/pdf')
         ];
     }

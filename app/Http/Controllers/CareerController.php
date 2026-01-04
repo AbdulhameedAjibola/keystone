@@ -9,8 +9,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCareerRequest;
 use App\Http\Requests\UpdateCareerRequest;
 use App\Jobs\SendJobApplication;
+use App\Mail\SendJobApplicationMail;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @group Careers management (JOBS)
@@ -203,7 +206,7 @@ class CareerController extends Controller
     public function sendJobApplication(Request $request){
         try{
 
-              $request->validate([
+             $validated =  $request->validate([
                 'name' => 'required',
                 'email' => 'required|email',
                 'phoneNumber' => 'required',
@@ -212,23 +215,26 @@ class CareerController extends Controller
                 'resume' => 'required|file|mimes:pdf|max:5120',
             ]);
 
-            $tempPath = $request->file('resume')->store('temp');
+           $resumePath = $request->file('resume')->getRealPath();
 
-            SendJobApplication::dispatch(
-                $request->name,
-                $request->email,
-                $request->phoneNumber,
-                $request->jobTitle,
-                $request->applicantMessage,
-                $tempPath
-            );
+            Mail::to('ajibolaabdulhameed11@gmail.com')
+        ->send(new SendJobApplicationMail(
+            $validated['name'],
+            $validated['email'],
+            $validated['phoneNumber'],
+            $validated['jobTitle'],
+            $validated['applicantMessage'] ?? '', // Handle nullable
+            $resumePath // Pass the real system path
+        ));
 
-            return response()->json(['message' => 'Job application sent successfully'], 401);
+            return response()->json(['message' => 'Job application sent successfully'], 200);
 
 
-        } catch(Exception $e){
-            return response()->json(['message' => $e->getMessage()]);
-        }
+        } catch(Exception $e) {
+       
+        Log::error("Job Dispatch Failed: " . $e->getMessage());
+        return response()->json(['message' => 'Something went wrong'], 500);
+    }
       
     }
 }
