@@ -36,7 +36,7 @@ class SendJobApplication implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to('akoredeajibola091@gmail.com')
+        Mail::to('ajibolaabdulhameed11@gmail.com')
             ->send(
                 new SendJobApplicationMail(
                 $this->name,
