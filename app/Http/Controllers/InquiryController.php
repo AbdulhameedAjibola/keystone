@@ -7,7 +7,9 @@ use App\Http\Requests\StoreInquiryRequest;
 use App\Http\Requests\UpdateInquiryRequest;
 use App\Http\Resources\InquiryCollection;
 use App\Http\Resources\InquiryResource;
+use App\Mail\NewInquiry;
 use App\Models\Property;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @group User Inquiries management
@@ -53,7 +55,9 @@ class InquiryController extends Controller
         $data['user_id'] = $user->id; 
         
         $inquiry = $property->inquiries()->create($data);
-        
+        $agentEmail = $property->agent->email;
+
+        Mail::to($agentEmail)->send(new NewInquiry());
         return new InquiryResource($inquiry);
     }
      
