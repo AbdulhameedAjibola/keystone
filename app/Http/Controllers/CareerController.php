@@ -217,7 +217,7 @@ class CareerController extends Controller
 
            $resumePath = $request->file('resume')->getRealPath();
 
-            Mail::to('ajibolaabdulhameed11@gmail.com')
+            Mail::to('akoredeajibola091@gmail.com')
         ->send(new SendJobApplicationMail(
             $validated['name'],
             $validated['email'],
