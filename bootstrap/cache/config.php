@@ -358,7 +358,7 @@
     array (
       0 => 'http://localhost:3000',
       1 => 'http://localhost:5173',
-      2 => 'https://keystone-realestate.vercel.app/',
+      2 => 'https://keystone-realestate.vercel.app',
     ),
     'allowed_origins_patterns' => 
     array (
@@ -652,7 +652,7 @@
   ),
   'mail' => 
   array (
-    'default' => 'smtp',
+    'default' => 'resend',
     'mailers' => 
     array (
       'smtp' => 
@@ -660,10 +660,10 @@
         'transport' => 'smtp',
         'scheme' => NULL,
         'url' => NULL,
-        'host' => 'sandbox.smtp.mailtrap.io',
-        'port' => '2525',
-        'username' => '336765d9b614f4',
-        'password' => '2ab59299294beb',
+        'host' => '127.0.0.1',
+        'port' => 2525,
+        'username' => NULL,
+        'password' => NULL,
         'timeout' => NULL,
         'local_domain' => 'localhost',
       ),
@@ -716,7 +716,7 @@
     ),
     'from' => 
     array (
-      'address' => 'hello@example.com',
+      'address' => 'akoredeajibola091@gmail.com',
       'name' => 'Laravel',
     ),
     'markdown' => 
@@ -1054,7 +1054,7 @@
     ),
     'resend' => 
     array (
-      'key' => NULL,
+      'key' => 're_EbkV5HYb_BuqL876gktryLP1Ze4apYeKQ',
     ),
     'ses' => 
     array (
@@ -1093,6 +1093,17 @@
     'http_only' => true,
     'same_site' => 'lax',
     'partitioned' => false,
+  ),
+  'resend' => 
+  array (
+    'api_key' => 're_EbkV5HYb_BuqL876gktryLP1Ze4apYeKQ',
+    'domain' => NULL,
+    'path' => 'resend',
+    'webhook' => 
+    array (
+      'secret' => NULL,
+      'tolerance' => 300,
+    ),
   ),
   'tinker' => 
   array (
