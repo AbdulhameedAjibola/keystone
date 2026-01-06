@@ -233,7 +233,10 @@ class CareerController extends Controller
         } catch(Exception $e) {
        
         Log::error("Job Dispatch Failed: " . $e->getMessage());
-        return response()->json(['message' => 'Something went wrong'], 500);
+        return response()->json([
+            'message' => 'Something went wrong',
+            'error' => $e->getMessage()
+        ], 500);
     }
       
     }

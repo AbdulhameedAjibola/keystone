@@ -24,6 +24,7 @@ return [
         'http://localhost:5173',
         'https://keystone-realestate.vercel.app',
         'https://www.keystonerealestatepartners.co'
+        
     ],
 
     'allowed_origins_patterns' => [],
