@@ -166,7 +166,7 @@ public function index(Request $request)
         $this->authorize("delete", $property);
 
         $property->delete();
-        return response()->json(['message' => 'Property deleted Successfully']);
+        return response()->json(['message' => 'Property deleted Successfully'], 200);
 
     }
 
