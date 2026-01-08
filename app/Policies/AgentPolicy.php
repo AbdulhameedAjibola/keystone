@@ -8,6 +8,9 @@ use Illuminate\Auth\Access\Response;
 
 class AgentPolicy
 {
+    public function update(Agent $authenticatedAgent, Agent $agent){
+        return $authenticatedAgent->id === $agent->id;
+    }
    //agent can only start verification for themselves
     public function startVerification(Agent $agent, Agent $target){
         return $agent->id === $target->id;

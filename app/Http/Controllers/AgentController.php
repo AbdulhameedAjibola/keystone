@@ -138,9 +138,7 @@ class AgentController extends Controller
         'collection'=> 'agent_verification',
         ]);
 
-        $status = $agent->hasVerificationMedia() ? 'pending' : $agent->status;
-        $agent->status = $status;
-        $agent->save();
+       
 
         return response()->json(['message' => 'Verification document uploaded successfully.', 'document' => $document], 200);
 
