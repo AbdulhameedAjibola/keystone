@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('type', ['image','video','document'])->nullable();     
             $table->string('format')->nullable();   
             $table->integer('size')->nullable(); 
-            $table->string('collection')->nullable();   
+            $table->enum('collection', ['property_media', 'agent_verification'])->nullable();   
             $table->timestamps();
         });
     }

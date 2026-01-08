@@ -129,16 +129,20 @@ class AgentController extends Controller
             'folder' => "agent_verifications/{$agent->id}"
         ]);
 
-        $agent->media()->create([
+       $document = $agent->media()->create([
              'public_id' => $result['public_id'],
         'url'       => $result['secure_url'],
         'type'      => 'image',
         'format'    => $result['format'],
         'size'      => $result['bytes'],
-        'collection'=> 'agent_verifications',
+        'collection'=> 'agent_verification',
         ]);
 
-        return response()->json(['message' => 'Verification document uploaded successfully.'], 200);
+        $status = $agent->hasVerificationMedia() ? 'pending' : $agent->status;
+        $agent->status = $status;
+        $agent->save();
+
+        return response()->json(['message' => 'Verification document uploaded successfully.', 'document' => $document], 200);
 
     }
 

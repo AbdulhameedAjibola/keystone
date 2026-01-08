@@ -20,7 +20,7 @@ return new class extends Migration
             $table->datetime('email_verified_at')->nullable();
             $table->string('role')->default('agent');
             $table->string('verification_code')->nullable();
-            $table->enum('status', ['pending','approved','rejected'])->default('pending');
+            $table->enum('status', ['unverified','pending','approved','rejected'])->default('unverified');
             $table->string('phone_number');
             $table->string('address');
             $table->string('city')->nullable();
