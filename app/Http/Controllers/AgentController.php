@@ -181,7 +181,7 @@ class AgentController extends Controller
         $agent = auth('api-agent')->user();
 
         
-        $properties = $agent->properties()->get();
+        $properties = $agent->properties()->with('media')->get();
 
         
         
@@ -203,7 +203,7 @@ class AgentController extends Controller
      */
     public function getUnverifiedAgents(){
     $unverifiedAgents = Agent::where('status', 'pending')
-        ->whereHas('verificationMedia')
+        ->with('verificationMedia')
         ->paginate(15);
         return response()->json([
             'agents'=>$unverifiedAgents
