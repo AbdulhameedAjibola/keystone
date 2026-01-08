@@ -26,15 +26,15 @@ return [
     // If you're using `laravel` type, you can set this to a dynamic string, like '{{ config("app.tenant_url") }}' to get a dynamic base URL.
     'base_url' => config("app.url"),
 
-    'auth' => [
-    'enabled' => true,
-    'default' => true,  // ✅ Auth is default
-    'in' => 'bearer',
-    'name' => 'Authorization',
-    'use_value' => env('SCRIBE_AUTH_KEY'),
-    'placeholder' => 'YOUR_TOKEN_HERE',
-    'extra_info' => 'You can retrieve your token by authenticating via the login endpoint. Include it as a Bearer token in the Authorization header.'
-],
+    // 'auth' => [
+    // 'enabled' => true,
+    // 'default' => true,  
+    // 'in' => 'bearer',
+    // 'name' => 'Authorization',
+    // 'use_value' => env('SCRIBE_AUTH_KEY'),
+    // 'placeholder' => 'YOUR_TOKEN_HERE',
+    // 'extra_info' => 'You can retrieve your token by authenticating via the login endpoint. Include it as a Bearer token in the Authorization header.'
+//],
 
     // Routes to include in the docs
     'routes' => [
@@ -114,11 +114,11 @@ return [
     // How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
     'auth' => [
         // Set this to true if ANY endpoints in your API use authentication.
-        'enabled' => false,
+        'enabled' => true,
 
         // Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
         // You can then use @unauthenticated or @authenticated on individual endpoints to change their status from the default.
-        'default' => false,
+        'default' => true,
 
         // Where is the auth value meant to be sent in a request?
         'in' => AuthIn::BEARER->value,
@@ -132,10 +132,10 @@ return [
 
         // Placeholder your users will see for the auth parameter in the example requests.
         // Set this to null if you want Scribe to use a random value as placeholder instead.
-        'placeholder' => '{YOUR_AUTH_KEY}',
+        'placeholder' => null,
 
         // Any extra authentication-related info for your users. Markdown and HTML are supported.
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+        'extra_info' => 'You can retrieve your token by authenticating via the login endpoint. Include it as a Bearer token in the Authorization header.',
     ],
 
     // Example requests for each endpoint will be shown in each of these languages.
