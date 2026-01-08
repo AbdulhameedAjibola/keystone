@@ -142,7 +142,7 @@ class AgentController extends Controller
         'collection'=> 'agent_verification',
         ]);
 
-       
+       $agent->update(['status'=>'pending']);
 
         return response()->json(['message' => 'Verification document uploaded successfully.', 'document' => $document], 200);
 
