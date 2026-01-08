@@ -34,7 +34,7 @@ class StorePropertyRequest extends FormRequest
             'bathrooms' => 'nullable|integer',
             'size' => 'nullable|numeric',
             'address' => 'required|string|max:500',
-            'area' => 'nullable|string|max:100',
+            'postalCode' => 'required|string|max:10',
             'city' => 'required|string|max:100',
             'state' => 'required|string|max:100',
         ];
@@ -45,7 +45,7 @@ class StorePropertyRequest extends FormRequest
             
             'property_type' => $this->propertyType,
             'listing_type' => $this->listingType,
-
+            'postal_code' => $this->postalCode,
         ]);
     }
 }

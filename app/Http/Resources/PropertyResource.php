@@ -25,7 +25,7 @@ class PropertyResource extends JsonResource
             'bathrooms' => $this->bathrooms,
             'size' => $this->size,
             'address' => $this->address,
-            'area' => $this->area,
+            'postalCode' => $this->postal_code,
             'city' => $this->city,
             'state' => $this->state,
             'status' => $this->status,

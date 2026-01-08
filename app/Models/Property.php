@@ -24,7 +24,7 @@ class Property extends Model
         'size',
         'address',
         'city',
-        
+        'postal_code',
         'state',
         'status',
     ];
