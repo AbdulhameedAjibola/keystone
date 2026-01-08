@@ -142,7 +142,10 @@ class AgentController extends Controller
         'collection'=> 'agent_verification',
         ]);
 
-       $agent->update(['status'=>'pending']);
+        $agent->status = 'pending';
+        $agent->save();
+
+       
 
         return response()->json(['message' => 'Verification document uploaded successfully.', 'document' => $document], 200);
 
@@ -266,16 +269,19 @@ class AgentController extends Controller
 
        
 
-        $agent->update(['status'=>'approved']);
+        $agent->status = 'approved';
+        $agent->save();
        
         return response()->json(['message'=>'Agent verified successfully'],200);
     }
 
 
         public function rejectAgent(Agent $agent){
-       
-       
-        $agent->update(['status'=>'rejected']);
+
+
+
+        $agent->status = 'rejected';
+        $agent->save();
 
         $verificationMedia = $agent->verificationMedia;
         foreach($verificationMedia as $media){
