@@ -7,6 +7,7 @@ use App\Http\Resources\PropertyCollection;
 use App\Models\Agent;
 use App\Models\Property;
 use Cloudinary\Api\Upload\UploadApi;
+
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\UpdateAgentRequest;
@@ -15,6 +16,9 @@ use App\Http\Resources\AgentCollection;
 use App\Http\Resources\AgentResource;
 use App\Models\Inquiry;
 use App\Models\User;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @group Agent Management
@@ -230,9 +234,7 @@ class AgentController extends Controller
      * 
      */
     public function getRejectedAgents(){
-    $rejectedAgents = Agent::where('status', 'rejected')
-        ->whereHas('verificationMedia')
-        ->paginate(15);
+    $rejectedAgents = Agent::where('status', 'rejected')->paginate(15);
         return response()->json([
             'agents'=>$rejectedAgents
         ], 200);    
@@ -261,13 +263,36 @@ class AgentController extends Controller
      * 
      */
     public function verifyAgent(Agent $agent){
-        $agent = Agent::find($agent->id);
-        if(!$agent){
-            return response()->json(['message'=>'Agent not found'],404);
-        }
-        $agent->status = 'approved';
-        $agent->save();
+
+       
+
+        $agent->update(['status'=>'approved']);
+       
         return response()->json(['message'=>'Agent verified successfully'],200);
+    }
+
+
+        public function rejectAgent(Agent $agent){
+       
+       
+        $agent->update(['status'=>'rejected']);
+
+        $verificationMedia = $agent->verificationMedia;
+        foreach($verificationMedia as $media){
+           $id = $media->public_id;
+           if($id){
+            try{
+                 Cloudinary::destroy($id, ['resource_type' => 'image']);
+            }catch(Exception $e){
+                Log::error("Failed to delete media with public_id {$id} from Cloudinary: " . $e->getMessage());
+                
+            }
+           
+           
+           }
+            $media->delete();
+        }
+        return response()->json(['message'=>'Agent rejected successfully'],200);
     }
 
 

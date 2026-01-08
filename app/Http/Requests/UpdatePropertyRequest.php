@@ -36,7 +36,7 @@ class UpdatePropertyRequest extends FormRequest
                 'bathrooms' => 'nullable|integer',
                 'size' => 'nullable|numeric',
                 'address' => 'required|string|max:500',
-                'area' => 'required|string|max:100',
+                'area' => 'nullable|string|max:100',
                 'city' => 'required|string|max:100',
                 'state' => 'required|string|max:100',
             ];

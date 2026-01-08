@@ -238,6 +238,7 @@ Route::middleware(['admin', 'throttle:api', 'auth:admin'])->group(function () {
         Route::get('verified', [AgentController::class, 'getVerifiedAgents']);
         Route::get('rejected', [AgentController::class, 'getRejectedAgents']);
         Route::post('verify-agent/{agent}', [AgentController::class, 'verifyAgent']);
+        Route::post('reject-agent/{agent}', [AgentController::class, 'rejectAgent']);
         Route::get('agent-with-properties', [AgentController::class, 'agentsWithProperties']);
     });
 
