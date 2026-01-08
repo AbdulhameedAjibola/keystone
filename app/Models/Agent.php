@@ -44,6 +44,6 @@ class Agent extends Authenticatable
 
         public function verificationMedia()
     {
-        return $this->media()->where('collection', 'agent_verifications');
+        return $this->media()->where('collection', 'agent_verification');
     }
 }

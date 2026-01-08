@@ -202,8 +202,13 @@ class AgentController extends Controller
      * 
      */
     public function getUnverifiedAgents(){
-        $unverifiedAgents = Agent::where('status', 'pending')->with('media')->paginate(15);
-        return new AgentCollection($unverifiedAgents);
+    $unverifiedAgents = Agent::where('status', 'pending')
+        ->whereHas('verificationMedia')
+        ->paginate(15);
+        return response()->json([
+            'agents'=>$unverifiedAgents
+        ], 200);
+        
     }
 
      /**
@@ -213,7 +218,7 @@ class AgentController extends Controller
      * 
      */
     public function getVerifiedAgents(){
-        return new AgentCollection(Agent::where('status', 'approved')->get());
+        return new AgentCollection(Agent::where('status', 'approved')->paginate(15));
            
     }
 
@@ -224,7 +229,12 @@ class AgentController extends Controller
      * 
      */
     public function getRejectedAgents(){
-        return new AgentCollection(Agent::where('status', 'rejected')->get());   
+    $rejectedAgents = Agent::where('status', 'rejected')
+        ->whereHas('verificationMedia')
+        ->paginate(15);
+        return response()->json([
+            'agents'=>$rejectedAgents
+        ], 200);    
     }
 
     /**
