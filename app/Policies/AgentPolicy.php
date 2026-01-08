@@ -24,9 +24,11 @@ class AgentPolicy
     }
 
     //admin can do anything
-    public function before (User $user, $ability){
-        if($user->role === 'admin'){
-            return true;
-        }
+      public function before ($user, $ability){
+     if ($user instanceof User && $user->role === 'admin') {
+        return true;
+    }
+
+    return null;
     }
 }
