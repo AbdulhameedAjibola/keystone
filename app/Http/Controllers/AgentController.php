@@ -205,6 +205,7 @@ class AgentController extends Controller
     $unverifiedAgents = Agent::where('status', 'pending')
         ->with('verificationMedia')
         ->paginate(15);
+    
         return response()->json([
             'agents'=>$unverifiedAgents
         ], 200);
