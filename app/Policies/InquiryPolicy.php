@@ -19,8 +19,8 @@ class InquiryPolicy
 
     public function create(User $user): bool
     {
-        dd('POLICY HIT');
-        //return true;
+        
+        return true;
     }
 
    
