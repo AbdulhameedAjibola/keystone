@@ -48,6 +48,8 @@ class InquiryController extends Controller
      */
     public function store(Property $property, StoreInquiryRequest $request)
         {
+            $this->authorize('create', Inquiry::class);
+            
             $user = auth('sanctum')->user();
         $data = $request->validated();
         

@@ -19,7 +19,7 @@ class InquiryPolicy
 
     public function create(User $user): bool
     {
-        return true;
+        return $user->role === 'user';
     }
 
    
