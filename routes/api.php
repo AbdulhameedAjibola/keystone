@@ -135,7 +135,10 @@ Route::prefix('careers')->middleware('throttle:guest')
     Route::post('/apply', [CareerController::class, 'sendJobApplication']);
 });
 
-
+ Route::prefix('inquiries')->group(function () {
+        Route::post('/{property}', [InquiryController::class, 'store']);
+        Route::get('/my-inquiries', [InquiryController::class, 'getUserInquiries']);
+    });
 
 /*
 |--------------------------------------------------------------------------
@@ -147,10 +150,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logoutUser']);
 
     
-    Route::prefix('inquiries')->group(function () {
-        Route::post('/{property}', [InquiryController::class, 'store']);
-        Route::get('/my-inquiries', [InquiryController::class, 'getUserInquiries']);
-    });
+   
 
 });
 
