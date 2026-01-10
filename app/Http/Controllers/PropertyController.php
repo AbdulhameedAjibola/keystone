@@ -61,34 +61,32 @@ public function index(Request $request)
     $filter = new PropertyQuery();
     $queryItems = $filter->transform($request);
 
-    // Start query with Eager Loading
-    $query = Property::with([
-         'media' => function($q){
-            $q->where('type', 'image');
-        }
-        ]);
+    // 1. Initialize query with both filtering and eager loading
+    // Optimization: We use the same closure for both to keep it DRY
+    $imageFilter = function($q) {
+        $q->where('type', 'image');
+    };
 
-    // Apply Filters
-    if (count($queryItems) > 0) {
+    $query = Property::whereHas('media', $imageFilter)
+                     ->with(['media' => $imageFilter]);
+
+    // 2. Apply Filters
+    if (!empty($queryItems)) {
         $query->where($queryItems);
     }
 
-    // Define Sorting Defaults
+    // 3. Sorting Logic
     $allowedSorts = ['created_at', 'price'];
-    
-    // Get sort parameters or set defaults
-    $sortColumn = $request->get('sortBy');
-    $sortDirection = $request->get('sortDirection', 'asc');
+    $sortColumn = $request->query('sortBy');
+    $sortDirection = strtolower($request->query('sortDirection', 'asc')) === 'desc' ? 'desc' : 'asc';
 
-    // Logic: If user provided a valid sort, use it. Otherwise, default to newest first.
     if ($sortColumn && in_array($sortColumn, $allowedSorts)) {
-        $direction = ($sortDirection === 'desc') ? 'desc' : 'asc';
-        $query->orderBy($sortColumn, $direction);
+        $query->orderBy($sortColumn, $sortDirection);
     } else {
-        // Default global sort: Most recently created
         $query->latest(); 
     }
 
+    // 4. Paginate and return
     return new PropertyCollection($query->paginate(15)->withQueryString());
 }
 
@@ -217,16 +215,7 @@ public function index(Request $request)
 
              $this->authorize('update', $property);
 
-        Configuration::instance([
-            'cloud' => [
-                'cloud_name' => config('cloudinary.cloud_name'),
-                'api_key'    => config('cloudinary.api_key'),
-                'api_secret' => config('cloudinary.api_secret'),
-            ],
-            'url' => [
-                'secure' => true
-            ]
-        ]);
+       
 
         $files = $request->file('files');
         $uploadedMedia = [];
