@@ -188,10 +188,10 @@ Route::middleware(['auth:api-agent', 'throttle:api'])->group(function () {
 */
 Route::middleware(['auth:api-agent', 'agent.verified', 'throttle:api'])->group(function () {
 
-    Route::prefix('properties')->group(function () {
+    Route::prefix('my-properties')->group(function () {
         Route::post('/', [PropertyController::class, 'store']);
-        Route::get('/my-properties', [AgentController::class, 'getAgentProperties']);
-        Route::get('all-inquiries', [InquiryController::class, 'getAgentinquiries']);
+        Route::get('/properties', [AgentController::class, 'getAgentProperties']);
+        Route::get('/inquiries', [InquiryController::class, 'getAgentinquiries']);
         Route::post('{property}/upload-media', [PropertyController::class, 'uploadMedia']);
 
         Route::put('{property}', [PropertyController::class, 'update']);
