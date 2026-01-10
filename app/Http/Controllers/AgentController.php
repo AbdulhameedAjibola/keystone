@@ -175,6 +175,8 @@ class AgentController extends Controller
         ]);
     }
 
+    
+
     /**
      * @subgroup Admin Agent Management
      * @subgroupDescription These endpoints are available to admins only to manage agents 
