@@ -22,7 +22,8 @@ class InquiryResource extends JsonResource
             'email' => $this->email,
             'phoneNumber' => $this->phone_number,
             'appointmentDate' => $this->appointment_date,
-            'description' => $this->description
+            'description' => $this->description,
+            'property' => new PropertyResource($this->whenLoaded('property')),
         ];
     }
 }
