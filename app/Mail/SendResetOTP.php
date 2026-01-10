@@ -40,7 +40,7 @@ class SendResetOTP extends Mailable
     public function content(): Content
     {
         return new Content(
-              view: 'reset-otp', 
+              html: 'reset-otp', 
             with: [
                 'token'=> $this->token,
                
