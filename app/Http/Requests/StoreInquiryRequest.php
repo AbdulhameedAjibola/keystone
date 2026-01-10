@@ -26,7 +26,7 @@ class StoreInquiryRequest extends FormRequest
             
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'phone_number' => 'nullable|string|max:15',
+            'phone_number' => 'required|string|max:15',
             'appointment_date' => 'nullable|date',
             'description' => 'required|string'
         ];
