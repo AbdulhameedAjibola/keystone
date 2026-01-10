@@ -192,6 +192,7 @@ Route::middleware(['auth:api-agent', 'agent.verified', 'throttle:api'])->group(f
         Route::post('/', [PropertyController::class, 'store']);
         Route::get('/properties', [AgentController::class, 'getAgentProperties']);
         Route::get('/inquiries', [InquiryController::class, 'getAgentinquiries']);
+        Route::get('/incomplete-properties', [AgentController::class, 'getIncompleteProperties']);
         Route::post('{property}/upload-media', [PropertyController::class, 'uploadMedia']);
 
         Route::put('{property}', [PropertyController::class, 'update']);

@@ -114,15 +114,17 @@ class InquiryController extends Controller
      * 
      * well, the user can get all their inquiries
      */
-    public function getUserInquiries(){
-        $inquiries = auth('sanctum')->user()->inquiries->with('property')->get();
+   public function getUserInquiries() {
+    // Note the parenthesis after inquiries()
+    $inquiries = auth('sanctum')->user()
+        ->inquiries() 
+        ->with('property')
+        ->get();
 
-        return response()->json([
-           'inquiries' => new InquiryCollection($inquiries)
-            
-        ]);
-       
-    }
+    return response()->json([
+        'inquiries' => new InquiryCollection($inquiries)
+    ]);
+}
 
     public function getAgentinquiries(){
         $agent = auth('api-agent')->user(); 

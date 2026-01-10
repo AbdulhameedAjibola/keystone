@@ -152,6 +152,14 @@ class AgentController extends Controller
 
     }
 
+    public function getIncompleteProperties(){
+        $agent = request()->user();
+
+        $properties = $agent->properties()->whereDoesntHave('media')->get();
+
+        return new PropertyCollection($properties);
+    }
+
     /**
      * Agent Dashboard Endpoint
      * 
