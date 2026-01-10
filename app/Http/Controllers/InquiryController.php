@@ -122,7 +122,7 @@ class InquiryController extends Controller
         ->get();
 
     return response()->json([
-        'inquiries' => new InquiryCollection($inquiries)
+        'inquiries' => $inquiries
     ]);
 }
 
