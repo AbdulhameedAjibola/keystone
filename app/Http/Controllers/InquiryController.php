@@ -57,6 +57,7 @@ class InquiryController extends Controller
         
         // Override user_id with authenticated user
         $data['user_id'] = $user->id; 
+        $data['property_id'] = $property->id;
         
         $inquiry = $property->inquiries()->create($data);
         $agentEmail = $property->agent->email;

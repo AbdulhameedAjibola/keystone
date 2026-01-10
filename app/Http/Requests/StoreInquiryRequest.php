@@ -23,7 +23,7 @@ class StoreInquiryRequest extends FormRequest
     {
         return [
            
-            'property_id' => 'required|integer|exists:properties,id',
+            
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'phone_number' => 'nullable|string|max:15',
@@ -35,7 +35,7 @@ class StoreInquiryRequest extends FormRequest
     protected function prepareForValidation(){
         $this->merge([
            
-            'property_id' => $this->propertyId,
+            
             'phone_number' => $this->phoneNumber,
             'appointment_date' => $this->appointmentDate,
         ]);
