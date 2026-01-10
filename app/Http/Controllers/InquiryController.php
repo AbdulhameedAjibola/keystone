@@ -50,6 +50,8 @@ class InquiryController extends Controller
         {
             $this->authorize('create', Inquiry::class);
 
+            $property->load('agent');   
+
             $user =request()->user();
         $data = $request->validated();
         
