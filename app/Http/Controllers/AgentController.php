@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateAgentRequest;
 use App\Http\Requests\UploadAgentVerificationRequest;
 use App\Http\Resources\AgentCollection;
 use App\Http\Resources\AgentResource;
+use App\Models\Career;
 use App\Models\Inquiry;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -322,18 +323,22 @@ class AgentController extends Controller
      */
 
     public function adminSummary(){
+        $unverified = Agent::where('status', 'unverified')->get()->count();
         $pending = Agent::where('status', 'pending')->get()->count();
         $approved = Agent::where('status', 'approved')->get()->count();
         $rejected = Agent::where('status', 'rejected')->get()->count();
         $properties = Property::all()->count();
         $inquiries = Inquiry::all()->count();
+        $careers = Career::all()->count();
         $users = User::where('role', 'user')->get()->count();
         return response()->json([
-            'pending'=>$pending,
-            'approved'=>$approved,
-            'rejected'=>$rejected,
+            'unverifiedAgents'=>$unverified,
+            'pendingAgents'=>$pending,
+            'approvedAgents'=>$approved,
+            'rejectedAgents'=>$rejected,
             'totalProperties'=>$properties,
             'totalInquiries'=>$inquiries,
+            'totalCareers'=>$careers,
             'totalUsers'=>$users
         ]);
 

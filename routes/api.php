@@ -14,6 +14,7 @@ use App\Http\Controllers\AgentEmailVerificationController;
 use App\Http\Controllers\UserEmailVerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AgentAuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Resources\UserResource;
 
@@ -275,6 +276,17 @@ Route::middleware(['admin', 'throttle:api', 'auth:admin'])->group(function () {
         Route::put('{inquiry}', [InquiryController::class, 'update']);
         Route::patch('{inquiry}', [InquiryController::class, 'update']);
         Route::delete('{inquiry}', [InquiryController::class, 'destroy']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Moderation
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('admin/users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('{user}', [UserController::class, 'show']);
+        Route::delete('{user}', [UserController::class, 'destroy']);
     });
 
 });
