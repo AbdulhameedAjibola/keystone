@@ -37,7 +37,7 @@ class NewInquiry extends Mailable
     public function content(): Content
     {
         return new Content(
-            htmlString: "<h1>Hello</h1>
+            htmlString: "<h3>Hi There,</h3>
             <p>You have a new inquiry from a potential client. Please check your dashboard for more details.</p>"
 
         );
