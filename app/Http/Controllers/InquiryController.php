@@ -130,7 +130,7 @@ class InquiryController extends Controller
         $inquiries = Inquiry::whereHas('property',
         function($q) use ($agent){
             $q->where('agent_id', $agent->id);
-        })->with('property')->get();
+        })->with('property.media')->get();
 
         return response()->json([
             'inquiries' => new InquiryCollection($inquiries)
