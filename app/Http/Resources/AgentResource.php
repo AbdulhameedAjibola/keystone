@@ -23,7 +23,7 @@ class AgentResource extends JsonResource
         'address'=>$this->address,
         'city'=>$this->city,
         'state'=>$this->state,
-        
+        'properties'=> new PropertyCollection($this->whenLoaded('properties')),
 
        ];
     }

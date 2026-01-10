@@ -208,8 +208,8 @@ Route::middleware(['auth:api-agent', 'agent.verified', 'throttle:api'])->group(f
 */
 Route::middleware('admin.agent')->group(function () {
 
-    Route::get('agents/{agent}', [AgentController::class, 'show']);
-    Route::get('agents/{agent}/my-properties', [AgentController::class, 'getAgentProperties']);
+   
+    
     Route::get('properties/{property}/inquiries', [
         PropertyController::class,
         'getPropertyInquiries'
@@ -238,6 +238,7 @@ Route::middleware(['admin', 'throttle:api', 'auth:admin'])->group(function () {
         Route::get('unverified', [AgentController::class, 'getUnverifiedAgents']);
         Route::get('verified', [AgentController::class, 'getVerifiedAgents']);
         Route::get('rejected', [AgentController::class, 'getRejectedAgents']);
+         Route::get('/{agent}', [AgentController::class, 'show']);
         Route::post('verify-agent/{agent}', [AgentController::class, 'verifyAgent']);
         Route::post('reject-agent/{agent}', [AgentController::class, 'rejectAgent']);
         Route::get('agent-with-properties', [AgentController::class, 'agentsWithProperties']);

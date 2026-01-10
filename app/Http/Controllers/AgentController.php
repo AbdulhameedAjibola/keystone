@@ -74,6 +74,7 @@ class AgentController extends Controller
      */
     public function show(Agent $agent)
     {
+        $agent = $agent->load('properties.media');
         return new AgentResource($agent);
     }
 
@@ -175,7 +176,7 @@ class AgentController extends Controller
         ]);
     }
 
-    
+
 
     /**
      * @subgroup Admin Agent Management
