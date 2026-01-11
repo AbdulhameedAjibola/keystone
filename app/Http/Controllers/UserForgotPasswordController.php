@@ -86,24 +86,22 @@ class UserForgotPasswordController extends Controller
 
         $otpRecord = PasswordResetToken::where('email', $user->email)
             ->where('guard', $this->guard)
-            ->where('token', $request->token)
             ->latest()
             ->first();
 
         if (!$otpRecord) {
-            return response()->json([
-                'message' => 'OTP verification failed: Invalid code.',
-            ], 401);
-        }
+                return response()->json([
+                    'message' => 'OTP verification failed: No reset request found.',
+                ], 401);
+            }
 
-        if ($otpRecord->expires_at?->isPast()) {
-            $otpRecord->delete();
+            if ($otpRecord->expires_at?->isPast()) {
+                $otpRecord->delete();
+                return response()->json([
+                    'message' => 'OTP verification failed: Code has expired.',
+                ], 401);
+            }
 
-            return response()->json([
-                'message' => 'OTP verification failed: Code has expired.',
-            ], 401);
-        }
-        
             if (!Hash::check($request->token, $otpRecord->token)) {
                 return response()->json([
                     'message' => 'OTP verification failed: Invalid code.',
