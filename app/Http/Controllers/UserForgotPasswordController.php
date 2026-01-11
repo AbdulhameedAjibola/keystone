@@ -30,7 +30,7 @@ use Illuminate\Support\Str;
 class UserForgotPasswordController extends Controller
 {
     protected int $otpDurationMinutes = 10;
-    protected string $guard = 'web';
+    protected string $guard = 'sanctum';
 
     /**
      * Endpoint to send User password reset OTP
